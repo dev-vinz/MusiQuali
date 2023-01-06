@@ -1,0 +1,80 @@
+
+package ch.hearc.jee.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ch.hearc.jee.model.MusicalGenre;
+import ch.hearc.jee.repository.IMusicalGenreRepository;
+import ch.hearc.jee.service.IDatabaseService;
+
+@Service
+public class MusicalGenreService implements IDatabaseService<MusicalGenre>
+	{
+
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+	@Override
+	public void add(MusicalGenre item)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public void delete(MusicalGenre item)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public void deleteById(Long id)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public void update(MusicalGenre item)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public List<MusicalGenre> getAll()
+		{
+		// TODO Auto-generated method stub
+		return null;
+		}
+
+	@Override
+	public MusicalGenre getById(Long id)
+		{
+		// TODO Auto-generated method stub
+		return null;
+		}
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	@Autowired
+	private IMusicalGenreRepository musicalGenreRepository;
+	}

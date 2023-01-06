@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title>MusiQuali</title>
+
+	<!--  CSS Bootstrap Dependencies  -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+</head>
+
+<body>
+	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
+
+	<div class="container">
+		<form action="#" th:action="@{/musics/search/results}" class="needs-validation" method="post" autocomplete="off"
+			novalidate>
+			<h1 class="text-center">Recherche de musique</h1>
+			<div class="col text-muted text-center mb-3">
+				Faites une recherche ci-dessous pour trouver un artiste, un album ou une chanson directement
+			</div>
+			<div class="col mb-3">
+				<input type="text" name="query" class="form-control form-control-lg" required>
+				<div class="invalid-feedback">
+					Merci de bien vouloir remplir ce champ.
+				</div>
+			</div>
+			<div class="d-flex justify-content-center">
+				<button type="submit" class="btn btn-outline-primary">Rechercher</button>
+			</div>
+		</form>
+	</div>
+
+	<!--  JS Bootstrap Dependencies  -->
+	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+
+	<!--  Bootstrap Form Validation  -->
+	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+
+package ch.hearc.jee.api.deezer.model;
+
+public class Album
+	{
+
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+
+	public Album(int id, String title, String cover, String coverSmall, String coverMedium, String coverBig, String coverXl, String md5Image, String tracklist)
+		{
+		// Inputs
+			{
+			this.id = id;
+			this.title = title;
+			this.cover = cover;
+			this.coverSmall = coverSmall;
+			this.coverMedium = coverMedium;
+			this.coverBig = coverBig;
+			this.coverXl = coverXl;
+			this.md5Image = md5Image;
+			this.tracklist = tracklist;
+			}
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	private int id;
+
+	private String title;
+	private String cover;
+	private String coverSmall;
+	private String coverMedium;
+	private String coverBig;
+	private String coverXl;
+	private String md5Image;
+	private String tracklist;
+	}

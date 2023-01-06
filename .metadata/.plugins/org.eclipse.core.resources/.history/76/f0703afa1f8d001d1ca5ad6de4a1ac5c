@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title>MusiQuali</title>
+
+	<!--  CSS Bootstrap Dependencies  -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+</head>
+
+<body>
+	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
+
+	<div class="container">
+		<h1>Joue pour gagner des points</h1>
+		<p class="text-muted">
+			Devine le titre du morceau, le nom de l'artiste, ou les deux afin de gagner un
+			maximum de points.<br />
+			Chaque extrait dure 30 secondes.
+		</p>
+
+		<div th:if="${isPost}" class="alert alert-info alert-dismissible fade show" role="alert">
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			<h4 class="alert-heading">Solution</h4>
+			<p>Votre score est le suivant</p>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item" style="background-color: inherit;"
+					th:text="@{|Correspondance de l'artiste : ${score.artistScore}%|}">
+				</li>
+				<li class="list-group-item" style="background-color: inherit;"
+					th:text="@{|Correspondance du titre : ${score.titleScore}%|}">
+				</li>
+			</ul>
+			<p class="mt-4 mb-0">La bonne réponse était :</p>
+			<p th:text="@{|${solution.author} - ${solution.title}|}">
+				</pth>
+		</div>
+
+		<div th:if="${isEmpty}" class="mt-4">
+			<p class="text-center h3 text-warning">Votre bibliothèque est vide,<br />
+				vous pouvez la remplir en recherchant des musiques.</p>
+		</div>
+		<div th:unless="${isEmpty}" class="mt-4 mx-auto" style="width: 50%;">
+			<audio id="music_player">
+				<source th:src="${music.preview}" type="audio/mpeg" />
+			</audio>
+
+			<button id="music_start" class="btn btn-outline-secondary btn-lg mb-3">Commencer</button>
+
+			<form action="#" th:action="@{/play}" class="needs-validation" method="post" novalidate>
+				<input type="hidden" th:value="${music.id}" name="musicId" />
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="artist_input" name="artist"
+						th:placeholder="${music.author}" required>
+					<label for="artist_input">Artiste</label>
+					<div class="invalid-feedback">
+						Vous devez entrer un nom d'artiste.
+					</div>
+
+				</div>
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="title_input" name="title"
+						th:placeholder="${music.title}" required>
+					<label for="title_input">Titre</label>
+					<div class="invalid-feedback">
+						Vous devez entrer un titre de morceau.
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-outline-primary btn-lg">Valider</button>
+			</form>
+		</div>
+	</div>
+
+	<!--  JS Bootstrap Dependencies  -->
+	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+
+	<script>
+		'use strict'
+
+		const button = document.getElementById("music_start");
+		const player = document.getElementById("music_player");
+
+		button.onclick = function () {
+			player.play();
+		}
+
+		const forms = document.querySelectorAll('.needs-validation')
+
+		Array.from(forms).forEach(form => {
+			form.addEventListener('submit', event => {
+				if (!form.checkValidity()) {
+					event.preventDefault()
+					event.stopPropagation()
+				}
+
+				form.classList.add('was-validated')
+			}, false)
+		})
+	</script>
+</body>
+
+</html>

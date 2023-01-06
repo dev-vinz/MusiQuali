@@ -1,0 +1,10 @@
+
+package ch.hearc.jee.repository;
+
+
+
+public interface IMusicalGenreRepository
+	{
+	
+	}
+

@@ -1,0 +1,37 @@
+
+package ch.hearc.jee.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class UserController
+	{
+
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+
+	@GetMapping(value = { "/profile" })
+	public String getProfileView(Model model)
+		{
+		return "user/profile";
+		}
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+	}

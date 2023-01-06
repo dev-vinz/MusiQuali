@@ -1,0 +1,51 @@
+
+package ch.hearc.jee.api.deezer.model.minimal;
+
+public class MinimalTrack
+	{
+	
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+	
+	public MinimalTrack(int id, Boolean readable, String title, String titleShort, String titleVersion, String link, int duration, int rank)
+		{
+		// Inputs
+			{
+			this.id = id;
+			this.readable = readable;
+			this.title = title;
+			this.titleShort = titleShort;
+			this.titleVersion = titleVersion;
+			this.link = link;
+			this.duration = duration;
+			this.rank = rank;
+			}
+		}
+		
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+	
+	private int id;
+	private Boolean readable;
+	private String title;
+	private String titleShort;
+	private String titleVersion;
+	private String link;
+	private int duration;
+	private int rank;
+	
+	}

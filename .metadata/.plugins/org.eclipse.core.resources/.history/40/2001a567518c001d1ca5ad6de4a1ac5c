@@ -1,0 +1,38 @@
+
+package ch.hearc.jee;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
+import jakarta.annotation.PostConstruct;
+
+@SpringBootApplication
+public class MusicApplication
+	{
+	
+	public static void main(String[] args)
+		{
+		SpringApplication.run(MusicApplication.class, args);
+		}
+		
+	@PostConstruct
+	public static void testDeezerApi()
+		{
+		HttpResponse<String> httpResponse;
+		try
+			{
+			httpResponse = Unirest.get("https://api.deezer.com/search?q=one%20of%20us").asString();
+			
+			System.out.println(httpResponse.getRawBody().toString());
+			}
+		catch (UnirestException e)
+			{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		}
+	}

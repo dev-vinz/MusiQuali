@@ -1,0 +1,32 @@
+
+package ch.hearc.jee;
+
+import java.util.List;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import ch.hearc.jee.api.deezer.DeezerApi;
+import ch.hearc.jee.api.deezer.model.SearchResult;
+
+import jakarta.annotation.PostConstruct;
+
+@SpringBootApplication
+public class MusicApplication
+	{
+
+	public static void main(String[] args)
+		{
+		SpringApplication.run(MusicApplication.class, args);
+		}
+
+	@PostConstruct
+	public static void testDeezerApi()
+		{
+		List<SearchResult> results = DeezerApi.search("relax%20mika");
+		
+		System.out.println("* * * * * * * * * * * * * * * * * * * *");
+		
+		System.out.println("* * * * * * * * * * * * * * * * * * * *");
+		}
+	}

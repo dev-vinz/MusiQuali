@@ -1,0 +1,14 @@
+
+spring.datasource.url=jdbc:mysql://localhost:3306/musiquali?createDatabaseIfNotExist=true
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=create
+
+spring.datasource.username=root
+spring.datasource.password=my-secret-pw
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
+
+spring.jpa.show-sql: true
+
+#Lancement mysql avec docker
+# docker run --name mysql -p3306:3306  -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql

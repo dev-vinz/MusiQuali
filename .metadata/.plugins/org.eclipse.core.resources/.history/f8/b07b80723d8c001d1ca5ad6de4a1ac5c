@@ -1,0 +1,17 @@
+
+package ch.hearc.jee.service;
+
+import java.util.List;
+
+public interface IDatabaseService<T>
+	{
+	public void add(T item);
+
+	public Boolean delete(T item);
+
+	public T update(T item);
+
+	public List<T> getAll();
+	public T getById(Long id);
+	}
+

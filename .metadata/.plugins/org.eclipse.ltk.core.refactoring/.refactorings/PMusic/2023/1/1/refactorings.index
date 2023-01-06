@@ -1,3 +1,43 @@
 1672822349060	Delete element
 1672822827136	Rename type 'PMusicApplication'
 1672822832192	Rename type 'PMusicApplicationTests'
+1672826469189	Delete element
+1672831367009	Rename resource 'base.html'
+1672836885333	Move files
+1672842877288	Rename type 'DatabaseService'
+1672843168206	Rename package 'ch.hearc.jee.service.music'
+1672852572191	Rename type 'Result'
+1672864782418	Rename resource 'search_results'
+1672904311961	Rename type 'Album'
+1672904367492	Rename type 'TrackAlbum'
+1672904566241	Move compilation units
+1672904585577	Rename type 'Artist'
+1672904589802	Move compilation unit
+1672904609099	Rename method 'parseArtist'
+1672904981503	Move compilation units
+1672905313492	Move compilation units
+1672905318931	Move compilation units
+1672905321365	Delete element
+1672905322923	Delete element
+1672905380047	Move compilation units
+1672905401282	Move compilation units
+1672908028040	Rename package 'ch.hearc.jee.api.deezer.model'
+1672908037852	Rename package 'ch.hearc.jee.api.deezer.models'
+1672913611796	Rename field 'muscicalGenreService'
+1672915053438	Move folder
+1672915119640	Rename resource 'img'
+1672915136352	Rename resource 'logoTransHeArc.png'
+1672915433092	Rename resource 'image'
+1672920414463	Rename local variable 'name'
+1672920421270	Rename field 'name'
+1672937251982	Rename local variable 'X'
+1672937261843	Rename local variable 'Y'
+1672937272748	Rename local variable 'm'
+1672937281885	Rename local variable 'n'
+1672937311882	Rename local variable 'T'
+1672937335608	Rename local variable 'i'
+1672937358709	Rename local variable 'j'
+1672937507816	Rename local variable 'x'
+1672937516266	Rename local variable 'y'
+1673009149087	Rename local variable 'id'
+1673009161010	Rename field 'id'

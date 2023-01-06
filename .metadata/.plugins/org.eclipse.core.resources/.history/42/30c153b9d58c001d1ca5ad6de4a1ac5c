@@ -1,0 +1,129 @@
+
+package ch.hearc.jee.model;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+
+@Entity
+public class MusicalGenre
+	{
+	
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+	
+	public MusicalGenre()
+		{
+		// Outputs
+			{
+			this.musics = new HashSet<Music>();
+			}
+		}
+		
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+	
+	public void addMusic(Music music)
+		{
+		this.musics.add(music);
+		}
+		
+	/*------------------------------*\
+	|*				equals			*|
+	\*------------------------------*/
+	
+	public boolean isEquals(MusicalGenre musicalGenre)
+		{
+		if (this == musicalGenre)
+			{
+			return true;
+			}
+		else
+			{
+			return this.id == musicalGenre.id;
+			}
+		}
+		
+	@Override
+	public boolean equals(Object object2)
+		{
+		if (object2.getClass().equals(this.getClass()))
+			{
+			return isEquals((MusicalGenre)object2);
+			}
+		else
+			{
+			return false;
+			}
+		}
+		
+	@Override
+	public int hashCode()
+		{
+		return Long.hashCode(this.id);
+		}
+		
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+	
+	public Long getId()
+		{
+		return this.id;
+		}
+		
+	public String getName()
+		{
+		return this.name;
+		}
+		
+	public Set<Music> getMusics()
+		{
+		return this.musics;
+		}
+		
+	/*------------------------------*\
+	|*				Set				*|
+	\*------------------------------*/
+	
+	public void setId(Long id)
+		{
+		this.id = id;
+		}
+		
+	public void setName(String name)
+		{
+		this.name = name;
+		}
+		
+	public void setMusics(Set<Music> musics)
+		{
+		this.musics = musics;
+		}
+		
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	private String name;
+	
+	@ManyToMany
+	@JoinColumn(name = "music_id", nullable = false)
+	private Set<Music> musics;
+	}

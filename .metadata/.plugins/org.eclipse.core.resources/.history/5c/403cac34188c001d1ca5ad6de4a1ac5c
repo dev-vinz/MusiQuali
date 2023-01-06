@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title>MusiQuali</title>
+	
+	<!--  CSS Bootstrap Dependencies  -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+</head>
+
+<body>
+	<nav th:replace="fragment/common :: mq-navbar"></nav>
+	
+	<h1>Coucou</h1>
+	
+	<div th:replace="fragment/common :: webjar-footer"></div>
+</body>
+
+</html>

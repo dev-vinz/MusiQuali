@@ -1,0 +1,8 @@
+
+package ch.hearc.jee.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface IScoreRepository extends CrudRepository<Score, Long>
+	{
+	}

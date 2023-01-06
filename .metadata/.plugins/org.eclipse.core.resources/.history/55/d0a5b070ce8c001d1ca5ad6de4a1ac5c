@@ -1,0 +1,56 @@
+
+package ch.hearc.jee.api.deezer.model;
+
+public class MinimalGenre
+	{
+
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+
+	public MinimalGenre(int id, String name, String picture)
+		{
+		// Inputs
+			{
+			this.id = id;
+			this.name = name;
+			this.picture = picture;
+			}
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+
+	public int getId()
+		{
+		return this.id;
+		}
+
+	public String getName()
+		{
+		return this.name;
+		}
+
+	public String getPicture()
+		{
+		return this.picture;
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	private int id;
+
+	private String name;
+	private String picture;
+	}

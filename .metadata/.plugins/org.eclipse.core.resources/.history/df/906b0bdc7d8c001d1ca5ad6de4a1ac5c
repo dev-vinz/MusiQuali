@@ -1,0 +1,41 @@
+
+package ch.hearc.jee.api.deezer.model;
+
+
+
+public class Contributor
+	{
+	
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+	
+	private int id;
+	private String name;
+	private String link;
+	private String share;
+	private String picture;
+	private String pictureSmall;
+	private String pictureMedium;
+	private String pictureBig;
+	private String pictureXl;
+	private Boolean radio;
+	private String tracklist;
+	}
+

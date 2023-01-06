@@ -1,0 +1,53 @@
+
+package ch.hearc.jee.api.deezer.model;
+
+import java.util.List;
+
+public class Album
+	{
+
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	private int id;
+	private String title;
+	private String upc;
+	private String link;
+	private String share;
+	private String cover;
+	private String coverSmall;
+	private String coverMedium;
+	private String coverBig;
+	private String coverXl;
+	private String md5Image;
+	private List<MinimalGenre> genres;
+	private String label;
+	private int nbTracks;
+	private int duration;
+	private int fans;
+	private String releaseDate;
+	private String recordType;
+	private Boolean available;
+	private String tracklist;
+	private Boolean explicitLyrics;
+	private String explicitContentLyrics;
+	private String explicitContentCover;
+	private List<Contributor> contributors;
+	}

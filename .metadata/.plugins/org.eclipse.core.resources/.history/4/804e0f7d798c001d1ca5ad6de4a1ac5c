@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title>MusiQuali</title>
+
+	<!--  CSS Bootstrap Dependencies  -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+</head>
+
+<body>
+	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
+
+	<div class="container">
+		<h1 th:text="@{|Résultats de recherche pour : ${query}|}"></h1>
+		<span class="text-muted" th:text="@{|${results.size} résultats|}"></span>
+
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div th:each="result: ${results}" class="col" style="height: 20rem;">
+				<div class="card my-2" style="width: 25rem;">
+					<div class="card-body">
+						<div class="d-flex align-items-center mb-2">
+							<img th:src="${result.artist.pictureSmall}" class="rounded-circle">
+							<div class="ms-2">
+								<h1 class="card-title h5" th:text="${result.title}"></h1>
+								<h2 class="card-subtitle h6 text-muted" th:text="${result.artist.name}"></h2>
+							</div>
+						</div>
+						<p>
+							<span class="card-text" th:text="@{|Album : ${result.album.title}|}"></span>
+							<br />
+							<span class="card-text" th:text="@{|Durée : ${result.duration} secondes|}"></span>
+						</p>
+						<a th:href="${result.preview}" target="_blank" class="btn btn-outline-secondary">Aperçu</a>
+						<form action="#" th:action="@{/musics/add}" method="post" class="d-inline">
+							<input type="hidden" th:value="${result.id}" name="musicId" />
+							<button type="submit" class="btn btn-outline-primary">Ajouter à la
+								bibliothèque</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card">
+					<img src="..." class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Card title</h5>
+						<p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+							additional content. This content is a little bit longer.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card">
+					<img src="..." class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Card title</h5>
+						<p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+							additional content. This content is a little bit longer.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card">
+					<img src="..." class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Card title</h5>
+						<p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+							additional content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card">
+					<img src="..." class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Card title</h5>
+						<p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+							additional content. This content is a little bit longer.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="d-flex flex-wrap mt-4 justify-content-around">
+			<div th:each="result: ${results}" class="card my-2" style="width: 25rem;">
+				<div class="card-body">
+					<div class="d-flex align-items-center mb-2">
+						<img th:src="${result.artist.pictureSmall}" class="rounded-circle">
+						<div class="ms-2">
+							<h1 class="card-title h5" th:text="${result.title}"></h1>
+							<h2 class="card-subtitle h6 text-muted" th:text="${result.artist.name}"></h2>
+						</div>
+					</div>
+					<p>
+						<span class="card-text" th:text="@{|Album : ${result.album.title}|}"></span>
+						<br />
+						<span class="card-text" th:text="@{|Durée : ${result.duration} secondes|}"></span>
+					</p>
+					<a th:href="${result.preview}" target="_blank" class="btn btn-outline-secondary">Aperçu</a>
+					<form action="#" th:action="@{/musics/add}" method="post" class="d-inline">
+						<input type="hidden" th:value="${result.id}" name="musicId" />
+						<button type="submit" class="btn btn-outline-primary">Ajouter à la
+							bibliothèque</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--  JS Bootstrap Dependencies  -->
+	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

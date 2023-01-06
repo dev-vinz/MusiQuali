@@ -1,0 +1,26 @@
+
+package ch.hearc.jee;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MusicApplication
+	{
+	
+	public static void main(String[] args)
+		{
+		SpringApplication.run(MusicApplication.class, args);
+		}
+		
+	@Configuration
+	public class WebConfig implements WebMvcConfigurer
+		{
+		
+		@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry)
+			{
+			registry.addResourceHandler("/**").addResourceLocations("classpath:/static/", "classpath:/image/").setCachePeriod(0);
+			}
+		}
+	}

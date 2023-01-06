@@ -1,0 +1,11 @@
+spring.datasource.url=jdbc:h2:mem:beershop-app
+spring.jpa.hibernate.ddl-auto=update
+
+spring.datasource.username=sa
+spring.datasource.password=sa
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+spring.h2.console.settings.trace=false
+spring.h2.console.settings.web-allow-others=false
