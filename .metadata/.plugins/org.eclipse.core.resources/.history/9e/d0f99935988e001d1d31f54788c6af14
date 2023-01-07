@@ -1,0 +1,37 @@
+
+package ch.hearc.jee.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ch.hearc.jee.model.User;
+import ch.hearc.jee.repository.IUserRepository;
+import ch.hearc.jee.service.IDatabaseService;
+
+@Service
+public class UserService implements IDatabaseService<User>
+	{
+	
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+	
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+	
+	@Autowired
+	private IUserRepository userRepository;
+	}

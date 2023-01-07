@@ -3,6 +3,7 @@ package ch.hearc.jee.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,15 +64,23 @@ public class MusicalGenreService implements IDatabaseService<MusicalGenre>
 	public MusicalGenre getById(Long id)
 		{
 		return this.musicalGenreRepository//
-				.findById(id)//
+				.findById(Long.valueOf(id))//
 				.orElseGet(() -> null);
 		}
 
 	public MusicalGenre getByGenreId(Long id)
 		{
-		return this.musicalGenreRepository//
-				.findByGenreId(id)//
-				.orElseGet(() -> null);
+		Optional<MusicalGenre> musicalGenre = this.musicalGenreRepository//
+				.findByGenreId(id);
+
+		if (musicalGenre.isPresent())
+			{
+			return musicalGenre.get();
+			}
+		else
+			{
+			return null;
+			}
 		}
 
 	/*------------------------------*\

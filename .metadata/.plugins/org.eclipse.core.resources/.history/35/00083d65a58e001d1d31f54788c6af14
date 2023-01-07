@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title>Connexion - MusiQuali</title>
+
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+	<!--  CSS Bootstrap Dependencies  -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+</head>
+
+<body>
+	<div class="container d-flex align-items-center" style="width: 100vh; height: 75vh;">
+		<form action="#" class="needs-validation w-100 border rounded" method="post" autocomplete="off" novalidate>
+			<h1 class="mb-3 text-center">Connexion</h1>
+			<div class="form-floating mb-3">
+				<input type="text" class="form-control" id="artist_input" name="artist" placeholder="ABBA" required>
+				<label for="artist_input">Artiste</label>
+				<div class="invalid-feedback">
+					Vous devez entrer un nom d'artiste.
+				</div>
+
+			</div>
+			<div class="form-floating mb-3">
+				<input type="text" class="form-control" id="title_input" name="title" placeholder="Dancing Queen"
+					required>
+				<label for="title_input">Titre</label>
+				<div class="invalid-feedback">
+					Vous devez entrer un titre de morceau.
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-outline-primary">Valider</button>
+		</form>
+	</div>
+
+	<!--  JS Bootstrap Dependencies  -->
+	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+
+	<!--  Bootstrap Form Validation  -->
+	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
+</body>
+
+</html>

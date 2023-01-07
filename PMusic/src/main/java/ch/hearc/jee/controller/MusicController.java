@@ -1,7 +1,9 @@
 
 package ch.hearc.jee.controller;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,10 @@ import ch.hearc.jee.api.deezer.model.full.Track;
 import ch.hearc.jee.api.deezer.model.minimal.MinimalGenre;
 import ch.hearc.jee.model.Music;
 import ch.hearc.jee.model.MusicalGenre;
+import ch.hearc.jee.model.User;
 import ch.hearc.jee.service.impl.MusicService;
 import ch.hearc.jee.service.impl.MusicalGenreService;
+import ch.hearc.jee.service.impl.UserService;
 
 @Controller
 @RequestMapping("/musics")
@@ -37,27 +41,44 @@ public class MusicController
 	\*------------------------------------------------------------------*/
 
 	@GetMapping(value = { "/", "/index" })
-	public String showMusicsView(Model model)
+	public String showMusicsView(Principal principal, Model model)
 		{
-		model.addAttribute("musics", this.musicService.getAll());
+		// Gets logged in user email - and user
+		String email = principal.getName();
+		User user = this.userService.getByEmail(email);
+
+		// Gets musics
+		List<Music> musics = user.getMusics();
+
+		model.addAttribute("musics", musics);
 
 		return "music/index";
 		}
 
 	@GetMapping(value = { "/{musicId}" })
-	public String showMusicView(Model model, @PathVariable(required = true) Long musicId)
+	public String showMusicView(Principal principal, Model model, @PathVariable(required = true) Long musicId)
 		{
-		// Gets music from database
-		Music music = this.musicService.getById(musicId);
+		// Gets logged in user email - and user
+		String email = principal.getName();
+		User user = this.userService.getByEmail(email);
+
+		// Gets musics
+		List<Music> musics = user.getMusics();
+
+		// Gets music from user
+		Optional<Music> music = musics//
+				.stream()//
+				.filter(m -> m.getId().longValue() == musicId.longValue())//
+				.findFirst();
 
 		// Checks music exists. Otherwise, redirect to collection
-		if (music == null)
+		if (music.isEmpty())
 			{ return "redirect:/musics/"; }
 
 		// Gets track from Deezer
-		Track track = DeezerApi.trackById(music.getTrackId());
+		Track track = DeezerApi.trackById(music.get().getTrackId());
 
-		model.addAttribute("music", music);
+		model.addAttribute("music", music.get());
 		model.addAttribute("track", track);
 
 		return "music/show";
@@ -82,14 +103,20 @@ public class MusicController
 		}
 
 	@PostMapping(value = { "/add" })
-	public String addToCollection(@RequestParam Long trackId)
+	public String addToCollection(Principal principal, @RequestParam Long trackId)
 		{
+		// Gets logged in user email - and user
+		String email = principal.getName();
+		User user = this.userService.getByEmail(email);
+
+		// Gets musics
+		List<Music> musics = user.getMusics();
+
 		Track track = DeezerApi.trackById(trackId);
 		Album album = DeezerApi.albumById(track.getAlbum().getId());
 
 		// Checks if music already exists
-		Boolean isMusic = this.musicService//
-				.getAll()//
+		Boolean isMusic = musics//
 				.stream()//
 				.anyMatch(m -> m.getTrackId().longValue() == trackId.longValue());
 
@@ -104,17 +131,18 @@ public class MusicController
 
 			// Creates music
 			Music music = new Music(Long.valueOf(trackId), track.getArtist().getName(), track.getArtist().getPictureSmall(), track.getTitle(), track.getPreview());
+			music.setUser(user);
 
-			// Save music
+			// Saves music
 			this.musicService.add(music);
 
-			// Save genres and adds them to music
+			// Saves genres and adds them to music
 			genres//
 					.stream()//
 					.peek(musicalGenreService::add)//
 					.forEach(music::addGenre);
 
-			// Update music
+			// Updates music & user
 			this.musicService.update(music);
 			}
 
@@ -160,4 +188,7 @@ public class MusicController
 
 	@Autowired
 	private MusicalGenreService musicalGenreService;
+
+	@Autowired
+	private UserService userService;
 	}

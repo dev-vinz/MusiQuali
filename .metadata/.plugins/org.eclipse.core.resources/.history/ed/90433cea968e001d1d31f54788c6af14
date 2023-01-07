@@ -1,0 +1,9 @@
+
+package ch.hearc.jee.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface IUserRepository extends CrudRepository<User, Long>
+	{
+	
+	}

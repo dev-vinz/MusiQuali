@@ -1,6 +1,7 @@
 
 package ch.hearc.jee.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Random;
 
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.hearc.jee.model.Music;
 import ch.hearc.jee.model.Score;
+import ch.hearc.jee.model.User;
 import ch.hearc.jee.service.impl.MusicService;
 import ch.hearc.jee.service.impl.ScoreService;
+import ch.hearc.jee.service.impl.UserService;
 import ch.hearc.jee.utilities.Levenshtein;
 
 @Controller
@@ -29,17 +32,21 @@ public class HomeController
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@GetMapping(value = { "/", "/accueil" })
+	@GetMapping(value = { "/", "/index" })
 	public String showHomeView()
 		{
 		return "accueil";
 		}
 
 	@GetMapping(value = { "/play" })
-	public String showPlayView(Model model)
+	public String showPlayView(Principal principal, Model model)
 		{
+		// Gets logged in user email - and user
+		String email = principal.getName();
+		User user = this.userService.getByEmail(email);
+
 		// Gets all musics
-		List<Music> musics = this.musicService.getAll();
+		List<Music> musics = user.getMusics();
 		int size = musics.size();
 
 		// Gets a random music
@@ -58,7 +65,7 @@ public class HomeController
 		}
 
 	@PostMapping(value = { "/play" })
-	public String validatePlayView(Model model, @RequestParam Long musicId, @RequestParam String artist, @RequestParam String title)
+	public String validatePlayView(Principal principal, Model model, @RequestParam Long musicId, @RequestParam String artist, @RequestParam String title)
 		{
 		Music music = this.musicService.getById(musicId);
 
@@ -79,7 +86,7 @@ public class HomeController
 		model.addAttribute("solution", music);
 		model.addAttribute("score", score);
 
-		return showPlayView(model);
+		return showPlayView(principal, model);
 		}
 
 	/*------------------------------*\
@@ -99,4 +106,7 @@ public class HomeController
 
 	@Autowired
 	private ScoreService scoreService;
+
+	@Autowired
+	private UserService userService;
 	}

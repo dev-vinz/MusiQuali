@@ -59,7 +59,7 @@ public class MusicalGenre
 			}
 		else
 			{
-			return this.id == musicalGenre.id;
+			return this.id.longValue() == musicalGenre.id.longValue();
 			}
 		}
 

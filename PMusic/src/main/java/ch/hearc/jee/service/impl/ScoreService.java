@@ -37,7 +37,7 @@ public class ScoreService implements IDatabaseService<Score>
 	@Override
 	public void deleteById(Long id)
 		{
-		this.scoreRepository.deleteById(id);
+		this.scoreRepository.deleteById(Long.valueOf(id));
 		}
 
 	@Override

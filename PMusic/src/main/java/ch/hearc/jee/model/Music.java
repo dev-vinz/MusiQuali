@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -79,7 +80,7 @@ public class Music
 			}
 		else
 			{
-			return this.id == music.id;
+			return this.id.longValue() == music.id.longValue();
 			}
 		}
 
@@ -146,6 +147,11 @@ public class Music
 		return this.scores;
 		}
 
+	public User getUser()
+		{
+		return this.user;
+		}
+
 	public String getSuccessRateArtist()
 		{
 
@@ -206,6 +212,15 @@ public class Music
 		return INTEGER_FORMAT.format(successRate) + "%";
 		}
 
+	/*------------------------------*\
+	|*				Set				*|
+	\*------------------------------*/
+
+	public void setUser(User user)
+		{
+		this.user = user;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -226,11 +241,15 @@ public class Music
 	private String preview;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable(name = "musics_genres", joinColumns = { @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "genre_id", referencedColumnName = "id", nullable = false, updatable = false) })
+	@JoinTable(name = "musics_genres", joinColumns = { @JoinColumn(name = "music_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "genre_id", referencedColumnName = "id", nullable = false, updatable = false) })
 	private Set<MusicalGenre> genres;
 
 	@OneToMany(mappedBy = "music", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<Score> scores;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 	/*------------------------------*\
 	|*			  Static			*|

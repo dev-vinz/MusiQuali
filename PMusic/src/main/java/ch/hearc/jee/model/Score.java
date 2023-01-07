@@ -7,8 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "scores")
 public class Score
 	{
 
@@ -45,7 +47,7 @@ public class Score
 			}
 		else
 			{
-			return this.id == score.id;
+			return this.id.longValue() == score.id.longValue();
 			}
 		}
 

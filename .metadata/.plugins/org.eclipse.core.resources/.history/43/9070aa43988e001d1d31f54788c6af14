@@ -1,0 +1,81 @@
+
+package ch.hearc.jee.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ch.hearc.jee.model.User;
+import ch.hearc.jee.repository.IUserRepository;
+import ch.hearc.jee.service.IDatabaseService;
+
+@Service
+public class UserService implements IDatabaseService<User>
+	{
+
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
+
+	@Override
+	public void add(User item)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public void delete(User item)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public void deleteById(Long id)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public void update(User item)
+		{
+		// TODO Auto-generated method stub
+
+		}
+
+	@Override
+	public List<User> getAll()
+		{
+		// TODO Auto-generated method stub
+		return null;
+		}
+
+	@Override
+	public User getById(Long id)
+		{
+		// TODO Auto-generated method stub
+		return null;
+		}
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	@Autowired
+	private IUserRepository userRepository;
+	}
