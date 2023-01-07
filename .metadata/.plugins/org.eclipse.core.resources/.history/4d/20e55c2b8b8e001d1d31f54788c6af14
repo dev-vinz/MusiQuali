@@ -5,8 +5,6 @@
 	<meta lang="fr">
 	<meta charset="UTF-8">
 	<title>MusiQuali</title>
-	
-	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
 	<!--  CSS Bootstrap Dependencies  -->
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
@@ -78,9 +76,6 @@
 	<!--  JS Bootstrap Dependencies  -->
 	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
-	
-	<!--  Bootstrap Form Validation  -->
-	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
 
 	<script>
 		const button = document.getElementById("music_start");
