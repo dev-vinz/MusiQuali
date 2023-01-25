@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ch.hearc.jee.model.Music;
+import ch.hearc.jee.model.User;
 import ch.hearc.jee.repository.IMusicRepository;
 import ch.hearc.jee.service.IDatabaseService;
 
@@ -57,6 +60,11 @@ public class MusicService implements IDatabaseService<Music>
 				.forEach(musics::add);
 
 		return musics;
+		}
+
+	public Page<Music> getAllByUser(User user, Pageable pageable)
+		{
+		return this.musicRepository.findAllByUser(user, pageable);
 		}
 
 	@Override

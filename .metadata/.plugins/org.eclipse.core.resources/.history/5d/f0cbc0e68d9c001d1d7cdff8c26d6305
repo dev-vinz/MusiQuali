@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title>Bibliothèque - MusiQuali</title>
+
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+	<!--  CSS Bootstrap Dependencies  -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+</head>
+
+<body>
+	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
+
+	<div class="container">
+		<h1>Bibliothèque musicale</h1>
+		<span class="text-muted" th:text="@{|${musics.getTotalElements} musiques|}"></span>
+
+		<span th:if="${musics.getTotalElements > 0}" class="d-flex flex-wrap mt-2">Filtrer par</span>
+		<div th:if="${musics.getTotalElements > 0}" class="d-flex flex-wrap mt-2">
+			<a href="#" class="btn btn-sm btn-outline-secondary">Titre</a>
+		</div>
+
+		<div th:if="${musics.getTotalPages > 0}" class="text-center mb-3">
+			<a th:if="${musics.getNumber > 0}" th:href="@{|${musics.getNumber - 1}?sortBy=${sortBy}|}"
+				class="btn btn-outline-secondary" style="width: 100px;">Précédent</a>
+			<span class="text-muted mx-2" th:text="@{|${musics.getNumber + 1} / ${musics.getTotalPages}|}">1/8</span>
+			<a th:if="${musics.getNumber + 1 < musics.getTotalPages}"
+				th:href="@{|${musics.getNumber + 1}?sortBy=${sortBy}|}" class="btn btn-outline-secondary"
+				style="width: 100px;">Suivant</a>
+		</div>
+
+		<div class="row g-4">
+			<div th:each="music: ${musics}" class="col">
+				<div class="card my-2" style="width: 25rem;">
+					<div class="card-body">
+						<div class="d-flex align-items-center mb-2">
+							<img th:src="${music.cover}" class="rounded-circle">
+							<div class="ms-2 text-truncate">
+								<h1 class="card-title h5" th:text="${music.title}"></h1>
+								<h2 class="card-subtitle h6 text-muted" th:text="${music.author}"></h2>
+							</div>
+							<form action="#" th:action="@{/musics/remove}" class="ms-auto align-self-start"
+								method="post">
+								<input type="hidden" th:value="${music.id}" name="musicId" />
+								<button type="submit" class="btn btn-outline-danger">X</button>
+							</form>
+						</div>
+						<div class="d-flex flex-wrap my-2">
+							<span th:each="genre: ${music.genres}" th:text="${genre.name}"
+								class="badge roundeed-pill text-bg-secondary mx-1"></span>
+						</div>
+						<p>
+							<span class="card-text" th:text="@{|Tentatives : ${music.scores.size}|}"></span>
+							<br />
+							<span class="card-text"
+								th:text="@{|Taux de réussite de l'artiste : ${music.getSuccessRateArtist}|}"></span>
+							<br />
+							<span class="card-text"
+								th:text="@{|Taux de réussite du titre : ${music.getSuccessRateTitle}|}"></span>
+						</p>
+						<div class="progress mb-3" style="height: 5px;" th:title="${music.getSuccessRateGlobal}">
+							<div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+								role="progressbar" aria-label="Success rate"
+								th:aria-valuenow="${music.getSuccessRateGlobal}" aria-valuemin="0" aria-valuemax="100"
+								th:style="@{|width: ${music.getSuccessRateGlobal}|}">
+							</div>
+						</div>
+						<a th:href="@{|show/${music.id}|}" class="btn btn-outline-dark">Voir plus</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--  JS Bootstrap Dependencies  -->
+		<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

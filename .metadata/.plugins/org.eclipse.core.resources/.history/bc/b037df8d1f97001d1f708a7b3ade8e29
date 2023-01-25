@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title th:text="@{|${music.author} - ${music.title} - MusiQuali|}"></title>
+
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+	<!--  CSS Bootstrap Dependencies  -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+	<!--  Custom CSS  -->
+	<link rel="stylesheet" href="/music/show.css" />
+</head>
+
+<body>
+	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
+
+	<div class="container">
+		<h1 th:text="${music.title}"></h1>
+		<p class="text-muted" th:text="${music.author}"></p>
+
+		<audio id="music_player" controls>
+			<source th:src="${music.preview}" type="audio/mpeg" />
+		</audio>
+
+		<div class="mq-main-card">
+			<img th:src="${track.album.coverMedium}" class="rounded mb-3" alt="cover" />
+
+			<h2 class="h4">Informations</h2>
+
+			<ul class="mb-3">
+				<li><b>Artiste : </b><span th:text="${track.artist.name}"></span></li>
+				<li><b>Album : </b><span th:text="${album.title}"></span></li>
+				<li><b>Date de parution : </b><span th:text="${track.releaseDate}"></span></li>
+			</ul>
+
+			<h2 class="h4">Genres</h2>
+
+			<div class="d-flex flex-wrap mb-3">
+				<span th:each="genre: ${music.genres}" th:text="${genre.name}"
+					class="badge roundeed-pill text-bg-secondary mx-1"></span>
+			</div>
+
+			<h2 class="h4">Taux de réussite</h2>
+			<div class="mq-game-stats mb-4">
+				<div class="text-center">
+					<div class="circle-wrap">
+						<div class="circle">
+							<div class="mask full" th:style="@{|--degAnim: ${music.getSuccessDegArtist};|}">
+								<div class="fill" th:style="@{|--degAnim: ${music.getSuccessDegArtist};|}"></div>
+							</div>
+							<div class="mask half">
+								<div id="test" class="fill" th:style="@{|--degAnim: ${music.getSuccessDegArtist};|}">
+								</div>
+							</div>
+							<div class="inside-circle" th:text="${music.getSuccessRateArtist}"></div>
+						</div>
+					</div>
+					<span>Par artiste</span>
+				</div>
+				<div class="text-center">
+					<div class="circle-wrap">
+						<div class="circle">
+							<div class="mask full" th:style="@{|--degAnim: ${music.getSuccessDegTitle};|}">
+								<div class="fill" th:style="@{|--degAnim: ${music.getSuccessDegTitle};|}"></div>
+							</div>
+							<div class="mask half">
+								<div id="test" class="fill" th:style="@{|--degAnim: ${music.getSuccessDegTitle};|}">
+								</div>
+							</div>
+							<div class="inside-circle" th:text="${music.getSuccessRateTitle}"></div>
+						</div>
+					</div>
+					<span>Par titre</span>
+				</div>
+			</div>
+
+			<div class="mq-music-controls">
+				<h2 class="h4">Extrait</h2>
+				<div class="mq-music-slider">
+					<span id="current-time" class="text-muted">0:00</span>
+					<input type="range" id="slider" max="100" value="0">
+					<span id="duration" class="text-muted">0:00</span>
+				</div>
+				<div class="mq-music-buttons">
+					<button id="music_reset" class="btn btn-outline-secondary"><i class="bi bi-skip-start"></i></button>
+					<button id="music_start_stop" class="btn btn-outline-primary btn-lg"><i id="music_start_stop_icon"
+							class="bi bi-play-circle"></i></button> <!-- bi-pause-circle-fill -->
+					<a th:href="${track.link}" target="_blank" class="btn btn-outline-secondary"><i
+							class="bi bi-cast"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--  JS Bootstrap Dependencies  -->
+	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+
+	<script>
+		const buttonReset = document.getElementById("music_reset");
+		const buttonStartStop = document.getElementById("music_start_stop");
+		const buttonIcon = document.getElementById("music_start_stop_icon");
+
+		const player = document.getElementById("music_player");
+
+		const currentTime = document.getElementById("current-time");
+		const slider = document.getElementById("slider");
+		const duration = document.getElementById("duration");
+
+		let musicPlayed = false;
+
+		// Button animation
+
+		buttonStartStop.onclick = function () {
+			if (musicPlayed) {
+				player.pause();
+
+				buttonIcon.classList.add("bi-play-circle");
+				buttonIcon.classList.remove("bi-pause-circle");
+
+				musicPlayed = false;
+			}
+			else {
+				player.play();
+
+				buttonIcon.classList.remove("bi-play-circle");
+				buttonIcon.classList.add("bi-pause-circle");
+
+				musicPlayed = true;
+			}
+		}
+
+		// Duration display
+
+		window.onload = function () {
+			duration.textContent = calculateTime(player.duration);
+			slider.max = Math.floor(player.duration);
+		}
+
+		slider.oninput = function () {
+			currentTime.textContent = calculateTime(slider.value);
+		}
+
+		const calculateTime = (secs) => {
+			const minutes = Math.floor(secs / 60);
+			const seconds = Math.floor(secs % 60);
+			const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+			return `${minutes}:${returnedSeconds}`;
+		}
+	</script>
+</body>
+
+</html>

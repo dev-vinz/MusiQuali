@@ -1,0 +1,38 @@
+
+package ch.hearc.jee.model;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+public class TestUser
+	{
+
+	/*------------------------------------------------------------------*\
+	 |*							Methodes Public							*|
+	 \*-----------------------------------------------------------------*/
+
+	@Test
+	public void givenAUser_whenChangeFirstName_thenVerify()
+		{
+		User user = new User();
+		String firstName = "Toto";
+
+		user.setFirstName(firstName);
+
+		assertTrue(user.getFirstName() == firstName);
+		}
+
+	@Test
+	public void testYYY()
+		{
+		// TODO
+		fail();
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	}

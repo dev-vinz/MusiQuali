@@ -1,0 +1,43 @@
+
+package ch.hearc.jee.repository;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class TestUserRepository
+	{
+
+	/*------------------------------------------------------------------*\
+	 |*							Methodes Public							*|
+	 \*-----------------------------------------------------------------*/
+
+	@Test
+	public void givenUser_whenPersistUser_thenUserIsPersisted()
+		{
+		
+		}
+
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	@Autowired
+	private TestEntityManager entityManager;
+
+	@Autowired
+	private IUserRepository userRepository;
+
+	}

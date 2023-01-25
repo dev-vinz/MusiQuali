@@ -1,0 +1,33 @@
+package ch.hearc.jee.repository;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+public class TestUserRepository
+	{
+
+	/*------------------------------------------------------------------*\
+	 |*							Methodes Public							*|
+	 \*-----------------------------------------------------------------*/
+
+	@Test
+	public void testXXX()
+		{
+		// TODO
+		assertTrue(false);
+		}
+
+	@Test
+	public void testYYY()
+		{
+		// TODO
+		fail();
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	}

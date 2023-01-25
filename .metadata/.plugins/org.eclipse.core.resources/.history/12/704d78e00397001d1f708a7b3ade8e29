@@ -1,0 +1,47 @@
+
+package ch.hearc.jee;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import ch.hearc.jee.model.User;
+import ch.hearc.jee.service.impl.UserService;
+
+import jakarta.annotation.PostConstruct;
+
+@SpringBootApplication
+public class MusicApplication
+	{
+
+	public static void main(String[] args)
+		{
+		SpringApplication.run(MusicApplication.class, args);
+		}
+
+	@Configuration
+	public class WebConfig implements WebMvcConfigurer
+		{
+
+		@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry)
+			{
+			registry//
+					.addResourceHandler("/**")//
+					.addResourceLocations("classpath:/static/", "classpath:/images/", "classpath:/css/")//
+					.setCachePeriod(0);
+			}
+		}
+
+	@PostConstruct
+	public static void insertUser()
+		{
+		User user = new User("Vincent", "Jeannin", "v@j.ch", "test");
+		}
+
+	@Autowired
+	private UserService userService;
+	}

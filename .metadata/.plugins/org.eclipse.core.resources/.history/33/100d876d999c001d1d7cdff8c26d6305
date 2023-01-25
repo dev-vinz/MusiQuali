@@ -1,0 +1,40 @@
+
+package ch.hearc.jee.repository;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+@DataJpaTest
+public class TestMusicRepository
+	{
+
+	/*------------------------------------------------------------------*\
+	 |*							Methodes Public							*|
+	 \*-----------------------------------------------------------------*/
+
+	@Test
+	public void givenMusic_whenMusicAddedToUser_thenMusicAdded()
+		{
+
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	@Autowired
+	private TestEntityManager entityManager;
+
+	@Autowired
+	private IUserRepository userRepository;
+
+	@Autowired
+	IMusicRepository musicRepository;
+
+	}

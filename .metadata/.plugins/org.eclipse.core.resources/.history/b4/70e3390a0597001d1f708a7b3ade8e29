@@ -1,0 +1,8 @@
+/*  Main Card  */
+
+.mq-main-card {
+	display: flex;
+	
+	align-items: center;
+	justify-content: center;
+}

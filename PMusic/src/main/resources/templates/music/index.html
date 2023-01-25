@@ -5,11 +5,12 @@
 	<meta lang="fr">
 	<meta charset="UTF-8">
 	<title>Bibliothèque - MusiQuali</title>
-	
+
 	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
 	<!--  CSS Bootstrap Dependencies  -->
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 </head>
 
 <body>
@@ -17,7 +18,27 @@
 
 	<div class="container">
 		<h1>Bibliothèque musicale</h1>
-		<span class="text-muted" th:text="@{|${musics.size} musiques|}"></span>
+		<span class="text-muted" th:text="@{|${musics.getTotalElements} musiques|}"></span>
+
+		<div th:if="${musics.getTotalElements > 0}" class="d-flex flex-wrap mt-2 gap-2">
+
+			<span style="font-size: 20px;"><i class="bi bi-funnel"></i></span>
+			<a th:href="@{|${musics.getNumber}?sortBy=id|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'id' ? 'active' : ''}|}">Ajout</a>
+			<a th:href="@{|${musics.getNumber}?sortBy=author|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'author' ? 'active' : ''}|}">Auteur</a>
+			<a th:href="@{|${musics.getNumber}?sortBy=title|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'title' ? 'active' : ''}|}">Titre</a>
+		</div>
+
+		<div th:if="${musics.getTotalPages > 0}" class="text-center mb-3">
+			<a th:if="${musics.getNumber > 0}" th:href="@{|${musics.getNumber - 1}?sortBy=${sortBy}|}"
+				class="btn btn-outline-secondary" style="width: 100px;">Précédent</a>
+			<span class="text-muted mx-2" th:text="@{|${musics.getNumber + 1} / ${musics.getTotalPages}|}">1/8</span>
+			<a th:if="${musics.getNumber + 1 < musics.getTotalPages}"
+				th:href="@{|${musics.getNumber + 1}?sortBy=${sortBy}|}" class="btn btn-outline-secondary"
+				style="width: 100px;">Suivant</a>
+		</div>
 
 		<div class="row g-4">
 			<div th:each="music: ${musics}" class="col">
@@ -55,7 +76,7 @@
 								th:style="@{|width: ${music.getSuccessRateGlobal}|}">
 							</div>
 						</div>
-						<a th:href="${music.id}" class="btn btn-outline-dark">Voir plus</a>
+						<a th:href="@{|show/${music.id}|}" class="btn btn-outline-dark">Voir plus</a>
 					</div>
 				</div>
 			</div>

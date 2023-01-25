@@ -162,12 +162,31 @@ public class Music
 
 		int somme = this.scores//
 				.stream()//
-				.map(Score::getArtistScore)//
-				.reduce(0, Integer::sum);
+				.mapToInt(Score::getArtistScore)//
+				.sum();
 
 		double successRate = somme / length;
 
 		return TWO_DECIMAL_FORMAT.format(successRate) + "%";
+		}
+
+	public String getSuccessDegArtist()
+		{
+		// Have to be between 0 and 180deg
+
+		double length = this.scores.size();
+
+		if (length == 0)
+			{ return "0deg"; }
+
+		int somme = this.scores//
+				.stream()//
+				.mapToInt(Score::getArtistScore)//
+				.sum();
+
+		double rate = somme / length / 100 * 180;
+
+		return rate + "deg";
 		}
 
 	public String getSuccessRateTitle()
@@ -180,12 +199,31 @@ public class Music
 
 		int somme = this.scores//
 				.stream()//
-				.map(Score::getTitleScore)//
-				.reduce(0, Integer::sum);
+				.mapToInt(Score::getTitleScore)//
+				.sum();
 
 		double successRate = somme / length;
 
 		return TWO_DECIMAL_FORMAT.format(successRate) + "%";
+		}
+
+	public String getSuccessDegTitle()
+		{
+		// Have to be between 0 and 180deg
+
+		double length = this.scores.size();
+
+		if (length == 0)
+			{ return "0deg"; }
+
+		int somme = this.scores//
+				.stream()//
+				.mapToInt(Score::getTitleScore)//
+				.sum();
+
+		double rate = somme / length / 100 * 180;
+
+		return rate + "deg";
 		}
 
 	public String getSuccessRateGlobal()
@@ -197,13 +235,13 @@ public class Music
 
 		int sommeArtist = this.scores//
 				.stream()//
-				.map(Score::getArtistScore)//
-				.reduce(0, Integer::sum);
+				.mapToInt(Score::getArtistScore)//
+				.sum();
 
 		int sommeTitle = this.scores//
 				.stream()//
-				.map(Score::getTitleScore)//
-				.reduce(0, Integer::sum);
+				.mapToInt(Score::getTitleScore)//
+				.sum();
 
 		int somme = sommeArtist + sommeTitle;
 

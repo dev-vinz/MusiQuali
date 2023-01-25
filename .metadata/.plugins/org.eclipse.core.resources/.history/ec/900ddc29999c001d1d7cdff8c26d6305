@@ -1,0 +1,42 @@
+
+package ch.hearc.jee.repository;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+public class TestMusicRepository
+	{
+
+	/*------------------------------------------------------------------*\
+	 |*							Methodes Public							*|
+	 \*-----------------------------------------------------------------*/
+
+	@Test
+	public void givenMusic_whenMusicAddedToUser_thenMusicAdded()
+		{
+		// TODO
+		assertTrue(false);
+		}
+
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	@Autowired
+	private TestEntityManager entityManager;
+
+	@Autowired
+	private IUserRepository userRepository;
+
+	@Autowired
+	IMusicRepository musicRepository;
+
+	}
