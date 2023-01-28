@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="TestUserRepository" project="PMusic" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="ch.hearc.jee.repository.TestUserRepository" time="0.243" displayname="TestUserRepository" uniqueid="[engine:junit-jupiter]/[class:ch.hearc.jee.repository.TestUserRepository]">
-    <testcase name="givenUser_whenPersistUser_thenUserIsPersisted" classname="ch.hearc.jee.repository.TestUserRepository" time="0.243" displayname="givenUser_whenPersistUser_thenUserIsPersisted()" uniqueid="[engine:junit-jupiter]/[class:ch.hearc.jee.repository.TestUserRepository]/[method:givenUser_whenPersistUser_thenUserIsPersisted()]"/>
-  </testsuite>
-</testrun>

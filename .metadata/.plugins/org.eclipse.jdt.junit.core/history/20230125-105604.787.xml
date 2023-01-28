@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="TestUser" project="PMusic" tests="2" started="2" failures="0" errors="0" ignored="0">
-  <testsuite name="ch.hearc.jee.model.TestUser" time="0.017" displayname="TestUser" uniqueid="[engine:junit-jupiter]/[class:ch.hearc.jee.model.TestUser]">
-    <testcase name="givenAUser_whenChangeFirstName_thenVerify" classname="ch.hearc.jee.model.TestUser" time="0.016" displayname="givenAUser_whenChangeFirstName_thenVerify()" uniqueid="[engine:junit-jupiter]/[class:ch.hearc.jee.model.TestUser]/[method:givenAUser_whenChangeFirstName_thenVerify()]"/>
-    <testcase name="givenAUser_whenChangeLastName_thenVerify" classname="ch.hearc.jee.model.TestUser" time="0.001" displayname="givenAUser_whenChangeLastName_thenVerify()" uniqueid="[engine:junit-jupiter]/[class:ch.hearc.jee.model.TestUser]/[method:givenAUser_whenChangeLastName_thenVerify()]"/>
-  </testsuite>
-</testrun>
