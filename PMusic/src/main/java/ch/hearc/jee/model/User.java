@@ -4,6 +4,9 @@ package ch.hearc.jee.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -99,6 +102,7 @@ public class User
 		return this.id;
 		}
 
+	@JsonIgnore
 	public String getName()
 		{
 		return this.firstName + " " + this.lastName;
@@ -168,8 +172,10 @@ public class User
 	private String firstName;
 	private String lastName;
 	private String email;
+
 	private String password;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JsonIgnoreProperties("user")
 	private List<Music> musics;
 	}

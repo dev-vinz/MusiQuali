@@ -39,7 +39,7 @@ public class SpringConfiguration
 		{
 		http.csrf().disable()//
 				.authorizeHttpRequests(authorize -> authorize//
-						.requestMatchers("/register/**", "/webjars/**", "/favicon.ico").permitAll()//
+						.requestMatchers("/register/**", "/webjars/**", "/api/**", "/favicon.ico").permitAll()//
 						.requestMatchers("/**").hasRole("USER"))//
 				.formLogin(form -> form//
 						.loginPage("/login")//

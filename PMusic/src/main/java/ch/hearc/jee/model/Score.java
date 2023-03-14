@@ -1,6 +1,8 @@
 
 package ch.hearc.jee.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -120,5 +122,6 @@ public class Score
 
 	@ManyToOne
 	@JoinColumn(name = "music_id", nullable = false)
+	@JsonIgnoreProperties("scores")
 	private Music music;
 	}

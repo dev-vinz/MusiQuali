@@ -5,6 +5,11 @@ import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import ch.hearc.jee.api.deezer.DeezerApi;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -117,6 +122,11 @@ public class Music
 		return this.trackId;
 		}
 
+	public String getTrackLink()
+		{
+		return DeezerApi.trackById(this.trackId).getLink();
+		}
+
 	public String getAuthor()
 		{
 		return this.author;
@@ -152,6 +162,7 @@ public class Music
 		return this.user;
 		}
 
+	@JsonIgnore
 	public String getSuccessRateArtist()
 		{
 
@@ -170,6 +181,7 @@ public class Music
 		return TWO_DECIMAL_FORMAT.format(successRate) + "%";
 		}
 
+	@JsonIgnore
 	public String getSuccessDegArtist()
 		{
 		// Have to be between 0 and 180deg
@@ -189,6 +201,7 @@ public class Music
 		return rate + "deg";
 		}
 
+	@JsonIgnore
 	public String getSuccessRateTitle()
 		{
 
@@ -207,6 +220,7 @@ public class Music
 		return TWO_DECIMAL_FORMAT.format(successRate) + "%";
 		}
 
+	@JsonIgnore
 	public String getSuccessDegTitle()
 		{
 		// Have to be between 0 and 180deg
@@ -226,6 +240,7 @@ public class Music
 		return rate + "deg";
 		}
 
+	@JsonIgnore
 	public String getSuccessRateGlobal()
 		{
 		double length = this.scores.size();
@@ -280,13 +295,16 @@ public class Music
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "musics_genres", joinColumns = { @JoinColumn(name = "music_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "genre_id", referencedColumnName = "id", nullable = false, updatable = false) })
+	@JsonIgnoreProperties("musics")
 	private Set<MusicalGenre> genres;
 
 	@OneToMany(mappedBy = "music", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JsonIgnoreProperties("music")
 	private Set<Score> scores;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
+	@JsonIgnoreProperties("musics")
 	private User user;
 
 	/*------------------------------*\

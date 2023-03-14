@@ -4,6 +4,8 @@ package ch.hearc.jee.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -123,5 +125,6 @@ public class MusicalGenre
 	private String name;
 
 	@ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("genres")
 	private Set<Music> musics;
 	}
