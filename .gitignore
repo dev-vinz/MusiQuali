@@ -3,6 +3,9 @@
 
 .metadata/
 
+### Eclipse project ###
+.project
+
 ### Java ###
 # Compiled class file
 *.class
