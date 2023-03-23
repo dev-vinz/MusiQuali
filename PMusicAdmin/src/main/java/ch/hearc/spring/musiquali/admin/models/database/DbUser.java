@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import ch.hearc.spring.musiquali.admin.models.Role;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,7 +21,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User
+public class DbUser
 	{
 
 	/*------------------------------------------------------------------*\
@@ -29,11 +31,11 @@ public class User
 	/**
 	 * Default constructor
 	 */
-	public User()
+	public DbUser()
 		{
 		// Outputs
 			{
-			this.scores = new ArrayList<Score>();
+			this.scores = new ArrayList<DbScore>();
 			}
 		}
 
@@ -45,7 +47,7 @@ public class User
 	 * @param password A hashed password
 	 * @param role A role
 	 */
-	public User(String firstName, String lastName, String email, String password, Role role)
+	public DbUser(String firstName, String lastName, String email, String password, Role role)
 		{
 		// Inputs
 			{
@@ -58,7 +60,7 @@ public class User
 
 		// Outputs
 			{
-			this.scores = new ArrayList<Score>();
+			this.scores = new ArrayList<DbScore>();
 			}
 		}
 
@@ -70,7 +72,7 @@ public class User
 	 * Adds a score to the user
 	 * @param score A score
 	 */
-	public void addScore(Score score)
+	public void addScore(DbScore score)
 		{
 		this.scores.add(score);
 		}
@@ -84,7 +86,7 @@ public class User
 	 * @param user An user
 	 * @return True if users are equals; False otherwise
 	 */
-	public boolean isEquals(User user)
+	public boolean isEquals(DbUser user)
 		{
 		if (this == user)
 			{
@@ -101,7 +103,7 @@ public class User
 		{
 		if (object2.getClass().equals(this.getClass()))
 			{
-			return isEquals((User)object2);
+			return isEquals((DbUser)object2);
 			}
 		else
 			{
@@ -177,7 +179,7 @@ public class User
 	 * Gets all the scores
 	 * @return A list containing all the scores
 	 */
-	public List<Score> getScores()
+	public List<DbScore> getScores()
 		{
 		return this.scores;
 		}
@@ -253,7 +255,7 @@ public class User
 	private Role role;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<Score> scores;
+	private List<DbScore> scores;
 
 	/*------------------------------*\
 	|*			  Static			*|

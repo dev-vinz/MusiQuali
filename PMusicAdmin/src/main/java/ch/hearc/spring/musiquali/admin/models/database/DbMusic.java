@@ -4,6 +4,8 @@ package ch.hearc.spring.musiquali.admin.models.database;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.hearc.spring.musiquali.admin.models.Difficulty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,7 +22,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "musics")
-public class Music
+public class DbMusic
 	{
 
 	/*------------------------------------------------------------------*\
@@ -30,11 +32,11 @@ public class Music
 	/**
 	 * Default constructor
 	 */
-	public Music()
+	public DbMusic()
 		{
 		// Outputs
 			{
-			this.genres = new HashSet<MusicalGenre>();
+			this.genres = new HashSet<DbMusicalGenre>();
 			}
 		}
 
@@ -43,7 +45,7 @@ public class Music
 	 * @param trackId An external track ID
 	 * @param difficulty A difficulty
 	 */
-	public Music(Long trackId, Difficulty difficulty)
+	public DbMusic(Long trackId, Difficulty difficulty)
 		{
 		// Inputs
 			{
@@ -53,7 +55,7 @@ public class Music
 
 		// Outputs
 			{
-			this.genres = new HashSet<MusicalGenre>();
+			this.genres = new HashSet<DbMusicalGenre>();
 			}
 		}
 
@@ -65,7 +67,7 @@ public class Music
 	 * Adds a genre to the music
 	 * @param genre A musical genre
 	 */
-	public void addGenre(MusicalGenre genre)
+	public void addGenre(DbMusicalGenre genre)
 		{
 		this.genres.add(genre);
 		}
@@ -79,7 +81,7 @@ public class Music
 	 * @param music A music
 	 * @return True if musics are equals; False otherwise
 	 */
-	public boolean isEquals(Music music)
+	public boolean isEquals(DbMusic music)
 		{
 		if (this == music)
 			{
@@ -96,7 +98,7 @@ public class Music
 		{
 		if (object2.getClass().equals(this.getClass()))
 			{
-			return isEquals((Music)object2);
+			return isEquals((DbMusic)object2);
 			}
 		else
 			{
@@ -145,7 +147,7 @@ public class Music
 	 * Gets all the musical genres associated
 	 * @return A set containing all the genres
 	 */
-	public Set<MusicalGenre> getGenres()
+	public Set<DbMusicalGenre> getGenres()
 		{
 		return this.genres;
 		}
@@ -154,7 +156,7 @@ public class Music
 	 * Gets all the scores associat3ed
 	 * @return A set containing all the scores
 	 */
-	public Set<Score> getScores()
+	public Set<DbScore> getScores()
 		{
 		return this.scores;
 		}
@@ -178,8 +180,8 @@ public class Music
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "musics_genres", joinColumns = { @JoinColumn(name = "music_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "genre_id", referencedColumnName = "id", nullable = false, updatable = false) })
-	private Set<MusicalGenre> genres;
+	private Set<DbMusicalGenre> genres;
 
 	@OneToMany(mappedBy = "music", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private Set<Score> scores;
+	private Set<DbScore> scores;
 	}

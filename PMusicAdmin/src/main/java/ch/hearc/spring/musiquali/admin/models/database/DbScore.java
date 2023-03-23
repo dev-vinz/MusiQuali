@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "scores")
-public class Score
+public class DbScore
 	{
 
 	/*------------------------------------------------------------------*\
@@ -21,7 +21,7 @@ public class Score
 	/**
 	 * Default constructor
 	 */
-	public Score()
+	public DbScore()
 		{
 		}
 
@@ -30,7 +30,7 @@ public class Score
 	 * @param artistScore A score between 0 and 100
 	 * @param titleScore A score between 0 and 100
 	 */
-	public Score(Integer artistScore, Integer titleScore)
+	public DbScore(Integer artistScore, Integer titleScore)
 		{
 		// Inputs
 			{
@@ -52,7 +52,7 @@ public class Score
 	 * @param score A score
 	 * @return True if scores are equals; False otherwise
 	 */
-	public boolean isEquals(Score score)
+	public boolean isEquals(DbScore score)
 		{
 		if (this == score)
 			{
@@ -69,7 +69,7 @@ public class Score
 		{
 		if (object2.getClass().equals(this.getClass()))
 			{
-			return isEquals((Score)object2);
+			return isEquals((DbScore)object2);
 			}
 		else
 			{
@@ -118,7 +118,7 @@ public class Score
 	 * Gets the user who the score belongs to
 	 * @return An user
 	 */
-	public User getUser()
+	public DbUser getUser()
 		{
 		return this.user;
 		}
@@ -127,7 +127,7 @@ public class Score
 	 * Gets the music that the score belongs to
 	 * @return A music
 	 */
-	public Music getMusic()
+	public DbMusic getMusic()
 		{
 		return this.music;
 		}
@@ -140,7 +140,7 @@ public class Score
 	 * Sets the user to the score
 	 * @param user An user
 	 */
-	public void setUser(User user)
+	public void setUser(DbUser user)
 		{
 		this.user = user;
 		}
@@ -149,7 +149,7 @@ public class Score
 	 * Sets the music to the score
 	 * @param music A music
 	 */
-	public void setMusic(Music music)
+	public void setMusic(DbMusic music)
 		{
 		this.music = music;
 		}
@@ -171,9 +171,9 @@ public class Score
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	private DbUser user;
 
 	@ManyToOne
 	@JoinColumn(name = "music_id", nullable = false)
-	private Music music;
+	private DbMusic music;
 	}

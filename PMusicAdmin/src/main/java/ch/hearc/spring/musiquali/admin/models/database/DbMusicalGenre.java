@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "genres")
-public class MusicalGenre
+public class DbMusicalGenre
 	{
 
 	/*------------------------------------------------------------------*\
@@ -24,11 +24,11 @@ public class MusicalGenre
 	/**
 	 * Default constructor
 	 */
-	public MusicalGenre()
+	public DbMusicalGenre()
 		{
 		// Outputs
 			{
-			this.musics = new HashSet<Music>();
+			this.musics = new HashSet<DbMusic>();
 			}
 		}
 
@@ -36,7 +36,7 @@ public class MusicalGenre
 	 * Constructor building a musical genre with an external genre ID
 	 * @param genreId An external genre ID
 	 */
-	public MusicalGenre(Long genreId)
+	public DbMusicalGenre(Long genreId)
 		{
 		// Inputs
 			{
@@ -45,7 +45,7 @@ public class MusicalGenre
 
 		// Outputs
 			{
-			this.musics = new HashSet<Music>();
+			this.musics = new HashSet<DbMusic>();
 			}
 		}
 
@@ -62,7 +62,7 @@ public class MusicalGenre
 	 * @param musicalGenre A musical genre
 	 * @return True if genres are equals; False otherwise
 	 */
-	public boolean isEquals(MusicalGenre musicalGenre)
+	public boolean isEquals(DbMusicalGenre musicalGenre)
 		{
 		if (this == musicalGenre)
 			{
@@ -79,7 +79,7 @@ public class MusicalGenre
 		{
 		if (object2.getClass().equals(this.getClass()))
 			{
-			return isEquals((MusicalGenre)object2);
+			return isEquals((DbMusicalGenre)object2);
 			}
 		else
 			{
@@ -119,7 +119,7 @@ public class MusicalGenre
 	 * Gets all the musics associated
 	 * @return A set containing all the musics
 	 */
-	public Set<Music> getMusics()
+	public Set<DbMusic> getMusics()
 		{
 		return this.musics;
 		}
@@ -139,5 +139,5 @@ public class MusicalGenre
 	private Long genreId;
 
 	@ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
-	private Set<Music> musics;
+	private Set<DbMusic> musics;
 	}
