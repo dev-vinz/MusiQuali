@@ -41,7 +41,7 @@ public final class DeezerProperties
 
 			{
 			put("album.get", "https://api.deezer.com/album/%d");
-			put("search.all", "https://api.deezer.com/search");
+			put("search.album", "https://api.deezer.com/search/album");
 			put("search.artist", "https://api.deezer.com/search/artist");
 			put("search.track", "https://api.deezer.com/search/track");
 			put("track.get", "https://api.deezer.com/track/%d");

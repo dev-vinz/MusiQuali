@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import ch.hearc.spring.musiquali.admin.api.deezer.models.data.DeezerData;
+
 /**
  * Represents an album on Deezer
  */
