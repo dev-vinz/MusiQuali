@@ -218,7 +218,7 @@ public class DbUser
 	 */
 	public void setPassword(String password)
 		{
-		this.password = password;//PASSWORD_ENCODER.encode(password);
+		this.password = password; //PASSWORD_ENCODER.encode(password);
 		}
 
 	/**
@@ -258,5 +258,5 @@ public class DbUser
 	|*			  Static			*|
 	\*------------------------------*/
 
-	//	private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+	//private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 	}

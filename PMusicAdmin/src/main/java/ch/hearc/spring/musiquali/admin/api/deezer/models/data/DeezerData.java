@@ -1,5 +1,9 @@
 
+<<<<<<<< HEAD:PMusicAdmin/src/main/java/ch/hearc/spring/musiquali/admin/api/deezer/models/data/DeezerData.java
 package ch.hearc.spring.musiquali.admin.api.deezer.models.data;
+========
+package ch.hearc.spring.musiquali.admin.controllers;
+>>>>>>>> 93fee57 (Create RestMusicController and adapt repository):PMusicAdmin/src/main/java/ch/hearc/spring/musiquali/admin/controllers/MusicController.java
 
 import java.util.List;
 
