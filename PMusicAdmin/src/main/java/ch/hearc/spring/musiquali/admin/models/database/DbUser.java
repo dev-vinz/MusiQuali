@@ -4,9 +4,6 @@ package ch.hearc.spring.musiquali.admin.models.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import ch.hearc.spring.musiquali.admin.models.Role;
 
 import jakarta.persistence.CascadeType;
@@ -54,7 +51,7 @@ public class DbUser
 			this.firstName = firstName;
 			this.lastName = lastName;
 			this.email = email;
-			this.password = PASSWORD_ENCODER.encode(password);
+			this.password = password;//PASSWORD_ENCODER.encode(password);
 			this.role = role;
 			}
 
@@ -221,7 +218,7 @@ public class DbUser
 	 */
 	public void setPassword(String password)
 		{
-		this.password = PASSWORD_ENCODER.encode(password);
+		this.password = password;//PASSWORD_ENCODER.encode(password);
 		}
 
 	/**
@@ -261,5 +258,5 @@ public class DbUser
 	|*			  Static			*|
 	\*------------------------------*/
 
-	private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+	//	private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 	}
