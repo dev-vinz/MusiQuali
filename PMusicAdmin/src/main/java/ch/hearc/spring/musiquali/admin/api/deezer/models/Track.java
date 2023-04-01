@@ -1,6 +1,7 @@
 
 package ch.hearc.spring.musiquali.admin.api.deezer.models;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -125,7 +126,7 @@ public class Track
 	 */
 	public List<String> getAvailableCountries()
 		{
-		return this.availableCountries;
+		return Collections.unmodifiableList(this.availableCountries);
 		}
 
 	/**

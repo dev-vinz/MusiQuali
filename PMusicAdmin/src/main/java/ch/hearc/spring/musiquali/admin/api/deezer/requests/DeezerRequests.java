@@ -22,6 +22,12 @@ public abstract class DeezerRequests
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
+	/**
+	 * Formats a string by completing datas with arguments
+	 * @param property A property key
+	 * @param args All the arguments to complete a string
+	 * @return A formatted URL
+	 */
 	protected String url(String property, Object... args)
 		{
 		return String.format(DeezerProperties.getURL(property), args);

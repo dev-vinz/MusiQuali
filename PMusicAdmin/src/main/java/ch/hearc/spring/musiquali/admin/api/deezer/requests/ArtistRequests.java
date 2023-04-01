@@ -2,11 +2,10 @@
 package ch.hearc.spring.musiquali.admin.api.deezer.requests;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.http.DeezerGetRequest;
+import ch.hearc.spring.musiquali.admin.api.deezer.models.Artist;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.data.AlbumData;
-import ch.hearc.spring.musiquali.admin.api.deezer.models.data.ArtistData;
-import ch.hearc.spring.musiquali.admin.api.deezer.models.data.TrackData;
 
-public class SearchRequests extends DeezerRequests
+public class ArtistRequests extends DeezerRequests
 	{
 
 	/*------------------------------------------------------------------*\
@@ -18,36 +17,23 @@ public class SearchRequests extends DeezerRequests
 	\*------------------------------------------------------------------*/
 
 	/**
-	 * Searches an album by query
-	 * @param query The query
-	 * @return A data containing all the albums fetching the query
+	 * Gets an artist finding by its ID in Deezer
+	 * @param artistId An artist ID
+	 * @return A request that can be executed to fetch an artist
 	 */
-	public DeezerGetRequest<AlbumData> album(String query)
+	public DeezerGetRequest<Artist> getById(long artistId)
 		{
-		return new DeezerGetRequest<>(url("search.album"), AlbumData.class)//
-				.addParam("q", query);
+		return new DeezerGetRequest<>(url("artist.get", artistId), Artist.class);
 		}
 
 	/**
-	 * Searches an artist by query
-	 * @param query The query
-	 * @return A data containing all the artists fetching the query
+	 * Gets all the albums of an artist
+	 * @param artistId An artist ID
+	 * @return A request that can be executed to fetch all the albums of an artist
 	 */
-	public DeezerGetRequest<ArtistData> artist(String query)
+	public DeezerGetRequest<AlbumData> getAlbums(long artistId)
 		{
-		return new DeezerGetRequest<>(url("search.artist"), ArtistData.class)//
-				.addParam("q", query);
-		}
-
-	/**
-	 * Searches a track by query
-	 * @param query The query
-	 * @return A data containing all the tracks fetching the query
-	 */
-	public DeezerGetRequest<TrackData> track(String query)
-		{
-		return new DeezerGetRequest<>(url("search.track"), TrackData.class)//
-				.addParam("q", query);
+		return new DeezerGetRequest<>(url("artist.albums", artistId), AlbumData.class);
 		}
 
 	/*------------------------------*\

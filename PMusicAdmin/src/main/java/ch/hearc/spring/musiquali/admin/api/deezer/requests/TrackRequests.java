@@ -1,17 +1,10 @@
 
-package ch.hearc.spring.musiquali.admin.controllers;
+package ch.hearc.spring.musiquali.admin.api.deezer.requests;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
+import ch.hearc.spring.musiquali.admin.api.deezer.http.DeezerGetRequest;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
 
-@Controller
-@RequestMapping("/admin/musics")
-public class MusicController
+public class TrackRequests extends DeezerRequests
 	{
 
 	/*------------------------------------------------------------------*\
@@ -22,11 +15,14 @@ public class MusicController
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@GetMapping(value = { "/", "index" })
-	public @ResponseBody String showMusics()
+	/**
+	 * Gets a track finding by its ID in Deezer
+	 * @param trackId A track ID
+	 * @return A request that can be executed to fetch a track
+	 */
+	public DeezerGetRequest<Track> getById(long trackId)
 		{
-		Track track = DeezerApi.tracks.getById(2463249).execute();
-		return "Bonjour";
+		return new DeezerGetRequest<>(url("track.get", trackId), Track.class);
 		}
 
 	/*------------------------------*\
