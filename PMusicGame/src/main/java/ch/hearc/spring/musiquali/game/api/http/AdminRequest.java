@@ -1,29 +1,36 @@
 
-package ch.hearc.spring.musiquali.admin.api.deezer.models.data;
+package ch.hearc.spring.musiquali.game.api.http;
 
-import java.util.List;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class DeezerData<T>
+public abstract class AdminRequest<T>
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
+	public AdminRequest(String url, Class<T> intoClass)
+		{
+		// Inputs
+			{
+			this.intoClass = intoClass;
+			this.uriBuilder = new DefaultUriBuilderFactory(url).builder();
+			}
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
-	public List<T> getData()
+	public AdminRequest<T> addParam(String name, String value)
 		{
-		return this.data;
+		this.uriBuilder.queryParam(name, value);
+		return this;
 		}
+
+	public abstract T execute();
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
@@ -33,6 +40,7 @@ public class DeezerData<T>
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
-	@JsonProperty("data")
-	private List<T> data;
+	// Inputs
+	protected Class<T> intoClass;
+	protected UriBuilder uriBuilder;
 	}

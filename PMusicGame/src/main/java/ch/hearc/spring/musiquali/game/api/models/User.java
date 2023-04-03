@@ -1,38 +1,29 @@
 
-package ch.hearc.spring.musiquali.admin.api.deezer.models.data;
+package ch.hearc.spring.musiquali.game.api.models;
 
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DeezerData<T>
+public class User
 	{
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
-
+	
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
-
-	public List<T> getData()
-		{
-		return this.data;
-		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	@JsonProperty("data")
-	private List<T> data;
 	}
+

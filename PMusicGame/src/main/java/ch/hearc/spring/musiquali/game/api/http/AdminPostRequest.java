@@ -1,12 +1,15 @@
 
-package ch.hearc.spring.musiquali.admin.api.deezer.models.data;
+package ch.hearc.spring.musiquali.game.api.http;
 
-import java.util.List;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class DeezerData<T>
+public class AdminPostRequest<T> extends AdminRequest<T>
 	{
+
+	public AdminPostRequest(String url, Class<T> intoClass)
+		{
+		super(url, intoClass);
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
@@ -16,13 +19,16 @@ public class DeezerData<T>
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
-	public List<T> getData()
+	@Override
+	public T execute()
 		{
-		return this.data;
+		// TODO : Improve return necessities
+
+		return WebClient.create().post()//
+				.uri(this.uriBuilder.build())//
+				.retrieve()//
+				.bodyToMono(this.intoClass)//
+				.block();
 		}
 
 	/*------------------------------------------------------------------*\
@@ -32,7 +38,5 @@ public class DeezerData<T>
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	@JsonProperty("data")
-	private List<T> data;
 	}
+

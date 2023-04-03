@@ -1,11 +1,10 @@
 
-package ch.hearc.spring.musiquali.admin.api.deezer.models.data;
+package ch.hearc.spring.musiquali.game.api.requests;
 
-import java.util.List;
+import ch.hearc.spring.musiquali.game.api.http.AdminGetRequest;
+import ch.hearc.spring.musiquali.game.api.models.User;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class DeezerData<T>
+public class UserRequest extends AdminRequest
 	{
 
 	/*------------------------------------------------------------------*\
@@ -16,13 +15,9 @@ public class DeezerData<T>
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
-	public List<T> getData()
+	public AdminGetRequest<User> getById(long userId)
 		{
-		return this.data;
+		return new AdminGetRequest<>(url("users.get", userId), User.class);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -32,7 +27,4 @@ public class DeezerData<T>
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	@JsonProperty("data")
-	private List<T> data;
 	}

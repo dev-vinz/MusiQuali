@@ -1,5 +1,5 @@
 
-package ch.hearc.spring.musiquali.admin.api.deezer.models.data;
+package ch.hearc.spring.musiquali.game.api.models.deezer.data;
 
 import java.util.List;
 
