@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ch.hearc.jee.model.User;
-import ch.hearc.jee.service.impl.UserService;
+import ch.hearc.spring.musiquali.game.api.MusicAdminAPI;
+import ch.hearc.spring.musiquali.game.models.User;
 
 @Controller
 public class UserController
@@ -33,7 +33,7 @@ public class UserController
 		{
 		// Gets logged in user email - and user
 		String email = principal.getName();
-		User user = this.userService.getByEmail(email);
+		User user = MusicAdminAPI.users.getByEmail(email).execute();
 
 		model.addAttribute("user", user);
 
@@ -45,9 +45,9 @@ public class UserController
 		{
 		// Gets logged in user email - and user
 		String email = principal.getName();
-		User logged = this.userService.getByEmail(email);
+		User logged = MusicAdminAPI.users.getByEmail(email).execute();
 
-		User existingUser = this.userService.getByEmail(user.getEmail());
+		User existingUser = MusicAdminAPI.users.getByEmail(user.getEmail()).execute();
 
 		if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty() && existingUser.getId() != logged.getId())
 			{
@@ -78,7 +78,8 @@ public class UserController
 			logged.setPassword(this.passwordEncoder.encode(user.getPassword()));
 			}
 
-		this.userService.update(logged);
+		//this.userService.update(logged);
+		MusicAdminAPI.users.update(logged, logged.getId()).execute();
 
 		if (emailChanged)
 			{
@@ -107,7 +108,7 @@ public class UserController
 	@PostMapping(value = { "register/save" })
 	String registerUser(@ModelAttribute User user, @RequestParam String confirmPassword, BindingResult result, Model model)
 		{
-		User existingUser = this.userService.getByEmail(user.getEmail());
+		User existingUser = MusicAdminAPI.users.getByEmail(user.getEmail()).execute();
 
 		if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty())
 			{
@@ -126,25 +127,21 @@ public class UserController
 			return "user/register";
 			}
 
-		this.userService.add(user);
+		//this.userService.add(user);
+		MusicAdminAPI.users.save(user).execute();
 
 		return "redirect:/register?success";
 		}
-
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
+	// Nothing
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	@Autowired
-	private UserService userService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;

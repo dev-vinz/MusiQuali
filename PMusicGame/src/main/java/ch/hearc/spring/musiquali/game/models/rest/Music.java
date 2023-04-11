@@ -1,38 +1,20 @@
 
-package ch.hearc.spring.musiquali.game.api.http;
+package ch.hearc.spring.musiquali.game.models.rest;
 
-import org.springframework.web.reactive.function.client.WebClient;
-
-import reactor.core.publisher.Mono;
-
-public class AdminPutRequest<T> extends AdminRequest<T>
+public class Music
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public AdminPutRequest(String url, T object, Class<T> intoClass)
-		{
-		super(url, intoClass);
-
-		this.object = object;
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@Override
-	public T execute()
-		{
-		return WebClient.create().put()//
-				.uri(this.uriBuilder.build())//
-				.body(Mono.just(object), this.intoClass)//
-				.retrieve()//
-				.bodyToMono(this.intoClass)//
-				.block();
-		}
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
@@ -41,7 +23,4 @@ public class AdminPutRequest<T> extends AdminRequest<T>
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	// Input
-	private T object;
 	}

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.naming.directory.SearchResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,16 +22,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.hearc.jee.api.deezer.DeezerApi;
-import ch.hearc.jee.api.deezer.model.full.Album;
-import ch.hearc.jee.api.deezer.model.full.SearchResult;
-import ch.hearc.jee.api.deezer.model.full.Track;
 import ch.hearc.jee.api.deezer.model.minimal.MinimalGenre;
-import ch.hearc.jee.model.Music;
-import ch.hearc.jee.model.MusicalGenre;
-import ch.hearc.jee.model.User;
 import ch.hearc.jee.service.impl.MusicService;
 import ch.hearc.jee.service.impl.MusicalGenreService;
 import ch.hearc.jee.service.impl.UserService;
+import ch.hearc.spring.musiquali.game.api.MusicAdminAPI;
+import ch.hearc.spring.musiquali.game.api.models.deezer.Album;
+import ch.hearc.spring.musiquali.game.api.models.deezer.Track;
+import ch.hearc.spring.musiquali.game.models.User;
+import ch.hearc.spring.musiquali.game.models.rest.Music;
+import ch.hearc.spring.musiquali.game.models.rest.MusicalGenre;
 
 @Controller
 @RequestMapping("/musics")
@@ -49,7 +51,7 @@ public class MusicController
 		{
 		// Gets logged in user email - and user
 		String email = principal.getName();
-		User user = this.userService.getByEmail(email);
+		User user = MusicAdminAPI.users.getByEmail(email).execute();
 
 		// Gets musics
 		Pageable pageable = PageRequest.of(pageNo == null ? 0 : pageNo, 6, Sort.by(sortBy));
@@ -66,7 +68,7 @@ public class MusicController
 		{
 		// Gets logged in user email - and user
 		String email = principal.getName();
-		User user = this.userService.getByEmail(email);
+		User user = MusicAdminAPI.users.getByEmail(email).execute();
 
 		// Gets musics
 		List<Music> musics = user.getMusics();
@@ -117,7 +119,7 @@ public class MusicController
 		{
 		// Gets logged in user email - and user
 		String email = principal.getName();
-		User user = this.userService.getByEmail(email);
+		User user = MusicAdminAPI.users.getByEmail(email).execute();
 
 		// Gets musics
 		List<Music> musics = user.getMusics();

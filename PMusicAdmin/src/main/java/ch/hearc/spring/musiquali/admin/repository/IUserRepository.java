@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-import ch.hearc.spring.musiquali.admin.models.database.DbUser;
+import ch.hearc.spring.musiquali.admin.models.database.User;
 
-public interface IUserRepository extends CrudRepository<DbUser, Long>
+public interface IUserRepository extends CrudRepository<User, Long>
 	{
 
-	Optional<DbUser> findByEmail(String email);
+	Optional<User> findByEmail(String email);
 	}

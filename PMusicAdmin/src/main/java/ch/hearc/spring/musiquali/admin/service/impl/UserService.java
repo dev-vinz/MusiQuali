@@ -8,12 +8,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.hearc.spring.musiquali.admin.models.database.DbUser;
+import ch.hearc.spring.musiquali.admin.models.database.User;
 import ch.hearc.spring.musiquali.admin.repository.IUserRepository;
 import ch.hearc.spring.musiquali.admin.service.IDatabaseService;
 
 @Service
-public class UserService implements IDatabaseService<DbUser>
+public class UserService implements IDatabaseService<User>
 	{
 
 	/*------------------------------------------------------------------*\
@@ -25,7 +25,7 @@ public class UserService implements IDatabaseService<DbUser>
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public void add(DbUser item)
+	public void add(User item)
 		{
 		//String hashPassword = this.passwordEncoder.encode(item.getPassword());
 		//item.setPassword(hashPassword);
@@ -34,7 +34,7 @@ public class UserService implements IDatabaseService<DbUser>
 		}
 
 	@Override
-	public void delete(DbUser item)
+	public void delete(User item)
 		{
 		deleteById(item.getId());
 		}
@@ -46,15 +46,15 @@ public class UserService implements IDatabaseService<DbUser>
 		}
 
 	@Override
-	public void update(DbUser item)
+	public void update(User item)
 		{
 		this.userRepository.save(item);
 		}
 
 	@Override
-	public List<DbUser> getAll()
+	public List<User> getAll()
 		{
-		List<DbUser> users = new ArrayList<DbUser>();
+		List<User> users = new ArrayList<User>();
 
 		this.userRepository//
 				.findAll()//
@@ -64,16 +64,16 @@ public class UserService implements IDatabaseService<DbUser>
 		}
 
 	@Override
-	public DbUser getById(Long id)
+	public User getById(Long id)
 		{
 		return this.userRepository//
 				.findById(Long.valueOf(id))//
 				.orElseGet(() -> null);
 		}
 
-	public DbUser getByEmail(String email)
+	public User getByEmail(String email)
 		{
-		Optional<DbUser> user = this.userRepository//
+		Optional<User> user = this.userRepository//
 				.findByEmail(email);
 
 		if (user.isPresent())

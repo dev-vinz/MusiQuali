@@ -3,12 +3,16 @@ package ch.hearc.spring.musiquali.game.api.http;
 
 import org.springframework.web.reactive.function.client.WebClient;
 
+import reactor.core.publisher.Mono;
+
 public class AdminPostRequest<T> extends AdminRequest<T>
 	{
 
-	public AdminPostRequest(String url, Class<T> intoClass)
+	public AdminPostRequest(String url, T object, Class<T> intoClass)
 		{
 		super(url, intoClass);
+
+		this.object = object;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -22,10 +26,9 @@ public class AdminPostRequest<T> extends AdminRequest<T>
 	@Override
 	public T execute()
 		{
-		// TODO : Improve return necessities
-
 		return WebClient.create().post()//
 				.uri(this.uriBuilder.build())//
+				.body(Mono.just(object), this.intoClass)//
 				.retrieve()//
 				.bodyToMono(this.intoClass)//
 				.block();
@@ -38,5 +41,8 @@ public class AdminPostRequest<T> extends AdminRequest<T>
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
+
+	// Inputs
+	private T object;
 	}
 

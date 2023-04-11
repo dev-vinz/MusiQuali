@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import ch.hearc.spring.musiquali.admin.models.database.DbUser;
+import ch.hearc.spring.musiquali.admin.models.database.User;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
 
 @RestController
@@ -28,16 +28,16 @@ public class UserRestController
 
 	@GetMapping("")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<DbUser> all()
+	public List<User> all()
 		{
 		return userService.getAll();
 		}
 
 	@GetMapping("/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public DbUser get(@PathVariable Long id)
+	public User get(@PathVariable Long id)
 		{
-		DbUser user = userService.getById(id);
+		User user = userService.getById(id);
 
 		if (user != null)
 			{
@@ -49,12 +49,28 @@ public class UserRestController
 			}
 		}
 
+	@GetMapping("/email/{email}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public User get(@PathVariable String email)
+		{
+		User user = userService.getByEmail(email);
+
+		if (user != null)
+			{
+			return user;
+			}
+		else
+			{
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with email \"" + email + "\" not found");
+			}
+		}
+
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public DbUser create(@RequestBody DbUser user)
+	public User create(@RequestBody User user)
 		{
 		// Checks if email already exists
-		DbUser existingUser = this.userService.getByEmail(user.getEmail());
+		User existingUser = this.userService.getByEmail(user.getEmail());
 
 		if (existingUser != null)
 			{ throw new ResponseStatusException(HttpStatus.CONFLICT, "User with email \"" + user.getEmail() + "\" already exists"); }

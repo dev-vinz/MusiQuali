@@ -12,13 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ch.hearc.jee.model.Music;
-import ch.hearc.jee.model.Score;
-import ch.hearc.jee.model.User;
-import ch.hearc.jee.service.impl.MusicService;
-import ch.hearc.jee.service.impl.ScoreService;
-import ch.hearc.jee.service.impl.UserService;
-import ch.hearc.jee.utilities.Levenshtein;
+import ch.hearc.spring.musiquali.game.api.MusicAdminAPI;
+import ch.hearc.spring.musiquali.game.models.User;
+import ch.hearc.spring.musiquali.game.models.rest.Music;
+import ch.hearc.spring.musiquali.game.models.rest.Score;
 
 @Controller
 public class HomeController
@@ -43,7 +40,7 @@ public class HomeController
 		{
 		// Gets logged in user email - and user
 		String email = principal.getName();
-		User user = this.userService.getByEmail(email);
+		User user = MusicAdminAPI.users.getByEmail(email).execute();
 
 		// Gets all musics
 		List<Music> musics = user.getMusics();
