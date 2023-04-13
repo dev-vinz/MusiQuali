@@ -46,6 +46,46 @@ public class Music
 	\*------------------------------------------------------------------*/
 
 	/*------------------------------*\
+	|*				equals			*|
+	\*------------------------------*/
+
+	/**
+	 * Custom equals override
+	 * @param music A music
+	 * @return True if musics are equals; False otherwise
+	 */
+	public boolean isEquals(Music music)
+		{
+		if (this == music)
+			{
+			return true;
+			}
+		else
+			{
+			return this.id.longValue() == music.id.longValue();
+			}
+		}
+
+	@Override
+	public boolean equals(Object object2)
+		{
+		if (object2.getClass().equals(this.getClass()))
+			{
+			return isEquals((Music)object2);
+			}
+		else
+			{
+			return false;
+			}
+		}
+
+	@Override
+	public int hashCode()
+		{
+		return Long.hashCode(this.id);
+		}
+
+	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
 

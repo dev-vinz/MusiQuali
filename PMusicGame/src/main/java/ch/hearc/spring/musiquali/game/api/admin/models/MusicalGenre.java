@@ -2,6 +2,7 @@
 package ch.hearc.spring.musiquali.game.api.admin.models;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,6 +13,16 @@ public class MusicalGenre
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
+
+	/**
+	 * Constructor building a musical genre for the REST part
+	 * @param id An ID
+	 * @param name A name
+	 */
+	public MusicalGenre(Long id, String name)
+		{
+		this(id, name, new HashSet<>());
+		}
 
 	/**
 	 * Constructor building a musical genre for the REST part
@@ -32,6 +43,46 @@ public class MusicalGenre
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+
+	/*------------------------------*\
+	|*				equals			*|
+	\*------------------------------*/
+
+	/**
+	 * Custom equals override
+	 * @param musicalGenre A musical genre
+	 * @return True if musical genres are equals; False otherwise
+	 */
+	public boolean isEquals(MusicalGenre musicalGenre)
+		{
+		if (this == musicalGenre)
+			{
+			return true;
+			}
+		else
+			{
+			return this.id.longValue() == musicalGenre.id.longValue();
+			}
+		}
+
+	@Override
+	public boolean equals(Object object2)
+		{
+		if (object2.getClass().equals(this.getClass()))
+			{
+			return isEquals((MusicalGenre)object2);
+			}
+		else
+			{
+			return false;
+			}
+		}
+
+	@Override
+	public int hashCode()
+		{
+		return Long.hashCode(this.id);
+		}
 
 	/*------------------------------*\
 	|*				Get				*|

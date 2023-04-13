@@ -42,6 +42,46 @@ public class User
 	\*------------------------------------------------------------------*/
 
 	/*------------------------------*\
+	|*				equals			*|
+	\*------------------------------*/
+
+	/**
+	 * Custom equals override
+	 * @param user An user
+	 * @return True if users are equals; False otherwise
+	 */
+	public boolean isEquals(User user)
+		{
+		if (this == user)
+			{
+			return true;
+			}
+		else
+			{
+			return this.id.longValue() == user.id.longValue();
+			}
+		}
+
+	@Override
+	public boolean equals(Object object2)
+		{
+		if (object2.getClass().equals(this.getClass()))
+			{
+			return isEquals((User)object2);
+			}
+		else
+			{
+			return false;
+			}
+		}
+
+	@Override
+	public int hashCode()
+		{
+		return Long.hashCode(this.id);
+		}
+
+	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
 

@@ -35,6 +35,46 @@ public class Score
 	\*------------------------------------------------------------------*/
 
 	/*------------------------------*\
+	|*				equals			*|
+	\*------------------------------*/
+
+	/**
+	 * Custom equals override
+	 * @param score A score
+	 * @return  True if scores are equals; False otherwise
+	 */
+	public boolean isEquals(Score score)
+		{
+		if (this == score)
+			{
+			return true;
+			}
+		else
+			{
+			return this.id.longValue() == score.id.longValue();
+			}
+		}
+
+	@Override
+	public boolean equals(Object object2)
+		{
+		if (object2.getClass().equals(this.getClass()))
+			{
+			return isEquals((Score)object2);
+			}
+		else
+			{
+			return false;
+			}
+		}
+
+	@Override
+	public int hashCode()
+		{
+		return Long.hashCode(this.id);
+		}
+
+	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
 

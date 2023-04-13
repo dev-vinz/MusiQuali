@@ -1,8 +1,10 @@
 
 package ch.hearc.spring.musiquali.admin.models.rest;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -34,14 +36,54 @@ public class User
 			this.lastName = lastName;
 			this.email = email;
 			this.password = password;
-			this.role = role;
-			this.scores = scores;
+			this.role = Optional.ofNullable(role).orElse(Role.USER);
+			this.scores = Optional.ofNullable(scores).orElse(new ArrayList<>());
 			}
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+
+	/*------------------------------*\
+	|*				equals			*|
+	\*------------------------------*/
+
+	/**
+	 * Custom equals override
+	 * @param user An user
+	 * @return True if users are equals; False otherwise
+	 */
+	public boolean isEquals(User user)
+		{
+		if (this == user)
+			{
+			return true;
+			}
+		else
+			{
+			return this.id.longValue() == user.id.longValue();
+			}
+		}
+
+	@Override
+	public boolean equals(Object object2)
+		{
+		if (object2.getClass().equals(this.getClass()))
+			{
+			return isEquals((User)object2);
+			}
+		else
+			{
+			return false;
+			}
+		}
+
+	@Override
+	public int hashCode()
+		{
+		return Long.hashCode(this.id);
+		}
 
 	/*------------------------------*\
 	|*				Get				*|

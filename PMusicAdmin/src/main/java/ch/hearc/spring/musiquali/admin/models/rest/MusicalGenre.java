@@ -2,6 +2,8 @@
 package ch.hearc.spring.musiquali.admin.models.rest;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,13 +27,53 @@ public class MusicalGenre
 			{
 			this.id = id;
 			this.name = name;
-			this.musics = musics;
+			this.musics = Optional.ofNullable(musics).orElse(new HashSet<>());
 			}
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+
+	/*------------------------------*\
+	|*				equals			*|
+	\*------------------------------*/
+
+	/**
+	 * Custom equals override
+	 * @param musicalGenre A musical genre
+	 * @return True if musical genres are equals; False otherwise
+	 */
+	public boolean isEquals(MusicalGenre musicalGenre)
+		{
+		if (this == musicalGenre)
+			{
+			return true;
+			}
+		else
+			{
+			return this.id.longValue() == musicalGenre.id.longValue();
+			}
+		}
+
+	@Override
+	public boolean equals(Object object2)
+		{
+		if (object2.getClass().equals(this.getClass()))
+			{
+			return isEquals((MusicalGenre)object2);
+			}
+		else
+			{
+			return false;
+			}
+		}
+
+	@Override
+	public int hashCode()
+		{
+		return Long.hashCode(this.id);
+		}
 
 	/*------------------------------*\
 	|*				Get				*|
