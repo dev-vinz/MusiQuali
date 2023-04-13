@@ -2,6 +2,8 @@
 package ch.hearc.spring.musiquali.game.api.admin.models;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,8 +38,8 @@ public class Music
 			this.difficulty = difficulty;
 			this.duration = duration;
 			this.link = link;
-			this.genres = genres;
-			this.scores = scores;
+			this.genres = Optional.ofNullable(genres).orElse(new HashSet<>());
+			this.scores = Optional.ofNullable(scores).orElse(new HashSet<>());
 			}
 		}
 

@@ -3,6 +3,7 @@ package ch.hearc.spring.musiquali.game.api.admin.models;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,16 +19,6 @@ public class MusicalGenre
 	 * Constructor building a musical genre for the REST part
 	 * @param id An ID
 	 * @param name A name
-	 */
-	public MusicalGenre(Long id, String name)
-		{
-		this(id, name, new HashSet<>());
-		}
-
-	/**
-	 * Constructor building a musical genre for the REST part
-	 * @param id An ID
-	 * @param name A name
 	 * @param musics A set containing all the musics that has this genre
 	 */
 	public MusicalGenre(Long id, String name, Set<Music> musics)
@@ -36,7 +27,7 @@ public class MusicalGenre
 			{
 			this.id = id;
 			this.name = name;
-			this.musics = musics;
+			this.musics = Optional.ofNullable(musics).orElse(new HashSet<>());
 			}
 		}
 

@@ -123,6 +123,10 @@ public class UserRestController
 		return new User(newUser.getId(), newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getPassword(), newUser.getRole(), user.getScores());
 		}
 
+	/*------------------------------*\
+	|*				Put				*|
+	\*------------------------------*/
+
 	@PutMapping("/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public User update(@RequestBody User updatedUser, @PathVariable Long id)
@@ -165,6 +169,7 @@ public class UserRestController
 	private static List<Score> fetchScores(DbUser user)
 		{
 		return user.getScores().stream()//
+				.parallel()//
 				.map(s -> {
 				DbMusic dbMusic = s.getMusic();
 
@@ -180,7 +185,8 @@ public class UserRestController
 
 				// Musics are null because they will be deleted by recursion
 				Set<MusicalGenre> genres = album.getGenres().stream()//
-						.map(g -> new MusicalGenre(g.getId(), g.getName(), null)).collect(Collectors.toCollection(HashSet<MusicalGenre>::new));
+						.map(g -> new MusicalGenre(g.getId(), g.getName(), null))//
+						.collect(Collectors.toCollection(HashSet<MusicalGenre>::new));
 
 				// Scores are null because they will be deleted by recursion
 				Music music = new Music(dbMusic.getId(), title, artist, preview, dbMusic.getDifficulty(), duration, link, genres, null);

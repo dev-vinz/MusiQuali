@@ -1,8 +1,10 @@
 
 package ch.hearc.spring.musiquali.game.api.admin.models;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -32,8 +34,8 @@ public class User
 			this.lastName = lastName;
 			this.email = email;
 			this.password = password;
-			this.role = role;
-			this.scores = scores;
+			this.role = Optional.ofNullable(role).orElse(Role.USER);
+			this.scores = Optional.ofNullable(scores).orElse(new ArrayList<>());
 			}
 		}
 

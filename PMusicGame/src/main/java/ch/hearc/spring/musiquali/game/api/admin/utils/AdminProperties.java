@@ -22,12 +22,14 @@ public class AdminProperties
 
 	private static final Map<String, String> ADMIN_URLS = new HashMap<>()
 		{
+
 			{
-			put("users.id.get", BASE_URL + "/users/%d");
-			put("users.email.get", BASE_URL + "/users/email/%s");
-			put("users.save", BASE_URL + "/users/");
-			put("users.update", BASE_URL + "/users/%d}");
-			put("users.all", BASE_URL + "/users/");
+			put("users", BASE_URL + "/users");
+			put("user.get.id", BASE_URL + "/users/%d");
+			put("user.get.email", BASE_URL + "/users/email/%s");
+			put("user.scores", BASE_URL + "/users/%d/scores");
+			put("user.save", BASE_URL + "/users/");
+			put("user.update", BASE_URL + "/users/%d}");
 			}
 
 		};
