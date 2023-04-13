@@ -118,7 +118,7 @@ public class DbScore
 	 * Gets the user who the score belongs to
 	 * @return An user
 	 */
-	public User getUser()
+	public DbUser getUser()
 		{
 		return this.user;
 		}
@@ -140,7 +140,7 @@ public class DbScore
 	 * Sets the user to the score
 	 * @param user An user
 	 */
-	public void setUser(User user)
+	public void setUser(DbUser user)
 		{
 		this.user = user;
 		}
@@ -171,7 +171,7 @@ public class DbScore
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	private DbUser user;
 
 	@ManyToOne
 	@JoinColumn(name = "music_id", nullable = false)

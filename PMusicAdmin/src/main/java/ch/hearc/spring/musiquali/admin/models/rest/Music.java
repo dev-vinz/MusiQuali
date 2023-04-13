@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
 import ch.hearc.spring.musiquali.admin.models.Difficulty;
 
 public class Music
@@ -28,7 +27,7 @@ public class Music
 	 * @param genres A set containing all the musical genres
 	 * @param scores A set containing all the scores
 	 */
-	public Music(Long id, String title, String artist, String preview, Difficulty difficulty, Integer duration, String link, Set<Genre> genres, Set<Score> scores)
+	public Music(Long id, String title, String artist, String preview, Difficulty difficulty, Integer duration, String link, Set<MusicalGenre> genres, Set<Score> scores)
 		{
 		// Inputs & Outputs
 			{
@@ -119,7 +118,7 @@ public class Music
 	 * Gets the set containing all the musical genres
 	 * @return A read-only set containing musical genres
 	 */
-	public Set<Genre> getGenres()
+	public Set<MusicalGenre> getGenres()
 		{
 		return Collections.unmodifiableSet(this.genres);
 		}
@@ -153,7 +152,7 @@ public class Music
 	private String link;
 
 	@JsonIgnoreProperties("musics")
-	private Set<Genre> genres;
+	private Set<MusicalGenre> genres;
 	@JsonIgnoreProperties("music")
 	private Set<Score> scores;
 	}

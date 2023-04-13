@@ -8,12 +8,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.hearc.spring.musiquali.admin.models.database.User;
+import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.repository.IUserRepository;
 import ch.hearc.spring.musiquali.admin.service.IDatabaseService;
 
 @Service
-public class UserService implements IDatabaseService<User>
+public class UserService implements IDatabaseService<DbUser>
 	{
 
 	/*------------------------------------------------------------------*\
@@ -25,7 +25,7 @@ public class UserService implements IDatabaseService<User>
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public void add(User item)
+	public void add(DbUser item)
 		{
 		//String hashPassword = this.passwordEncoder.encode(item.getPassword());
 		//item.setPassword(hashPassword);
@@ -34,7 +34,7 @@ public class UserService implements IDatabaseService<User>
 		}
 
 	@Override
-	public void delete(User item)
+	public void delete(DbUser item)
 		{
 		deleteById(item.getId());
 		}
@@ -46,15 +46,15 @@ public class UserService implements IDatabaseService<User>
 		}
 
 	@Override
-	public void update(User item)
+	public void update(DbUser item)
 		{
 		this.userRepository.save(item);
 		}
 
 	@Override
-	public List<User> getAll()
+	public List<DbUser> getAll()
 		{
-		List<User> users = new ArrayList<User>();
+		List<DbUser> users = new ArrayList<DbUser>();
 
 		this.userRepository//
 				.findAll()//
@@ -64,16 +64,16 @@ public class UserService implements IDatabaseService<User>
 		}
 
 	@Override
-	public User getById(Long id)
+	public DbUser getById(Long id)
 		{
 		return this.userRepository//
 				.findById(Long.valueOf(id))//
 				.orElseGet(() -> null);
 		}
 
-	public User getByEmail(String email)
+	public DbUser getByEmail(String email)
 		{
-		Optional<User> user = this.userRepository//
+		Optional<DbUser> user = this.userRepository//
 				.findByEmail(email);
 
 		if (user.isPresent())

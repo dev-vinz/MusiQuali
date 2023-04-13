@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User
+public class DbUser
 	{
 
 	/*------------------------------------------------------------------*\
@@ -28,7 +28,7 @@ public class User
 	/**
 	 * Default constructor
 	 */
-	public User()
+	public DbUser()
 		{
 		// Outputs
 			{
@@ -44,7 +44,7 @@ public class User
 	 * @param password A hashed password
 	 * @param role A role
 	 */
-	public User(String firstName, String lastName, String email, String password, Role role)
+	public DbUser(String firstName, String lastName, String email, String password, Role role)
 		{
 		// Inputs
 			{
@@ -83,7 +83,7 @@ public class User
 	 * @param user An user
 	 * @return True if users are equals; False otherwise
 	 */
-	public boolean isEquals(User user)
+	public boolean isEquals(DbUser user)
 		{
 		if (this == user)
 			{
@@ -100,7 +100,7 @@ public class User
 		{
 		if (object2.getClass().equals(this.getClass()))
 			{
-			return isEquals((User)object2);
+			return isEquals((DbUser)object2);
 			}
 		else
 			{
