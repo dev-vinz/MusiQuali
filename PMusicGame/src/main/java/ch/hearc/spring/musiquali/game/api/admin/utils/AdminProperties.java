@@ -25,8 +25,15 @@ public class AdminProperties
 
 			{
 			put("difficulties", BASE_URL + "/difficulties");
-			put("difficulty.get", BASE_URL + "difficulties/%d");
-			put("difficulty.musics", BASE_URL + "difficulties/%d/musics");
+			put("difficulty.get", BASE_URL + "/difficulties/%d");
+			put("difficulty.leaderboard", BASE_URL + "/difficulties/%d/leaderboard");
+			put("difficulty.musics", BASE_URL + "/difficulties/%d/musics");
+
+			put("genres", BASE_URL + "/genres");
+			put("genre.get", BASE_URL + "/genres/%d");
+			put("genre.leaderboard", BASE_URL + "/genres/%d/leaderboard");
+			put("genre.musics", BASE_URL + "/genres/%d/musics");
+			put("genre.scores", BASE_URL + "/genres/%d/scores");
 
 			put("musics", BASE_URL + "/musics");
 			put("music.get", BASE_URL + "/musics/%d");
