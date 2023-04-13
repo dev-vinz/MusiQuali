@@ -1,5 +1,5 @@
 
-package ch.hearc.spring.musiquali.game.api.utils;
+package ch.hearc.spring.musiquali.game.api.admin.utils;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,11 +1,9 @@
 
-package ch.hearc.spring.musiquali.game.api.models.deezer.data;
+package ch.hearc.spring.musiquali.game.api.admin.requests;
 
-import java.util.List;
+import ch.hearc.spring.musiquali.game.api.admin.utils.AdminProperties;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class DeezerData<T>
+public abstract class AdminRequests
 	{
 
 	/*------------------------------------------------------------------*\
@@ -16,23 +14,22 @@ public class DeezerData<T>
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
-	public List<T> getData()
-		{
-		return this.data;
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
+	/**
+	 * Formats a string by completing datas with arguments
+	 * @param property A property key
+	 * @param args All the arguments to complete a string
+	 * @return A formatted URL
+	 */
+	protected String url(String property, Object... args)
+		{
+		return String.format(AdminProperties.getURL(property), args);
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	@JsonProperty("data")
-	private List<T> data;
 	}

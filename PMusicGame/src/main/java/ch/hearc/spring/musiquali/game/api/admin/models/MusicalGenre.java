@@ -1,14 +1,33 @@
 
-package ch.hearc.spring.musiquali.game.api.models.deezer;
+package ch.hearc.spring.musiquali.game.api.admin.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collections;
+import java.util.Set;
 
-public class Genre
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+public class MusicalGenre
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
+
+	/**
+	 * Constructor building a musical genre for the REST part
+	 * @param id An ID
+	 * @param name A name
+	 * @param musics A set containing all the musics that has this genre
+	 */
+	public MusicalGenre(Long id, String name, Set<Music> musics)
+		{
+		// Inputs & Outputs
+			{
+			this.id = id;
+			this.name = name;
+			this.musics = musics;
+			}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
@@ -37,39 +56,12 @@ public class Genre
 		}
 
 	/**
-	 * Gets the picture in small size
-	 * @return A small picture
+	 * Gets the set containing all the music that has this musical genre
+	 * @return A read-only set containing musics
 	 */
-	public String getPictureSmall()
+	public Set<Music> getMusics()
 		{
-		return this.pictureSmall;
-		}
-
-	/**
-	 * Gets the picture in medium size
-	 * @return A medium picture
-	 */
-	public String getPictureMedium()
-		{
-		return this.pictureMedium;
-		}
-
-	/**
-	 * Gets the picture in big size
-	 * @return A big picture
-	 */
-	public String getPictureBig()
-		{
-		return this.pictureBig;
-		}
-
-	/**
-	 * Gets the picture in XL size
-	 * @return A XL picture
-	 */
-	public String getPictureXL()
-		{
-		return this.pictureXL;
+		return Collections.unmodifiableSet(this.musics);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -80,21 +72,11 @@ public class Genre
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
-	@JsonProperty("id")
+	// Inputs & Outputs
 	private Long id;
 
-	@JsonProperty("name")
 	private String name;
 
-	@JsonProperty("picture_small")
-	private String pictureSmall;
-
-	@JsonProperty("picture_medium")
-	private String pictureMedium;
-
-	@JsonProperty("picture_big")
-	private String pictureBig;
-
-	@JsonProperty("picture_XL")
-	private String pictureXL;
+	@JsonIgnoreProperties("genres")
+	private Set<Music> musics;
 	}

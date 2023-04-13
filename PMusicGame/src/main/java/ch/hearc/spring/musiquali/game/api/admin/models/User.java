@@ -1,14 +1,12 @@
 
-package ch.hearc.spring.musiquali.game.models.rest;
+package ch.hearc.spring.musiquali.game.api.admin.models;
 
 import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import ch.hearc.spring.musiquali.admin.models.Role;
-
-public class Score
+public class User
 	{
 
 	/*------------------------------------------------------------------*\

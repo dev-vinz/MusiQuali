@@ -1,5 +1,5 @@
 
-package ch.hearc.spring.musiquali.game.api.http;
+package ch.hearc.spring.musiquali.game.api.admin.http;
 
 import org.springframework.web.reactive.function.client.WebClient;
 

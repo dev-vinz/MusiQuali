@@ -1,8 +1,5 @@
 
-package ch.hearc.spring.musiquali.game.api;
-
-import ch.hearc.spring.musiquali.game.api.requests.MusicRequest;
-import ch.hearc.spring.musiquali.game.api.requests.UserRequest;
+package ch.hearc.spring.musiquali.game.api.admin;
 
 public final class MusicAdminAPI
 	{
@@ -19,6 +16,4 @@ public final class MusicAdminAPI
 	|*			  Static			*|
 	\*------------------------------*/
 
-	public static final UserRequest users = new UserRequest();
-	public static final MusicRequest musics = new MusicRequest();
 	}
