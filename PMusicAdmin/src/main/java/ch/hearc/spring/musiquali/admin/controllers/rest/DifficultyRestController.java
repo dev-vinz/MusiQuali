@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
-import ch.hearc.spring.musiquali.admin.api.deezer.models.Album;
+import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
 import ch.hearc.spring.musiquali.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusic;
@@ -142,8 +142,7 @@ public class DifficultyRestController
 	private static Music fetchToMusic(DbMusic music)
 		{
 		// Gets some informations with Deezer
-		Track track = DeezerApi.tracks.getById(music.getId()).execute();
-		Album album = DeezerApi.albums.getById(track.getAlbum().getId()).execute();
+		Track track = DeezerApi.tracks.getById(music.getTrackId()).execute();
 
 		String title = track.getTitleShort();
 		String artist = track.getArtist().getName();
@@ -151,9 +150,27 @@ public class DifficultyRestController
 		Integer duration = track.getDuration();
 		String link = track.getLink();
 
-		// Musics are null because they will be deleted by recursion
-		Set<MusicalGenre> genres = album.getGenres().stream()//
-				.map(g -> new MusicalGenre(g.getId(), g.getName(), null))//
+		Set<MusicalGenre> genres = music.getGenres().stream()//
+				.map(g -> {
+				Genre genre = DeezerApi.genres.getById(g.getGenreId()).execute();
+				Set<Music> musics = g.getMusics().stream()//
+						.map(m -> {
+						// Gets some informations with Deezer
+						Track mTrack = DeezerApi.tracks.getById(music.getTrackId()).execute();
+
+						String mTitle = mTrack.getTitleShort();
+						String mArtist = mTrack.getArtist().getName();
+						String mPreview = mTrack.getPreview();
+						Integer mDuration = mTrack.getDuration();
+						String mLink = mTrack.getLink();
+
+						// Genres and scores are null because they will be deleted by recursion
+						return new Music(m.getId(), mTitle, mArtist, mPreview, m.getDifficulty(), mDuration, mLink, null, null);
+						})//
+						.collect(Collectors.toCollection(HashSet<Music>::new));
+
+				return new MusicalGenre(g.getId(), genre.getName(), musics);
+				})//
 				.collect(Collectors.toCollection(HashSet<MusicalGenre>::new));
 
 		Set<Score> scores = music.getScores().stream()//

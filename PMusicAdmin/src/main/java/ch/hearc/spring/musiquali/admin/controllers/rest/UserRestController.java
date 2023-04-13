@@ -1,11 +1,8 @@
 
 package ch.hearc.spring.musiquali.admin.controllers.rest;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,13 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
-import ch.hearc.spring.musiquali.admin.api.deezer.models.Album;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
 import ch.hearc.spring.musiquali.admin.models.Role;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusic;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.models.rest.Music;
-import ch.hearc.spring.musiquali.admin.models.rest.MusicalGenre;
 import ch.hearc.spring.musiquali.admin.models.rest.Score;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
@@ -195,8 +190,7 @@ public class UserRestController
 				DbMusic dbMusic = s.getMusic();
 
 				// Gets some informations with Deezer
-				Track track = DeezerApi.tracks.getById(dbMusic.getId()).execute();
-				Album album = DeezerApi.albums.getById(track.getAlbum().getId()).execute();
+				Track track = DeezerApi.tracks.getById(dbMusic.getTrackId()).execute();
 
 				String title = track.getTitleShort();
 				String artist = track.getArtist().getName();
@@ -204,13 +198,8 @@ public class UserRestController
 				Integer duration = track.getDuration();
 				String link = track.getLink();
 
-				// Musics are null because they will be deleted by recursion
-				Set<MusicalGenre> genres = album.getGenres().stream()//
-						.map(g -> new MusicalGenre(g.getId(), g.getName(), null))//
-						.collect(Collectors.toCollection(HashSet<MusicalGenre>::new));
-
 				// Scores are null because they will be deleted by recursion
-				Music music = new Music(dbMusic.getId(), title, artist, preview, dbMusic.getDifficulty(), duration, link, genres, null);
+				Music music = new Music(dbMusic.getId(), title, artist, preview, dbMusic.getDifficulty(), duration, link, null, null);
 
 				// User is null because it will be deleted by recursion
 				return new Score(s.getId(), s.getArtistScore(), s.getTitleScore(), null, music);

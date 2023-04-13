@@ -47,6 +47,10 @@ public class AdminProperties
 			put("user.save", BASE_URL + "/users/");
 			put("user.update", BASE_URL + "/users/%d}");
 			put("user.delete", BASE_URL + "/users/%d}");
+
+			put("scores", BASE_URL + "/scores");
+			put("score.get", BASE_URL + "/scores/%d");
+			put("score.save", BASE_URL + "/scores");
 			}
 
 		};
