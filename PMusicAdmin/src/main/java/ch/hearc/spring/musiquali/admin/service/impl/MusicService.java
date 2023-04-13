@@ -60,11 +60,9 @@ public class MusicService implements IDatabaseService<DbMusic>
 		return musics;
 		}
 
-	public List<DbMusic> getAllByDifficulty(Difficulty difficulty, Integer nbMusics)
+	public List<DbMusic> getAllByDifficulty(Difficulty difficulty)
 		{
-		return this.musicRepository.findAllByDifficulty(difficulty).stream()//
-				.limit(nbMusics)//
-				.toList();
+		return this.musicRepository.findAllByDifficulty(difficulty);
 		}
 
 	@Override
