@@ -2,6 +2,7 @@
 package ch.hearc.spring.musiquali.logger;
 
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.TextMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PLoggerApplication
 	 * @throws JMSException
 	 */
 	@JmsListener(destination = "${spring.activemq.log-queue}")
-	public void readInprogressLog(final Log jsonLog) throws JMSException
+	public void readInprogressLog(final Message jsonLog) throws JMSException
 		{
 
 		String messageData = null;

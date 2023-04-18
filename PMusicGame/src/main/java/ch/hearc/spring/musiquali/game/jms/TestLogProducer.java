@@ -4,6 +4,7 @@ package ch.hearc.spring.musiquali.game.jms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.stereotype.Component;
 
 import ch.hearc.spring.musiquali.game.jms.model.Log;
@@ -46,4 +47,7 @@ public class TestLogProducer implements CommandLineRunner
 
 	@Autowired
 	JmsTemplate jmsTemplate;
+
+	@Autowired
+	MessageConverter messageConverter;
 	}
