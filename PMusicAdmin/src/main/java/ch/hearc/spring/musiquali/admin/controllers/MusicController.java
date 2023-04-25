@@ -4,7 +4,6 @@ package ch.hearc.spring.musiquali.admin.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/admin/musics")
@@ -20,9 +19,15 @@ public class MusicController
 	\*------------------------------------------------------------------*/
 
 	@GetMapping(value = { "/", "index" })
-	public @ResponseBody String showMusics()
+	public String index()
 		{
-		return "Bonjour";
+		return "music/index";
+		}
+
+	@GetMapping(value = { "/search" })
+	public String search()
+		{
+		return "music/search";
 		}
 
 	/*------------------------------*\

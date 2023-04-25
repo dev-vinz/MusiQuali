@@ -1,11 +1,13 @@
 
-package ch.hearc.spring.musiquali.admin.api.deezer.jms;
+package ch.hearc.spring.musiquali.admin.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public class JmsMessageProducer  implements CommandLineRunner
+@Controller
+@RequestMapping("/admin")
+public class AdminController
 	{
 
 	/*------------------------------------------------------------------*\
@@ -16,23 +18,21 @@ public class JmsMessageProducer  implements CommandLineRunner
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@Override
-	public void run(String... args) throws Exception
+	@GetMapping(value = { "/", "index" })
+	public String index()
 		{
-		jmsTemplate.convertAndSend("music-q", new Object());
+		return "admin";
 		}
+
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	// Nothing
-
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	@Autowired
-	JmsTemplate jmsTemplate;
 	}
-
