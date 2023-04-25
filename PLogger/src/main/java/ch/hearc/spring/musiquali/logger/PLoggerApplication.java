@@ -34,32 +34,22 @@ public class PLoggerApplication
 	@JmsListener(destination = "${spring.activemq.log-queue}")
 	public void readInprogressLog(final Message jsonLog) throws JMSException
 		{
-
 		String messageData = null;
-
-		System.out.println("Received log-q message " + jsonLog);
 
 		if (jsonLog instanceof TextMessage)
 			{
-
-			Log log = null;
-
 			TextMessage textMessage = (TextMessage)jsonLog;
 			messageData = textMessage.getText();
 
 			try
 				{
-				log = mapper.readValue(messageData, Log.class);
-
-				System.out.println(log);
+				Log log = mapper.readValue(messageData, Log.class);
+				LoggerService.getInstance().log(log);
 				}
 			catch (Exception e)
 				{
-				System.out.println("error converting to log");
+				System.out.println("error processing log");
 				}
-
-			System.out.println("messageData:" + messageData);
 			}
 		}
-
 	}
