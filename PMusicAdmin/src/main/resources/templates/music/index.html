@@ -47,7 +47,35 @@
 						<th scope="row" th:text="${music.id}"></th>
 						<td th:text="${music.title}"></td>
 						<td th:text="${music.artist}"></td>
-						<td th:text="${music.genres.size}"></td>
+						<td>
+							<div class="d-flex flex-wrap py-2">
+								<span th:each="genre: ${music.genres}" th:text="${genre.name}"
+									class="badge roundeed-pill text-bg-secondary mx-1"></span>
+							</div>
+						</td>
+						<td>
+							<form action="#" th:action="@{/admin/musics/update}" method="post" class="d-flex gap-2">
+								<input type="hidden" th:value="${music.id}" name="musicId" />
+								<select class="form-select" style="width: max-content;" name="musicDifficulty" required>
+									<option th:each="difficulty: ${difficulties}" th:value="${difficulty}"
+										th:text="${difficulty.frenchName}"
+										th:selected="${difficulty == music.difficulty}">
+									</option>
+								</select>
+								<button type="submit" class="btn btn-outline-warning">
+									<i class="bi bi-pencil"></i>
+								</button>
+							</form>
+						</td>
+						<td class="d-flex flex-column gap-2">
+							<form action="#" th:action="@{/admin/musics/delete}" method="post">
+								<input type="hidden" th:value="${music.id}" name="musicId" />
+								<button type="submit" class="btn btn-outline-danger">
+									<i class="bi bi-trash"></i>
+									Supprimer
+								</button>
+							</form>
+						</td>
 						<!--<td th:unless="${user.role < loggedRole}" colspan="2" th:text="${user.role}"></td>
 						<td th:if="${user.role < loggedRole}">
 							<form action="#" th:action="@{/admin/users/update}" method="post" class="d-flex gap-2">

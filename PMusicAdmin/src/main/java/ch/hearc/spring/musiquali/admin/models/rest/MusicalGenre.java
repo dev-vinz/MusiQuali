@@ -1,7 +1,6 @@
 
 package ch.hearc.spring.musiquali.admin.models.rest;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -103,7 +102,7 @@ public class MusicalGenre
 	 */
 	public Set<Music> getMusics()
 		{
-		return Collections.unmodifiableSet(this.musics);
+		return this.musics;
 		}
 
 	/*------------------------------------------------------------------*\

@@ -145,7 +145,7 @@ public class MusicalGenreRestController
 		Set<Music> musics = musicalGenre.getMusics().stream()//
 				.map(m -> {
 				// Gets some informations with Deezer
-				Track track = DeezerApi.tracks.getById(m.getId()).execute();
+				Track track = DeezerApi.tracks.getById(m.getTrackId()).execute();
 
 				String title = track.getTitleShort();
 				String artist = track.getArtist().getName();

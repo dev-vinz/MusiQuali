@@ -2,7 +2,6 @@
 package ch.hearc.spring.musiquali.admin.models.rest;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -149,7 +148,7 @@ public class User
 	 */
 	public List<Score> getScores()
 		{
-		return Collections.unmodifiableList(this.scores);
+		return this.scores;
 		}
 
 	/*------------------------------------------------------------------*\

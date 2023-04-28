@@ -70,6 +70,7 @@ public class MusicController
 				.toArray(Music[]::new);
 
 		model.addAttribute("musics", musics);
+		model.addAttribute("difficulties", Difficulty.values());
 
 		return "music/index";
 		}
@@ -135,6 +136,32 @@ public class MusicController
 			{
 			return "redirect:/admin/musics/search?error";
 			}
+		}
+
+	@PostMapping(value = { "/delete" })
+	public String delete(Principal principal, @RequestParam Long musicId)
+		{
+		// TODO: Checks if logged user has rights to do this
+
+		this.musicService.deleteById(musicId);
+
+		return "redirect:/admin/musics/?deleted";
+		}
+
+	@PostMapping(value = { "/update" })
+	public String update(Principal principal, @RequestParam Long musicId, @RequestParam(required = false) Difficulty musicDifficulty)
+		{
+		// TODO: Checks if logged user has rights to do this
+
+		DbMusic music = this.musicService.getById(musicId);
+
+		if (musicDifficulty == null || musicDifficulty == music.getDifficulty())
+			{ return "redirect:/admin/musics/"; }
+
+		music.setDifficulty(musicDifficulty);
+		this.musicService.update(music);
+
+		return "redirect:/admin/musics/?updated";
 		}
 
 	/*------------------------------------------------------------------*\

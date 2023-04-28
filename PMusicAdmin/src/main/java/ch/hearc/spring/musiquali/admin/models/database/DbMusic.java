@@ -161,6 +161,19 @@ public class DbMusic
 		return this.scores;
 		}
 
+	/*------------------------------*\
+	|*				Set				*|
+	\*------------------------------*/
+
+	/**
+	 * Sets a new difficulty
+	 * @param difficulty A difficulty
+	 */
+	public void setDifficulty(Difficulty difficulty)
+		{
+		this.difficulty = difficulty;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
