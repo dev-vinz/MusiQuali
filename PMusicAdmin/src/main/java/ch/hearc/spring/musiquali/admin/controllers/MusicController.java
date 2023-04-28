@@ -104,7 +104,7 @@ public class MusicController
 		Track track = DeezerApi.tracks.getById(trackId).execute();
 		Album album = DeezerApi.albums.getById(track.getAlbum().getId()).execute();
 
-		// Checks if musi already exists
+		// Checks if music already exists
 		Boolean isMusic = this.musicService.getAll()//
 				.stream()//
 				.anyMatch(m -> m.getTrackId().longValue() == trackId.longValue());
@@ -115,15 +115,10 @@ public class MusicController
 			DbMusic music = new DbMusic(trackId, difficulty);
 			this.musicService.add(music);
 
-			// Creates all genres
-			List<DbMusicalGenre> dbGenres = album.getGenres()//
+			// Creates all genres, saves them and adds them to the music
+			album.getGenres()//
 					.stream()//
 					.map(this::parseMusicalGenreToDbMusicalGenre)//
-					.collect(Collectors.toList());
-
-			// Saves genres and adds them to music
-			dbGenres//
-					.stream()//
 					.peek(musicalGenreService::add)//
 					.forEach(music::addGenre);
 
@@ -171,14 +166,14 @@ public class MusicController
 	private DbMusicalGenre parseMusicalGenreToDbMusicalGenre(Genre genre)
 		{
 		// Checks if musical genre already exists
-		DbMusicalGenre mGenre = this.musicalGenreService.getByGenreId(genre.getId());
+		DbMusicalGenre dbGenre = this.musicalGenreService.getByGenreId(genre.getId());
 
-		if (mGenre == null)
+		if (dbGenre == null)
 			{
-			mGenre = new DbMusicalGenre(genre.getId());
+			dbGenre = new DbMusicalGenre(genre.getId());
 			}
 
-		return mGenre;
+		return dbGenre;
 		}
 
 	/*------------------------------------------------------------------*\
