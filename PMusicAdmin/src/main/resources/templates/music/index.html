@@ -4,7 +4,7 @@
 <head>
 	<meta lang="fr">
 	<meta charset="UTF-8">
-	<title>Musiques - MusicAdmin</title>
+	<title>Musiques - MusiQuali • Admin</title>
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
@@ -54,7 +54,7 @@
 							</div>
 						</td>
 						<td>
-							<form action="#" th:action="@{/admin/musics/update}" method="post" class="d-flex gap-2">
+							<form action="#" th:action="@{/musics/update}" method="post" class="d-flex gap-2">
 								<input type="hidden" th:value="${music.id}" name="musicId" />
 								<select class="form-select" style="width: max-content;" name="musicDifficulty" required>
 									<option th:each="difficulty: ${difficulties}" th:value="${difficulty}"
@@ -68,7 +68,7 @@
 							</form>
 						</td>
 						<td class="d-flex flex-column gap-2">
-							<form action="#" th:action="@{/admin/musics/delete}" method="post">
+							<form action="#" th:action="@{/musics/delete}" method="post">
 								<input type="hidden" th:value="${music.id}" name="musicId" />
 								<button type="submit" class="btn btn-outline-danger">
 									<i class="bi bi-trash"></i>
@@ -76,30 +76,6 @@
 								</button>
 							</form>
 						</td>
-						<!--<td th:unless="${user.role < loggedRole}" colspan="2" th:text="${user.role}"></td>
-						<td th:if="${user.role < loggedRole}">
-							<form action="#" th:action="@{/admin/users/update}" method="post" class="d-flex gap-2">
-								<input type="hidden" th:value="${user.id}" name="userId" />
-								<select class="form-select" style="width: max-content;" name="userRole" required>
-									<option th:each="role: ${roles}" th:value="${role}" th:text="${role}"
-										th:selected="${role == user.role}"
-										th:disabled="${role == user.role || role >= loggedRole}">
-									</option>
-								</select>
-								<button type="submit" class="btn btn-outline-warning">
-									<i class="bi bi-pencil"></i>
-								</button>
-							</form>
-						</td>
-						<td th:if="${user.role < loggedRole}" class="d-flex flex-column gap-2">
-							<form action="#" th:action="@{/admin/users/delete}" method="post">
-								<input type="hidden" th:value="${user.id}" name="userId" />
-								<button type="submit" class="btn btn-outline-danger">
-									<i class="bi bi-trash"></i>
-									Supprimer
-								</button>
-							</form>
-						</td>-->
 					</tr>
 				</tbody>
 			</table>

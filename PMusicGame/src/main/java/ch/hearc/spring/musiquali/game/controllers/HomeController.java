@@ -1,11 +1,11 @@
 
-package ch.hearc.spring.musiquali.admin.controllers;
+package ch.hearc.spring.musiquali.game.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AdminController
+public class HomeController
 	{
 
 	/*------------------------------------------------------------------*\
@@ -16,15 +16,15 @@ public class AdminController
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@GetMapping(value = { "/", "index" })
-	public String index()
-		{
-		return "admin";
-		}
-
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
+
+	@GetMapping(value = { "/", "/index" })
+	public String index()
+		{
+		return "index";
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|

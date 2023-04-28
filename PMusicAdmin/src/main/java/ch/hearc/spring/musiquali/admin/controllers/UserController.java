@@ -17,7 +17,7 @@ import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
 
 @Controller
-@RequestMapping("/admin/users")
+@RequestMapping("/users")
 public class UserController
 	{
 
@@ -57,7 +57,7 @@ public class UserController
 
 		this.userService.deleteById(userId);
 
-		return "redirect:/admin/users/?deleted";
+		return "redirect:/users/?deleted";
 		}
 
 	@PostMapping(value = { "/update" })
@@ -68,12 +68,12 @@ public class UserController
 		DbUser user = this.userService.getById(userId);
 
 		if (userRole == null || userRole == user.getRole())
-			{ return "redirect:/admin/users/"; }
+			{ return "redirect:/users/"; }
 
 		user.setRole(userRole);
 		this.userService.update(user);
 
-		return "redirect:/admin/users/?updated";
+		return "redirect:/users/?updated";
 		}
 
 	/*------------------------------------------------------------------*\

@@ -27,7 +27,7 @@ import ch.hearc.spring.musiquali.admin.service.impl.MusicService;
 import ch.hearc.spring.musiquali.admin.service.impl.MusicalGenreService;
 
 @Controller
-@RequestMapping("/admin/musics")
+@RequestMapping("/musics")
 public class MusicController
 	{
 
@@ -125,11 +125,11 @@ public class MusicController
 			// Updates music
 			this.musicService.update(music);
 
-			return "redirect:/admin/musics/search?added";
+			return "redirect:/musics/search?added";
 			}
 		else
 			{
-			return "redirect:/admin/musics/search?error";
+			return "redirect:/musics/search?error";
 			}
 		}
 
@@ -140,7 +140,7 @@ public class MusicController
 
 		this.musicService.deleteById(musicId);
 
-		return "redirect:/admin/musics/?deleted";
+		return "redirect:/musics/?deleted";
 		}
 
 	@PostMapping(value = { "/update" })
@@ -151,12 +151,12 @@ public class MusicController
 		DbMusic music = this.musicService.getById(musicId);
 
 		if (musicDifficulty == null || musicDifficulty == music.getDifficulty())
-			{ return "redirect:/admin/musics/"; }
+			{ return "redirect:/musics/"; }
 
 		music.setDifficulty(musicDifficulty);
 		this.musicService.update(music);
 
-		return "redirect:/admin/musics/?updated";
+		return "redirect:/musics/?updated";
 		}
 
 	/*------------------------------------------------------------------*\

@@ -4,7 +4,7 @@
 <head>
 	<meta lang="fr">
 	<meta charset="UTF-8">
-	<title>Rechercher - MusicAdmin</title>
+	<title>Rechercher - MusiQuali • Admin</title>
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
@@ -20,10 +20,10 @@
 		<div th:if="${param.added}" class="alert alert-success alert-dismissible fade show" role="alert">
 			<strong>Succès!</strong> La musique a bien été ajoutée.
 			<hr />
-			<a href="/admin/musics/" class="btn btn-outline-secondary">Voir les musiques</a>
+			<a href="/musics/" class="btn btn-outline-secondary">Voir les musiques</a>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
-		
+
 		<div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
 			<strong>Erreur!</strong> Cette musique est déjà enregistrée dans le jeu.
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -35,8 +35,8 @@
 			Faites une recherche ci-dessous pour trouver un artiste, un album ou une chanson directement
 		</div>
 
-		<form action="#" th:action="@{/admin/musics/search}" class="needs-validation my-5" method="get"
-			autocomplete="off" novalidate>
+		<form action="#" th:action="@{/musics/search}" class="needs-validation my-5" method="get" autocomplete="off"
+			novalidate>
 			<div class="row">
 				<div class="col-12 mb-3">
 					<input type="text" name="q" class="form-control form-control-lg" required>
@@ -68,7 +68,7 @@
 								<br />
 								<span class="card-text" th:text="@{|Durée : ${track.duration} secondes|}"></span>
 							</p>
-							<form action="#" class="needs-validation" novalidate th:action="@{/admin/musics/add}"
+							<form action="#" class="needs-validation" novalidate th:action="@{/musics/add}"
 								method="post">
 								<input type="hidden" th:value="${track.id}" name="trackId" />
 								<div class="input-group">

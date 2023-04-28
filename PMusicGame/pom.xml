@@ -16,7 +16,6 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-
 		<!--  Spring Tools  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,10 +38,12 @@
 		</dependency>
 
 		<!--  Security  -->
+		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		-->
 
 		<!--  Bootstrap -->
 		<dependency>

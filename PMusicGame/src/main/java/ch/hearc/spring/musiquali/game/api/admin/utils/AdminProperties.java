@@ -23,9 +23,9 @@ public class AdminProperties
 	|*			  Static			*|
 	\*------------------------------*/
 
-	private static final String PORT = "8080";
+	private static final String PORT = "9090";
 	private static final String HOST = "localhost";
-	private static final String BASE_URL = "http://" + HOST + ":" + PORT; // --> http://localhost:8080
+	private static final String BASE_URL = "http://" + HOST + ":" + PORT; // --> http://localhost:9090
 
 	private static final Map<String, String> ADMIN_URLS = new HashMap<>()
 		{

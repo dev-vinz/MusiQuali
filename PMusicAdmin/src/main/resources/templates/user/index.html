@@ -4,7 +4,7 @@
 <head>
 	<meta lang="fr">
 	<meta charset="UTF-8">
-	<title>Utilisateurs - MusicAdmin</title>
+	<title>Utilisateurs - MusiQuali • Admin</title>
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
@@ -50,7 +50,7 @@
 						<td th:text="${user.email}"></td>
 						<td th:unless="${user.role < loggedRole}" colspan="2" th:text="${user.role}"></td>
 						<td th:if="${user.role < loggedRole}">
-							<form action="#" th:action="@{/admin/users/update}" method="post" class="d-flex gap-2">
+							<form action="#" th:action="@{/users/update}" method="post" class="d-flex gap-2">
 								<input type="hidden" th:value="${user.id}" name="userId" />
 								<select class="form-select" style="width: max-content;" name="userRole" required>
 									<option th:each="role: ${roles}" th:value="${role}" th:text="${role}"
@@ -64,7 +64,7 @@
 							</form>
 						</td>
 						<td th:if="${user.role < loggedRole}" class="d-flex flex-column gap-2">
-							<form action="#" th:action="@{/admin/users/delete}" method="post">
+							<form action="#" th:action="@{/users/delete}" method="post">
 								<input type="hidden" th:value="${user.id}" name="userId" />
 								<button type="submit" class="btn btn-outline-danger">
 									<i class="bi bi-trash"></i>
