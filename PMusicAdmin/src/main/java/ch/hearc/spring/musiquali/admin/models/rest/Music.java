@@ -1,7 +1,6 @@
 
 package ch.hearc.spring.musiquali.admin.models.rest;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -162,7 +161,7 @@ public class Music
 	 */
 	public Set<MusicalGenre> getGenres()
 		{
-		return Collections.unmodifiableSet(this.genres);
+		return this.genres;
 		}
 
 	/**
@@ -171,7 +170,7 @@ public class Music
 	 */
 	public Set<Score> getScores()
 		{
-		return Collections.unmodifiableSet(this.scores);
+		return this.scores;
 		}
 
 	/*------------------------------------------------------------------*\

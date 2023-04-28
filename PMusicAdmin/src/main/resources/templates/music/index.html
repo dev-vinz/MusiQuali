@@ -17,7 +17,65 @@
 	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
 
 	<div class="container">
+		<h1 class="pb-5">Liste des musiques</h1>
 
+		<div th:if="${param.deleted}" class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Succès!</strong> La musique a été supprimée.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div th:if="${param.updated}" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Succès!</strong> La musique a été mise à jour.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div class="table-responsive mt-5">
+			<table class="table table-striped align-middle">
+				<caption th:text="@{|${musics.length} musiques|}"></caption>
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Titre</th>
+						<th scope="col">Artiste</th>
+						<th scope="col">Genres</th>
+						<th scope="col">Difficulté</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+					<tr th:each="music: ${musics}">
+						<th scope="row" th:text="${music.id}"></th>
+						<td th:text="${music.title}"></td>
+						<td th:text="${music.artist}"></td>
+						<td th:text="${music.genres.size}"></td>
+						<!--<td th:unless="${user.role < loggedRole}" colspan="2" th:text="${user.role}"></td>
+						<td th:if="${user.role < loggedRole}">
+							<form action="#" th:action="@{/admin/users/update}" method="post" class="d-flex gap-2">
+								<input type="hidden" th:value="${user.id}" name="userId" />
+								<select class="form-select" style="width: max-content;" name="userRole" required>
+									<option th:each="role: ${roles}" th:value="${role}" th:text="${role}"
+										th:selected="${role == user.role}"
+										th:disabled="${role == user.role || role >= loggedRole}">
+									</option>
+								</select>
+								<button type="submit" class="btn btn-outline-warning">
+									<i class="bi bi-pencil"></i>
+								</button>
+							</form>
+						</td>
+						<td th:if="${user.role < loggedRole}" class="d-flex flex-column gap-2">
+							<form action="#" th:action="@{/admin/users/delete}" method="post">
+								<input type="hidden" th:value="${user.id}" name="userId" />
+								<button type="submit" class="btn btn-outline-danger">
+									<i class="bi bi-trash"></i>
+									Supprimer
+								</button>
+							</form>
+						</td>-->
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 	<!--  JS Bootstrap Dependencies  -->

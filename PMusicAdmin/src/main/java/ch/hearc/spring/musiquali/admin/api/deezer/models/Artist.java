@@ -88,7 +88,7 @@ public class Artist
 	 * Gets the number of albums
 	 * @return A number of albums
 	 */
-	public String getNbAlbums()
+	public Integer getNbAlbums()
 		{
 		return this.nbAlbums;
 		}
@@ -123,5 +123,5 @@ public class Artist
 	private String pictureXL;
 
 	@JsonProperty("nb_album")
-	private String nbAlbums;
+	private Integer nbAlbums;
 	}
