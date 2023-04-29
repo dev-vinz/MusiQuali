@@ -1,40 +1,29 @@
 
-package ch.hearc.spring.musiquali.game.api.admin.http;
+package ch.hearc.spring.musiquali.game.controllers;
 
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public class AdminDeleteRequest<T> extends AdminRequest<T>
+@Controller
+@RequestMapping("/user")
+public class UserController
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public AdminDeleteRequest(String url, Class<T> intoClass)
-		{
-		super(url, intoClass);
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@Override
-	public AdminDeleteRequest<T> addParam(String name, String value)
-		{
-		return (AdminDeleteRequest<T>)super.addParam(name, value);
-		}
+	/*------------------------------*\
+	|*				Get				*|
+	\*------------------------------*/
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
-
-	@Override
-	protected RequestBodyUriSpec newRequest()
-		{
-		return (RequestBodyUriSpec)WebClient.create().delete();
-		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

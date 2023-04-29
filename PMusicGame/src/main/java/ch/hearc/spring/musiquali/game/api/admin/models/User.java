@@ -14,6 +14,22 @@ public class User
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
+	protected User()
+		{
+		}
+
+	/**
+	 * Constructor building an user for the GAME part
+	 * @param firstName A first name
+	 * @param lastName A last name
+	 * @param email An email
+	 * @param password A hashed password
+	 */
+	public User(String firstName, String lastName, String email, String password)
+		{
+		this(-1l, firstName, lastName, email, password, Role.USER, null);
+		}
+
 	/**
 	 * Constructor building an user for the REST part
 	 * @param id An ID

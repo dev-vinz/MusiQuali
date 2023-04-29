@@ -2,6 +2,7 @@
 package ch.hearc.spring.musiquali.game.api.admin.http;
 
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec;
 
 public class AdminGetRequest<T> extends AdminRequest<T>
 	{
@@ -20,21 +21,22 @@ public class AdminGetRequest<T> extends AdminRequest<T>
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public T execute()
+	public AdminGetRequest<T> addParam(String name, String value)
 		{
-		return WebClient.create().get()//
-				.uri(this.uriBuilder.build())//
-				.retrieve()//
-				.bodyToMono(this.intoClass)//
-				.block();
+		return (AdminGetRequest<T>)super.addParam(name, value);
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
+	@Override
+	protected RequestBodyUriSpec newRequest()
+		{
+		return (RequestBodyUriSpec)WebClient.create().get();
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 	}
-

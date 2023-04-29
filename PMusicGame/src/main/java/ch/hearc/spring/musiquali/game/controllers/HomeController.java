@@ -26,6 +26,12 @@ public class HomeController
 		return "index";
 		}
 
+	@GetMapping(value = { "/about" })
+	public String about()
+		{
+		return "home/about";
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/

@@ -10,6 +10,10 @@ public class Score
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
+	protected Score()
+		{
+		}
+
 	/**
 	 * Constructor building a score for the REST part
 	 * @param id An ID

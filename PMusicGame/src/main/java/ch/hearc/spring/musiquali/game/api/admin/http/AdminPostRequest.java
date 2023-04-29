@@ -2,6 +2,7 @@
 package ch.hearc.spring.musiquali.game.api.admin.http;
 
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec;
 
 import reactor.core.publisher.Mono;
 
@@ -12,7 +13,10 @@ public class AdminPostRequest<T> extends AdminRequest<T>
 		{
 		super(url, intoClass);
 
-		this.object = object;
+		// Input
+			{
+			this.object = object;
+			}
 		}
 
 	/*------------------------------------------------------------------*\
@@ -24,25 +28,27 @@ public class AdminPostRequest<T> extends AdminRequest<T>
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public T execute()
+	public AdminPostRequest<T> addParam(String name, String value)
 		{
-		return WebClient.create().post()//
-				.uri(this.uriBuilder.build())//
-				.body(Mono.just(object), this.intoClass)//
-				.retrieve()//
-				.bodyToMono(this.intoClass)//
-				.block();
+		return (AdminPostRequest<T>)super.addParam(name, value);
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
+	@Override
+	protected RequestBodyUriSpec newRequest()
+		{
+		return (RequestBodyUriSpec)WebClient.create()//
+				.post()//
+				.body(Mono.just(this.object), this.intoClass);
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
-	// Inputs
+	// Input
 	private T object;
 	}
-

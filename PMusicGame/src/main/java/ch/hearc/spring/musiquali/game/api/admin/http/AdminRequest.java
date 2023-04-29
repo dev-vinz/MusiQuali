@@ -1,6 +1,7 @@
 
 package ch.hearc.spring.musiquali.game.api.admin.http;
 
+import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriBuilder;
 
@@ -30,11 +31,19 @@ public abstract class AdminRequest<T>
 		return this;
 		}
 
-	public abstract T execute();
+	public T execute()
+		{
+		return newRequest().uri(this.uriBuilder.build())//
+				.retrieve()//
+				.bodyToMono(this.intoClass)//
+				.block();
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
+
+	protected abstract RequestBodyUriSpec newRequest();
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

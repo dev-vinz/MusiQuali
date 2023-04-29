@@ -159,7 +159,7 @@ public class UserRestController
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void delete(@PathVariable Long id)
+	public Boolean delete(@PathVariable Long id)
 		{
 		DbUser user = this.userService.getById(id);
 
@@ -171,6 +171,8 @@ public class UserRestController
 			{
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id \"" + id + "\" not found");
 			}
+
+		return true;
 		}
 
 	/*------------------------------------------------------------------*\
