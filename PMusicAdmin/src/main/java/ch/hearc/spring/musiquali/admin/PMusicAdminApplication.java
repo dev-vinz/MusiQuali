@@ -1,6 +1,8 @@
 
 package ch.hearc.spring.musiquali.admin;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,8 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ch.hearc.spring.musiquali.admin.models.Role;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
-
-import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
 public class PMusicAdminApplication
