@@ -5,10 +5,11 @@
 	<meta lang="fr">
 	<meta charset="UTF-8">
 	<title>Jouer - MusiQuali</title>
-	
+
 	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
 	<!--  CSS Bootstrap Dependencies  -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
 </head>
 
@@ -16,33 +17,16 @@
 	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
 
 	<div class="container">
-		<h1>Joue pour gagner des points</h1>
-		<p class="text-muted">
+		<h1>Gagne des points</h1>
+		<p class="text-muted mb-5 pb-5">
 			Devine le titre du morceau, le nom de l'artiste, ou les deux afin de gagner un
 			maximum de points.<br />
 			Chaque extrait dure 30 secondes.
 		</p>
 
-		<div th:if="${isPost}" class="alert alert-info alert-dismissible fade show" role="alert">
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			<h4 class="alert-heading">Solution</h4>
-			<p>Votre score est le suivant</p>
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item" style="background-color: inherit;"
-					th:text="@{|Correspondance de l'artiste : ${score.artistScore}%|}">
-				</li>
-				<li class="list-group-item" style="background-color: inherit;"
-					th:text="@{|Correspondance du titre : ${score.titleScore}%|}">
-				</li>
-			</ul>
-			<p class="mt-4 mb-0">La bonne réponse était :</p>
-			<p th:text="@{|${solution.author} - ${solution.title}|}">
-				</pth>
-		</div>
-
 		<div th:if="${isEmpty}" class="mt-4">
-			<p class="text-center h3 text-warning">Votre bibliothèque est vide,<br />
-				vous pouvez la remplir en recherchant des musiques.</p>
+			<p class="text-center h3 text-warning">La bibliothèque musicale est vide,<br />
+				reviens un peu plus tard lorsqu'un modérateur l'aura remplise !</p>
 		</div>
 		<div th:unless="${isEmpty}" class="mt-4 mx-auto" style="width: 50%;">
 			<audio id="music_player">
@@ -51,8 +35,13 @@
 
 			<button id="music_start" class="btn btn-outline-secondary btn-lg mb-3">Commencer</button>
 
-			<form action="#" th:action="@{/play}" class="needs-validation" method="post" autocomplete="off" novalidate>
+			<form action="#" th:action="@{/game/play}" class="needs-validation" method="post" autocomplete="off"
+				novalidate>
 				<input type="hidden" th:value="${music.id}" name="musicId" />
+				<div class="mb-3">
+					<input type="text" class="form-control" disabled
+						th:value="@{|Niveau actuel : ${music.difficulty.frenchName}|}" />
+				</div>
 				<div class="form-floating mb-3">
 					<input type="text" class="form-control" id="artist_input" name="artist" placeholder="ABBA" required>
 					<label for="artist_input">Artiste</label>
@@ -76,9 +65,9 @@
 	</div>
 
 	<!--  JS Bootstrap Dependencies  -->
-	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/2.9.3/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
-	
+
 	<!--  Bootstrap Form Validation  -->
 	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
 

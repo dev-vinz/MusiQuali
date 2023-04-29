@@ -11,6 +11,9 @@
 	<!--  CSS Bootstrap Dependencies  -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+
+	<!-- Custom CSS  -->
+	<link rel="stylesheet" href="/game/index.css" />
 </head>
 
 <body>
@@ -19,55 +22,28 @@
 	<div class="container">
 		<h1 class="pb-5 mb-5">Jouer</h1>
 
-		<form>
-			<div class="row mb-3">
-				<label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-				<div class="col-sm-10">
-					<input type="email" class="form-control" id="inputEmail3">
+		<form action="#" th:action="@{/game/start}" class="needs-validation" method="post" novalidate>
+			<h3 class="text-center">Choisis ton niveau de difficulté</h3>
+
+			<div class="row justify-content-center">
+				<div th:each="difficulty: ${difficulties}" class="col-md-4">
+					<label>
+						<input type="radio" name="difficulty" th:value="${difficulty}"
+							th:selected="${difficulty.id == 0}" th:checked="${difficulty.id == 0}"
+							class="card-input-element" />
+						<div class="card card-input text-center">
+							<div class="card-body">
+								<h5 class="card-title" th:text="${difficulty.frenchName}"></h5>
+							</div>
+						</div>
+					</label>
 				</div>
 			</div>
-			<div class="row mb-3">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-				<div class="col-sm-10">
-					<input type="password" class="form-control" id="inputPassword3">
-				</div>
+
+			<div class="text-center mt-4">
+				<button type="submit" class="btn btn-lg btn-outline-primary"><i class="bi bi-collection-play-fill"></i>
+					Commencer !</button>
 			</div>
-			<fieldset class="row mb-3">
-				<legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-				<div class="col-sm-10">
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1"
-							checked>
-						<label class="form-check-label" for="gridRadios1">
-							First radio
-						</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-						<label class="form-check-label" for="gridRadios2">
-							Second radio
-						</label>
-					</div>
-					<div class="form-check disabled">
-						<input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3"
-							disabled>
-						<label class="form-check-label" for="gridRadios3">
-							Third disabled radio
-						</label>
-					</div>
-				</div>
-			</fieldset>
-			<div class="row mb-3">
-				<div class="col-sm-10 offset-sm-2">
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" id="gridCheck1">
-						<label class="form-check-label" for="gridCheck1">
-							Example checkbox
-						</label>
-					</div>
-				</div>
-			</div>
-			<button type="submit" class="btn btn-primary">Sign in</button>
 		</form>
 	</div>
 
