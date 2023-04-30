@@ -25,6 +25,7 @@ import ch.hearc.spring.musiquali.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusic;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.models.rest.Music;
+import ch.hearc.spring.musiquali.admin.models.rest.MusicOrder;
 import ch.hearc.spring.musiquali.admin.models.rest.MusicalGenre;
 import ch.hearc.spring.musiquali.admin.models.rest.Score;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
@@ -107,7 +108,7 @@ public class DifficultyRestController
 
 	@GetMapping("/{index}/musics")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<Music> getMusics(@PathVariable Integer index)
+	public List<Music> getMusics(@PathVariable Integer index, @RequestParam(required = false) Integer limit, @RequestParam(required = false, name = "order_by") String orderBy)
 		{
 		Difficulty[] difficulties = Difficulty.values();
 
@@ -119,9 +120,28 @@ public class DifficultyRestController
 			{
 			Difficulty difficulty = difficulties[index];
 
-			return this.musicService.getAll().stream()//
+			// Gets all musics
+			List<Music> allMusics = this.musicService.getAll().stream()//
 					.map(DifficultyRestController::fetchToMusic)//
 					.filter(m -> m.getDifficulty() == difficulty)//
+					.toList();
+
+			// Sets final parameters
+			long finalLimit = limit == null ? allMusics.size() : limit;
+			MusicOrder musicOrder = MusicOrder.ID;
+
+			try
+				{
+				musicOrder = MusicOrder.valueOf(orderBy);
+				}
+			catch (Exception e)
+				{
+				// Nothing
+				}
+
+			return allMusics.stream()//
+					.sorted(musicOrder::getComparator)//
+					.limit(finalLimit)//
 					.toList();
 			}
 		else

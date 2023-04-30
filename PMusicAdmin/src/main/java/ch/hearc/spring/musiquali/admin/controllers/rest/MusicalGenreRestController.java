@@ -24,6 +24,7 @@ import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusicalGenre;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.models.rest.Music;
+import ch.hearc.spring.musiquali.admin.models.rest.MusicOrder;
 import ch.hearc.spring.musiquali.admin.models.rest.MusicalGenre;
 import ch.hearc.spring.musiquali.admin.models.rest.Score;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
@@ -96,13 +97,32 @@ public class MusicalGenreRestController
 
 	@GetMapping("/{id}/musics")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Set<Music> getMusics(@PathVariable Long id)
+	public Set<Music> getMusics(@PathVariable Long id, @RequestParam(required = false) Integer limit, @RequestParam(required = false, name = "order_by") String orderBy)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
 
 		if (musicalGenre != null)
 			{
-			return fetchToMusicalGenre(musicalGenre).getMusics();
+			// Gets all musics
+			Set<Music> allMusics = fetchToMusicalGenre(musicalGenre).getMusics();
+
+			// Sets final parameters
+			long finalLimit = limit == null ? allMusics.size() : limit;
+			MusicOrder musicOrder = MusicOrder.ID;
+
+			try
+				{
+				musicOrder = MusicOrder.valueOf(orderBy);
+				}
+			catch (Exception e)
+				{
+				// Nothing
+				}
+
+			return allMusics.stream()//
+					.sorted(musicOrder::getComparator)//
+					.limit(finalLimit)//
+					.collect(Collectors.toSet());
 			}
 		else
 			{
