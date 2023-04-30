@@ -2,12 +2,17 @@
 package ch.hearc.spring.musiquali.admin.controllers;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,11 +38,22 @@ public class UserController
 	|*				Get				*|
 	\*------------------------------*/
 
-	@GetMapping(value = { "/", "index" })
-	public String index(Principal principal, Model model)
+	@GetMapping(value = { "/", "index", "/{pageNo}", "/index/{pageNo}" })
+	public String index(Principal principal, Model model, @PathVariable(required = false) Integer pageNo, @RequestParam(defaultValue = "id") String sortBy)
 		{
-		// Gets all users
-		List<DbUser> users = this.userService.getAll();
+		pageNo = pageNo == null ? 0 : pageNo;
+
+		// Gets users
+		Pageable pageable = PageRequest.of(pageNo, 10, Sort.by(sortBy));
+		Page<DbUser> users = this.userService.getAll(pageable);
+
+		// Gets list of indexes for pagination
+		int[] indexes = IntStream.range(0, users.getTotalPages())//
+				.toArray();
+
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("indexes", indexes);
 
 		model.addAttribute("users", users);
 		model.addAttribute("loggedRole", Role.ADMIN); // TODO: Replace with logged user role

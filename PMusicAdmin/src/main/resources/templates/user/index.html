@@ -29,9 +29,24 @@
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
+		<div th:if="${users.totalElements > 0}" class="d-flex flex-wrap mt-2 gap-2">
+
+			<span style="font-size: 20px;"><i class="bi bi-funnel"></i></span>
+			<a th:href="@{|${users.number}?sortBy=id|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'id' ? 'active' : ''}|}">Ajout</a>
+			<a th:href="@{|${users.number}?sortBy=firstName|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'firstName' ? 'active' : ''}|}">Prénom</a>
+			<a th:href="@{|${users.number}?sortBy=lastName|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'lastName' ? 'active' : ''}|}">Nom</a>
+			<a th:href="@{|${users.number}?sortBy=email|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'email' ? 'active' : ''}|}">Email</a>
+			<a th:href="@{|${users.number}?sortBy=role|}" style="width: 75px;"
+				th:class="@{|btn btn-sm btn-outline-dark ${sortBy == 'role' ? 'active' : ''}|}">Role</a>
+		</div>
+
 		<div class="table-responsive mt-5">
 			<table class="table table-striped align-middle">
-				<caption th:text="@{|${users.size} utilisateurs|}"></caption>
+				<caption th:text="@{|${users.totalElements} utilisateurs|}"></caption>
 				<thead>
 					<tr>
 						<th scope="col">#</th>
@@ -75,6 +90,25 @@
 					</tr>
 				</tbody>
 			</table>
+
+			<nav aria-label="Page navigation">
+				<ul class="pagination justify-content-center">
+					<li th:class="@{|page-item ${pageNo <= 0 ? 'disabled' : ''}|}">
+						<a class="page-link" th:href="@{|/users/${pageNo - 1}?sortBy=${sortBy}|}" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<li th:each="index: ${indexes}" class="page-item">
+						<a th:class="@{|page-link ${index == pageNo ? 'disabled' : ''}|}"
+							th:href="@{|/users/${index}?sortBy=${sortBy}|}" th:text="${index + 1}"></a>
+					</li>
+					<li th:class="@{|page-item ${pageNo + 1 >= users.totalPages ? 'disabled' : ''}|}">
+						<a class="page-link" th:href="@{|/users/${pageNo + 1}?sortBy=${sortBy}|}" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
 		</div>
 	</div>
 

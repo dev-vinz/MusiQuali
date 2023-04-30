@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta lang="fr">
+	<meta charset="UTF-8">
+	<title>Explorer - MusiQuali</title>
+
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+	<!--  CSS Bootstrap Dependencies  -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+</head>
+
+<body>
+	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
+
+	<div class="container">
+		<h1 class="pb-5 mb-5">Explorer</h1>
+	</div>
+
+	<!--  JS Bootstrap Dependencies  -->
+	<script th:src="@{/webjars/popper.js/2.9.3/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+
+	<!--  Bootstrap Form Validation  -->
+	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
+</body>

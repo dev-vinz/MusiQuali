@@ -20,16 +20,22 @@ public class HomeController
 	|*				Get				*|
 	\*------------------------------*/
 
-	@GetMapping(value = { "/", "/index" })
-	public String index()
-		{
-		return "index";
-		}
-
 	@GetMapping(value = { "/about" })
 	public String about()
 		{
 		return "home/about";
+		}
+
+	@GetMapping(value = { "/explore" })
+	public String explore()
+		{
+		return "home/explore";
+		}
+
+	@GetMapping(value = { "/", "/index" })
+	public String index()
+		{
+		return "index";
 		}
 
 	/*------------------------------------------------------------------*\

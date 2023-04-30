@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.hearc.spring.musiquali.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusic;
 import ch.hearc.spring.musiquali.admin.repository.IMusicRepository;
 import ch.hearc.spring.musiquali.admin.service.IDatabaseService;
@@ -58,11 +57,6 @@ public class MusicService implements IDatabaseService<DbMusic>
 				.forEach(musics::add);
 
 		return musics;
-		}
-
-	public List<DbMusic> getAllByDifficulty(Difficulty difficulty)
-		{
-		return this.musicRepository.findAllByDifficulty(difficulty);
 		}
 
 	@Override

@@ -46,7 +46,6 @@ public class MusicController
 	@GetMapping(value = { "/", "index" })
 	public String index(Model model)
 		{
-		// Gets all musics
 		List<DbMusic> dbMusics = this.musicService.getAll();
 
 		// Transforms into displayable musics

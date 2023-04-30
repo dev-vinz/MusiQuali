@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
@@ -61,6 +63,11 @@ public class UserService implements IDatabaseService<DbUser>
 				.forEach(users::add);
 
 		return users;
+		}
+
+	public Page<DbUser> getAll(Pageable pageable)
+		{
+		return this.userRepository.findAll(pageable);
 		}
 
 	@Override
