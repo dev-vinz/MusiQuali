@@ -25,7 +25,7 @@ public class PMusicGameApplication
 			{
 			registry//
 					.addResourceHandler("/**")//
-					.addResourceLocations("classpath:/static/", "classpath:/images/", "classpath:/css/")//
+					.addResourceLocations("classpath:/static/", "classpath:/images/", "classpath:/css/", "classpath:/js/")//
 					.setCachePeriod(0);
 			}
 		}

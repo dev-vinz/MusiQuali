@@ -11,6 +11,9 @@
 	<!--  CSS Bootstrap Dependencies  -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+
+	<!--  Custom CSS  -->
+	<link rel="stylesheet" href="/home/explore.css" />
 </head>
 
 <body>
@@ -18,6 +21,81 @@
 
 	<div class="container">
 		<h1 class="pb-5 mb-5">Explorer</h1>
+
+		<div class="row gap-2 flex-wrap">
+			<div class="col-md-3 p-2">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<div class="input-group mb-2">
+							<span class="input-group-text"><i class="bi bi-search"></i></span>
+							<input type="search" id="searchbox" class="form-control" placeholder="Rechercher..."
+								aria-label="Rechercher..." onkeyup="filterMusics();">
+						</div>
+					</li>
+					<li class="list-group-item">
+						<h5>Difficultés</h5>
+						<ul class="list-group">
+							<li th:each="difficulty: ${difficulties}" class="list-group-item"
+								style="border: none !important;">
+								<input class="form-check-input me-1" name="difficulty" type="checkbox"
+									th:id="${difficulty}" th:value="${difficulty.frenchName}" checked>
+								<label class="form-check-label stretched-link" th:for="${difficulty}"
+									th:text="${difficulty.frenchName}"></label>
+							</li>
+						</ul>
+					</li>
+					<li class="list-group-item">
+						<h5>Genres</h5>
+						<ul class="list-group">
+							<li th:each="genre: ${genres}" class="list-group-item" style="border: none !important;">
+								<input class="form-check-input me-1" name="genre" type="checkbox"
+									th:id="@{|genre-${genre.id}|}" th:value="${genre.name}" checked>
+								<label class="form-check-label stretched-link" th:for="@{|genre-${genre.id}|}"
+									th:text="${genre.name}"></label>
+							</li>
+						</ul>
+					</li>
+					<li id="nb_results" class="list-group-item text-muted"></li>
+				</ul>
+			</div>
+			<div class="col p-2">
+				<div class="row g-2">
+					<div th:each="music: ${musics}" class="col-lg-6">
+						<audio>
+							<source th:src="${music.preview}" type="audio/mpeg" />
+						</audio>
+						<div class="card h-100">
+							<div class="card-body">
+								<h5 class="card-title text-truncate" th:text="${music.title}"></h5>
+								<h6 class="card-subtitle text-muted mb-2" th:text="${music.artist}"></h6>
+								<span class="badge roundeed-pill text-bg-warning mx-1 difficulty"
+									th:text="${music.difficulty.frenchName}"></span>
+								<div class="d-flex flex-wrap my-2">
+									<span th:each="genre: ${music.genres}" th:text="${genre.name}"
+										class="badge roundeed-pill text-bg-secondary mx-1 genre"></span>
+								</div>
+								<div class="mq-music-controls">
+									<div class="mq-music-slider">
+										<span class="text-muted current-time">0:00</span>
+										<input type="range" th:data-music-id="${music.id}" max="100" value="0">
+										<span class="text-muted duration">0:00</span>
+									</div>
+									<div class="mq-music-buttons">
+										<button class="btn btn-outline-secondary reset-button"><i
+												class="bi bi-skip-start"></i></button>
+										<button class="btn btn-outline-primary btn-lg play-button"><i
+												class="bi bi-play-circle"></i></button>
+										<!-- bi-pause-circle-fill -->
+										<a th:href="${music.link}" target="_blank" class="btn btn-outline-secondary"><i
+												class="bi bi-cast"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!--  JS Bootstrap Dependencies  -->
@@ -26,4 +104,7 @@
 
 	<!--  Bootstrap Form Validation  -->
 	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
+
+	<!-- Custom JS  -->
+	<script type="text/javascript" src="/home/explore.js"></script>
 </body>

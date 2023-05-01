@@ -97,7 +97,7 @@ public class MusicalGenreRestController
 
 	@GetMapping("/{id}/musics")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Set<Music> getMusics(@PathVariable Long id, @RequestParam(required = false) Integer limit, @RequestParam(required = false, name = "order_by") String orderBy)
+	public List<Music> getMusics(@PathVariable Long id, @RequestParam(required = false) Integer limit, @RequestParam(required = false, name = "order_by") String orderBy)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
 
@@ -122,7 +122,7 @@ public class MusicalGenreRestController
 			return allMusics.stream()//
 					.sorted(musicOrder::getComparator)//
 					.limit(finalLimit)//
-					.collect(Collectors.toSet());
+					.toList();
 			}
 		else
 			{
