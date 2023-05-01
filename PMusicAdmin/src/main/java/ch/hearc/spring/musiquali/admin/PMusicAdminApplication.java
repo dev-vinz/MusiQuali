@@ -40,7 +40,8 @@ public class PMusicAdminApplication
 	@PostConstruct
 	public void addSomeDatas()
 		{
-		userService.add(new DbUser("Vincent", "Jeannin", "vincent@jeannin.ch", "Test1234", Role.ADMIN));
+		userService.add(new DbUser("Admin", "Admin", "admin@musiquali.ch", "Admin1234", Role.ADMIN));
+		userService.add(new DbUser("Vincent", "Jeannin", "vincent@jeannin.ch", "Test1234", Role.MODERATOR));
 		userService.add(new DbUser("Théo", "Vuilliomenet", "theovb001@gmail.com", "Test1234", Role.MODERATOR));
 		userService.add(new DbUser("Nicolas", "Aubert", "nicolas.aubert@he-arc.ch", "Test1234", Role.USER));
 		}
