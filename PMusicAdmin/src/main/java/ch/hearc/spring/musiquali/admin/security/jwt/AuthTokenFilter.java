@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import ch.hearc.spring.musiquali.admin.controllers.rest.AuthRestController;
 import ch.hearc.spring.musiquali.admin.security.services.UserDetailsServiceImpl;
 
 import jakarta.servlet.FilterChain;
@@ -45,6 +46,13 @@ public class AuthTokenFilter extends OncePerRequestFilter
 		try
 			{
 			String jwt = parseJwt(request);
+
+			// Gets JWT token in session
+			if (jwt == null)
+				{
+				jwt = (String)request.getSession().getAttribute(AuthRestController.JWT_SESSION_KEY);
+				}
+
 			if (jwt != null && jwtUtils.validateJwtToken(jwt))
 				{
 				String username = jwtUtils.getUserNameFromJwtToken(jwt);

@@ -29,9 +29,6 @@ public class UserService implements IDatabaseService<DbUser>
 	@Override
 	public void add(DbUser item)
 		{
-		//String hashPassword = this.passwordEncoder.encode(item.getPassword());
-		//item.setPassword(hashPassword);
-
 		this.userRepository.save(item);
 		}
 

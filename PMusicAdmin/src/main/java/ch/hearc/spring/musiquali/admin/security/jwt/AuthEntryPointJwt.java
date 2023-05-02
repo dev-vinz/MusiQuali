@@ -2,6 +2,8 @@
 package ch.hearc.spring.musiquali.admin.security.jwt;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +30,10 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException
 		{
+		String url = URLEncoder.encode(request.getRequestURL().toString(), StandardCharsets.UTF_8.toString());
+
 		logger.error("Unauthorized error: {}", authException.getMessage());
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+		response.sendRedirect("http://localhost:8080/login?redirect_url=" + url);
 		}
 
 	/*------------------------------*\

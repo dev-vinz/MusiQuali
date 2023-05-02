@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,8 @@ import ch.hearc.spring.musiquali.admin.security.payload.response.JwtResponse;
 import ch.hearc.spring.musiquali.admin.security.payload.response.MessageResponse;
 import ch.hearc.spring.musiquali.admin.security.services.UserDetailsImpl;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -41,16 +42,28 @@ public class AuthRestController
 	\*------------------------------*/
 
 	@PostMapping(value = { "/signin" })
-	public ResponseEntity<?> signin(@RequestBody LoginRequest loginRequest)
+	public ResponseEntity<?> signin(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
 		{
 		Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = this.jwtUtils.generateJwtToken(authentication);
 
+		// Stores JWT in session
+		request.getSession().setAttribute(JWT_SESSION_KEY, jwt);
+
 		UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
 
 		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getEmail()));
+		}
+
+	@PostMapping(value = { "/signout" })
+	public ResponseEntity<?> signout(HttpServletRequest request)
+		{
+		// Removes JWT from session
+		request.getSession().removeAttribute(JWT_SESSION_KEY);
+
+		return ResponseEntity.ok(new MessageResponse("User logout successfully"));
 		}
 
 	@PostMapping(value = { "/signup" })
@@ -87,8 +100,11 @@ public class AuthRestController
 	private UserService userService;
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
 	private JwtUtils jwtUtils;
+
+	/*------------------------------*\
+	|*			  Static			*|
+	\*------------------------------*/
+
+	public static final String JWT_SESSION_KEY = "jwt_token_session";
 	}
