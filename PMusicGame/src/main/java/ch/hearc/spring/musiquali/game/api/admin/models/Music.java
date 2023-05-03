@@ -175,6 +175,20 @@ public class Music
 		return this.scores;
 		}
 
+	/*------------------------------*\
+	|*				Set				*|
+	\*------------------------------*/
+
+	public void setGenres(Set<MusicalGenre> genres)
+		{
+		this.genres = genres;
+		}
+
+	public void setScores(Set<Score> scores)
+		{
+		this.scores = scores;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/

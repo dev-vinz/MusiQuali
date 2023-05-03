@@ -11,6 +11,13 @@ public class Score
 	\*------------------------------------------------------------------*/
 
 	/**
+	 * Default constructor
+	 */
+	protected Score()
+		{
+		}
+
+	/**
 	 * Constructor building a score for the REST part
 	 * @param id An ID
 	 * @param artistValue A score value between 0 and 100

@@ -66,12 +66,9 @@ public class WebSecurityConfig
 		{
 		http.cors().and().csrf().disable()//
 				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()//
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()// STATELESS
-				.authorizeHttpRequests().requestMatchers("/error", "/api/**").permitAll()//
-				.anyRequest().authenticated();//.and()//
-		//				.formLogin()//
-		//				.loginProcessingUrl("/login")//
-		//				.defaultSuccessUrl("/", true);
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()//
+				.authorizeHttpRequests().requestMatchers("/error", "/api/**", "/webjars/**").permitAll()//
+				.anyRequest().authenticated();
 
 		http.authenticationProvider(authenticationProvider());
 

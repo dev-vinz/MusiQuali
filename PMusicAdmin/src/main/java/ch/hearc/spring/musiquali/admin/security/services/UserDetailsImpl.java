@@ -3,7 +3,6 @@ package ch.hearc.spring.musiquali.admin.security.services;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ch.hearc.spring.musiquali.admin.models.Role;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
 
 public class UserDetailsImpl implements UserDetails
@@ -20,7 +20,7 @@ public class UserDetailsImpl implements UserDetails
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public UserDetailsImpl(Long id, String firstName, String lastName, String email, String password, Collection<? extends GrantedAuthority> authorities)
+	public UserDetailsImpl(Long id, String firstName, String lastName, String email, String password, Role role)
 		{
 		// Inputs & Outputs
 			{
@@ -29,7 +29,7 @@ public class UserDetailsImpl implements UserDetails
 			this.lastName = lastName;
 			this.email = email;
 			this.password = password;
-			this.authorities = authorities;
+			this.role = role;
 			}
 		}
 
@@ -67,9 +67,7 @@ public class UserDetailsImpl implements UserDetails
 
 	public static UserDetailsImpl build(User user)
 		{
-		List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-
-		return new UserDetailsImpl(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), authorities);
+		return new UserDetailsImpl(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole());
 		}
 
 	/*------------------------------*\
@@ -108,10 +106,15 @@ public class UserDetailsImpl implements UserDetails
 		return this.password;
 		}
 
+	public Role getRole()
+		{
+		return this.role;
+		}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities()
 		{
-		return this.authorities;
+		return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
 		}
 
 	/*------------------------------*\
@@ -167,5 +170,5 @@ public class UserDetailsImpl implements UserDetails
 	@JsonIgnore
 	private String password;
 
-	private Collection<? extends GrantedAuthority> authorities;
+	private Role role;
 	}

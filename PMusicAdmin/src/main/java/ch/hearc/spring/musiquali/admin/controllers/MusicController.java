@@ -32,11 +32,6 @@ import ch.hearc.spring.musiquali.admin.service.impl.MusicalGenreService;
 @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
 public class MusicController
 	{
-
-	/*------------------------------------------------------------------*\
-	|*							Constructeurs							*|
-	\*------------------------------------------------------------------*/
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/

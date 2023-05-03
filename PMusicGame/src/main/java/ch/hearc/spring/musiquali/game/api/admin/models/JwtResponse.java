@@ -1,19 +1,24 @@
 
-package ch.hearc.spring.musiquali.admin.security.payload.request;
+package ch.hearc.spring.musiquali.game.api.admin.models;
 
-public class LoginRequest
+public class JwtResponse
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public LoginRequest(String email, String password)
+	protected JwtResponse()
+		{
+		}
+
+	public JwtResponse(String accessToken, Long id, String email)
 		{
 		// Inputs & Outputs
 			{
+			this.accessToken = accessToken;
+			this.id = id;
 			this.email = email;
-			this.password = password;
 			}
 		}
 
@@ -25,14 +30,24 @@ public class LoginRequest
 	|*				Get				*|
 	\*------------------------------*/
 
+	public Long getId()
+		{
+		return this.id;
+		}
+
 	public String getEmail()
 		{
 		return this.email;
 		}
 
-	public String getPassword()
+	public String getAccessToken()
 		{
-		return this.password;
+		return this.accessToken;
+		}
+
+	public String getTokenType()
+		{
+		return TYPE;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -44,6 +59,15 @@ public class LoginRequest
 	\*------------------------------------------------------------------*/
 
 	// Inputs & Outputs
+	private Long id;
 	private String email;
-	private String password;
+
+	private String accessToken;
+
+	/*------------------------------*\
+	|*			  Static			*|
+	\*------------------------------*/
+
+	// Output
+	private static final String TYPE = "Bearer";
 	}

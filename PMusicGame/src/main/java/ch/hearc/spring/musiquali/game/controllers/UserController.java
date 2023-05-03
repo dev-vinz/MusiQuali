@@ -2,10 +2,9 @@
 package ch.hearc.spring.musiquali.game.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping("/user")
 public class UserController
 	{
 
@@ -20,6 +19,12 @@ public class UserController
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
+
+	@GetMapping(value = { "/login" })
+	public String login()
+		{
+		return "user/login";
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|

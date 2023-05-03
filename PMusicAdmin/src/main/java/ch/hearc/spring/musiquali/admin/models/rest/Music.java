@@ -17,6 +17,13 @@ public class Music
 	\*------------------------------------------------------------------*/
 
 	/**
+	 * Default constructor
+	 */
+	protected Music()
+		{
+		}
+
+	/**
 	 * Constructor building a music for the REST part
 	 * @param id An ID
 	 * @param title A title

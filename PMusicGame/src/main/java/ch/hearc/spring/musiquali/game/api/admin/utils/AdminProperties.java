@@ -31,6 +31,8 @@ public class AdminProperties
 		{
 
 			{
+			put("auth.signin", BASE_URL + "/auth/signin");
+
 			put("difficulties", BASE_URL + "/difficulties");
 			put("difficulty.get", BASE_URL + "/difficulties/%d");
 			put("difficulty.leaderboard", BASE_URL + "/difficulties/%d/leaderboard");

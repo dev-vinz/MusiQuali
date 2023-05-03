@@ -1,22 +1,19 @@
 
-package ch.hearc.spring.musiquali.admin.security.payload.request;
+package ch.hearc.spring.musiquali.game.api.admin.models;
 
-public class SignupRequest
+public class SignInRequest
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public SignupRequest(String firstName, String lastName, String email, String password)
+	public SignInRequest(String email, String password)
 		{
 		// Inputs & Outputs
 			{
-			this.firstName = firstName;
-			this.lastName = lastName;
 			this.email = email;
 			this.password = password;
-			// Role ?
 			}
 		}
 
@@ -27,16 +24,6 @@ public class SignupRequest
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
-
-	public String getFirstName()
-		{
-		return this.firstName;
-		}
-
-	public String getLastName()
-		{
-		return this.lastName;
-		}
 
 	public String getEmail()
 		{
@@ -57,8 +44,6 @@ public class SignupRequest
 	\*------------------------------------------------------------------*/
 
 	// Inputs & Outputs
-	private String firstName;
-	private String lastName;
 	private String email;
 	private String password;
 	}

@@ -15,6 +15,13 @@ public class MusicalGenre
 	\*------------------------------------------------------------------*/
 
 	/**
+	 * Default constructor
+	 */
+	protected MusicalGenre()
+		{
+		}
+
+	/**
 	 * Constructor building a musical genre for the REST part
 	 * @param id An ID
 	 * @param name A name

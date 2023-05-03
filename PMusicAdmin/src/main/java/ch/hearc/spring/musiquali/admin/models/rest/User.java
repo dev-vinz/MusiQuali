@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.util.Strings;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import ch.hearc.spring.musiquali.admin.models.Role;
 
@@ -15,6 +19,13 @@ public class User
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
+
+	/**
+	 * Default constructor
+	 */
+	protected User()
+		{
+		}
 
 	/**
 	 * Constructor building an user for the REST part
@@ -37,6 +48,7 @@ public class User
 			this.password = password;
 			this.role = Optional.ofNullable(role).orElse(Role.USER);
 			this.scores = Optional.ofNullable(scores).orElse(new ArrayList<>());
+			this.accessToken = DEFAULT_ACCESS_TOKEN;
 			}
 		}
 
@@ -151,6 +163,28 @@ public class User
 		return this.scores;
 		}
 
+	/**
+	 * Gets the access token
+	 * @return A JWT access token
+	 */
+	public String getAccessToken()
+		{
+		return this.accessToken;
+		}
+
+	/*------------------------------*\
+	|*				Set				*|
+	\*------------------------------*/
+
+	/**
+	 * Sets a JWT access token to this instance
+	 * @param accessToken A JWT access token
+	 */
+	public void setAccessToken(String accessToken)
+		{
+		this.accessToken = accessToken;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -172,4 +206,13 @@ public class User
 
 	@JsonIgnoreProperties("user")
 	private List<Score> scores;
+
+	@JsonInclude(Include.NON_EMPTY)
+	private String accessToken;
+
+	/*------------------------------*\
+	|*			  Static			*|
+	\*------------------------------*/
+
+	private static final String DEFAULT_ACCESS_TOKEN = Strings.EMPTY;
 	}

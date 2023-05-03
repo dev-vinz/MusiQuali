@@ -27,11 +27,6 @@ import ch.hearc.spring.musiquali.admin.service.impl.UserService;
 @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
 public class UserController
 	{
-
-	/*------------------------------------------------------------------*\
-	|*							Constructeurs							*|
-	\*------------------------------------------------------------------*/
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/

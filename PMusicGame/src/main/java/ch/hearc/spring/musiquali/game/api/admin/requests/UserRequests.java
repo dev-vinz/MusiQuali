@@ -65,7 +65,7 @@ public class UserRequests extends AdminRequests
 	 */
 	public AdminRequest<User> add(User user)
 		{
-		return new AdminPostRequest<User>(url("user.save"), user, User.class);
+		return new AdminPostRequest<>(url("user.save"), user, User.class);
 		}
 
 	/*------------------------------*\
@@ -79,7 +79,7 @@ public class UserRequests extends AdminRequests
 	 */
 	public AdminRequest<User> update(User user)
 		{
-		return new AdminPutRequest<User>(url("user.update", user.getId()), user, User.class);
+		return new AdminPutRequest<>(url("user.update", user.getId()), user, User.class);
 		}
 
 	/*------------------------------*\

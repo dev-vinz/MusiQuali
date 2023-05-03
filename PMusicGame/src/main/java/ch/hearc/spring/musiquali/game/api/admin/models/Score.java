@@ -127,6 +127,20 @@ public class Score
 		return this.music;
 		}
 
+	/*------------------------------*\
+	|*				Set				*|
+	\*------------------------------*/
+
+	public void setUser(User user)
+		{
+		this.user = user;
+		}
+
+	public void setMusic(Music music)
+		{
+		this.music = music;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/

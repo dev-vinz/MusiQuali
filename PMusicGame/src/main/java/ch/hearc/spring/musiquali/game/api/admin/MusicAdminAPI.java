@@ -1,6 +1,7 @@
 
 package ch.hearc.spring.musiquali.game.api.admin;
 
+import ch.hearc.spring.musiquali.game.api.admin.requests.AuthRequests;
 import ch.hearc.spring.musiquali.game.api.admin.requests.DifficultyRequests;
 import ch.hearc.spring.musiquali.game.api.admin.requests.MusicRequests;
 import ch.hearc.spring.musiquali.game.api.admin.requests.MusicalGenreRequests;
@@ -22,6 +23,7 @@ public final class MusicAdminAPI
 	|*			  Static			*|
 	\*------------------------------*/
 
+	public static final AuthRequests auth = new AuthRequests();
 	public static final DifficultyRequests difficulties = new DifficultyRequests();
 	public static final MusicRequests musics = new MusicRequests();
 	public static final MusicalGenreRequests musicalGenres = new MusicalGenreRequests();

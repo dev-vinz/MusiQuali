@@ -2,6 +2,8 @@
 package ch.hearc.spring.musiquali.admin.security.jwt;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +15,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import ch.hearc.spring.musiquali.admin.controllers.rest.AuthRestController;
 import ch.hearc.spring.musiquali.admin.security.services.UserDetailsServiceImpl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -47,17 +49,25 @@ public class AuthTokenFilter extends OncePerRequestFilter
 			{
 			String jwt = parseJwt(request);
 
+			Cookie[] tabCookies = request.getCookies() != null ? request.getCookies() : new Cookie[] {};
+
+			Optional<Cookie> cookie = Arrays.stream(tabCookies)//
+					.filter(c -> c.getName().contentEquals("SPRING_JWT_TOKEN_COOKIE"))//
+					.findFirst();
+
+			Cookie sessionCookie = cookie.orElse(null);
+
 			// Gets JWT token in session
-			if (jwt == null)
+			if (jwt == null && sessionCookie != null)
 				{
-				jwt = (String)request.getSession().getAttribute(AuthRestController.JWT_SESSION_KEY);
+				jwt = sessionCookie.getValue();
 				}
 
 			if (jwt != null && jwtUtils.validateJwtToken(jwt))
 				{
 				String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
-				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
