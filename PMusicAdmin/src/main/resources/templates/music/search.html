@@ -17,10 +17,10 @@
 	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
 
 	<div class="container">
-		<div th:if="${param.added}" class="alert alert-success alert-dismissible fade show" role="alert">
-			<strong>Succès!</strong> La musique a bien été ajoutée.
-			<hr />
-			<a href="/musics/" class="btn btn-outline-secondary">Voir les musiques</a>
+		<h1 class="text-center">Recherche de musique</h1>
+
+		<div th:if="${param.alert}" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Erreur!</strong> Vous n'avez pas les droits nécessaires pour effectuer cette action.
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
@@ -29,7 +29,12 @@
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
-		<h1 class="text-center">Recherche de musique</h1>
+		<div th:if="${param.added}" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Succès!</strong> La musique a bien été ajoutée.
+			<hr />
+			<a href="/musics/" class="btn btn-outline-secondary">Voir les musiques</a>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
 
 		<div class="col text-muted text-center mb-3">
 			Faites une recherche ci-dessous pour trouver un artiste, un album ou une chanson directement

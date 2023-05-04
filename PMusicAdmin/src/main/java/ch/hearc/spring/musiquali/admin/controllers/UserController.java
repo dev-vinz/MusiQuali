@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.hearc.spring.musiquali.admin.models.Role;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
+import ch.hearc.spring.musiquali.admin.security.PrincipalService;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
 
 @Controller
@@ -40,6 +41,9 @@ public class UserController
 		{
 		pageNo = pageNo == null ? 0 : pageNo;
 
+		// Gets logged user
+		DbUser loggedUser = PrincipalService.parseFromPrincipal(principal);
+
 		// Gets users
 		Pageable pageable = PageRequest.of(pageNo, 10, Sort.by(sortBy));
 		Page<DbUser> users = this.userService.getAll(pageable);
@@ -53,7 +57,7 @@ public class UserController
 		model.addAttribute("indexes", indexes);
 
 		model.addAttribute("users", users);
-		model.addAttribute("loggedRole", Role.ADMIN); // TODO: Replace with logged user role
+		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("roles", Role.values());
 
 		return "user/index";
@@ -66,7 +70,11 @@ public class UserController
 	@PostMapping(value = { "/delete" })
 	public String delete(Principal principal, @RequestParam Long userId)
 		{
-		// TODO: Checks if logged user has rights to do this
+		// Gets logged user
+		DbUser loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null || loggedUser.getRole().getId() < Role.MODERATOR.getId())
+			{ return "redirect:/users/?error"; }
 
 		this.userService.deleteById(userId);
 
@@ -76,7 +84,11 @@ public class UserController
 	@PostMapping(value = { "/update" })
 	public String update(Principal principal, @RequestParam Long userId, @RequestParam(required = false) Role userRole)
 		{
-		// TODO: Checks if logged user has rights to do this
+		// Gets logged user
+		DbUser loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null || loggedUser.getRole().getId() < Role.MODERATOR.getId())
+			{ return "redirect:/users/?error"; }
 
 		DbUser user = this.userService.getById(userId);
 

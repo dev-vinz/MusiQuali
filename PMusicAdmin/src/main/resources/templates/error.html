@@ -15,8 +15,21 @@
 
 <body>
 	<div class="container">
-		<h1 th:text="${statusCode}"></h1>
-		<p th:text="${error}"></p>
+		<div class="card mt-5" style="border: none !important;">
+			<div class="row g-0">
+				<div class="col-md-4">
+					<img src="/broken_error.png" class="img-fluid rounded-start" alt="[ERROR]">
+				</div>
+				<div class="col-md-8 row align-items-center">
+					<div class="card-body">
+						<h5 class="card-title h1" th:text="${statusCode}"></h5>
+						<h6 class="card-title h3" th:text="${error}"></h6>
+						<p class="card-text" th:text="${description}"></p>
+						<a href="http://localhost:8080" class="btn btn-outline-primary">Retourner au jeu</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!--  JS Bootstrap Dependencies  -->

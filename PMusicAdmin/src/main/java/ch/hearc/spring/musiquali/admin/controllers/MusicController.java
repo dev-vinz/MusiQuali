@@ -20,10 +20,13 @@ import ch.hearc.spring.musiquali.admin.api.deezer.models.Album;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
 import ch.hearc.spring.musiquali.admin.models.Difficulty;
+import ch.hearc.spring.musiquali.admin.models.Role;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusic;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusicalGenre;
+import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.models.rest.Music;
 import ch.hearc.spring.musiquali.admin.models.rest.MusicalGenre;
+import ch.hearc.spring.musiquali.admin.security.PrincipalService;
 import ch.hearc.spring.musiquali.admin.service.impl.MusicService;
 import ch.hearc.spring.musiquali.admin.service.impl.MusicalGenreService;
 
@@ -94,7 +97,11 @@ public class MusicController
 	@PostMapping(value = { "/add" })
 	public String add(Principal principal, @RequestParam Long trackId, @RequestParam Difficulty difficulty)
 		{
-		// TODO: Checks if logged user has rights to do this
+		// Gets logged user
+		DbUser loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null || loggedUser.getRole().getId() < Role.MODERATOR.getId())
+			{ return "redirect:/musics/search/?alert"; }
 
 		// Gest informations
 		Track track = DeezerApi.tracks.getById(trackId).execute();
@@ -132,7 +139,11 @@ public class MusicController
 	@PostMapping(value = { "/delete" })
 	public String delete(Principal principal, @RequestParam Long musicId)
 		{
-		// TODO: Checks if logged user has rights to do this
+		// Gets logged user
+		DbUser loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null || loggedUser.getRole().getId() < Role.MODERATOR.getId())
+			{ return "redirect:/musics/?error"; }
 
 		this.musicService.deleteById(musicId);
 
@@ -142,7 +153,11 @@ public class MusicController
 	@PostMapping(value = { "/update" })
 	public String update(Principal principal, @RequestParam Long musicId, @RequestParam(required = false) Difficulty musicDifficulty)
 		{
-		// TODO: Checks if logged user has rights to do this
+		// Gets logged user
+		DbUser loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null || loggedUser.getRole().getId() < Role.MODERATOR.getId())
+			{ return "redirect:/musics/?error"; }
 
 		DbMusic music = this.musicService.getById(musicId);
 

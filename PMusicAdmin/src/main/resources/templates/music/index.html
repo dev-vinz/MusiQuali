@@ -19,6 +19,11 @@
 	<div class="container">
 		<h1 class="pb-5">Liste des musiques</h1>
 
+		<div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Erreur!</strong> Vous n'avez pas les droits nécessaires pour effectuer cette action.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
 		<div th:if="${param.deleted}" class="alert alert-warning alert-dismissible fade show" role="alert">
 			<strong>Succès!</strong> La musique a été supprimée.
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
