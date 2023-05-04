@@ -14,6 +14,9 @@ public class Music
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
+	/**
+	 * Default constructor
+	 */
 	protected Music()
 		{
 		}
@@ -175,20 +178,6 @@ public class Music
 		return this.scores;
 		}
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	public void setGenres(Set<MusicalGenre> genres)
-		{
-		this.genres = genres;
-		}
-
-	public void setScores(Set<Score> scores)
-		{
-		this.scores = scores;
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -208,8 +197,8 @@ public class Music
 	private Integer duration;
 	private String link;
 
-	@JsonIgnoreProperties("musics")
+	@JsonIgnoreProperties(value = "musics", allowSetters = true)
 	private Set<MusicalGenre> genres;
-	@JsonIgnoreProperties("music")
+	@JsonIgnoreProperties(value = "music", allowSetters = true)
 	private Set<Score> scores;
 	}

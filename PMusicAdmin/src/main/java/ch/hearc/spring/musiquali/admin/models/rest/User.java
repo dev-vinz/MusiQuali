@@ -204,7 +204,7 @@ public class User
 
 	private Role role;
 
-	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties(value = "user", allowSetters = true)
 	private List<Score> scores;
 
 	@JsonInclude(Include.NON_EMPTY)

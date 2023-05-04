@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.util.Strings;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public class User
 	{
@@ -14,16 +18,29 @@ public class User
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
+	/**
+	 * Default constructor
+	 */
 	protected User()
 		{
 		}
 
 	/**
-	 * Constructor building an user for the GAME part
+	 * Constructor building a simple user for authentication
+	 * @param email An email
+	 * @param password A clear password
+	 */
+	public User(String email, String password)
+		{
+		this(-1l, Strings.EMPTY, Strings.EMPTY, email, password, Role.USER, null);
+		}
+
+	/**
+	 * Constructor building a simple user for registration
 	 * @param firstName A first name
 	 * @param lastName A last name
 	 * @param email An email
-	 * @param password A hashed password
+	 * @param password A clear password
 	 */
 	public User(String firstName, String lastName, String email, String password)
 		{
@@ -51,6 +68,7 @@ public class User
 			this.password = password;
 			this.role = Optional.ofNullable(role).orElse(Role.USER);
 			this.scores = Optional.ofNullable(scores).orElse(new ArrayList<>());
+			this.accessToken = DEFAULT_ACCESS_TOKEN;
 			}
 		}
 
@@ -165,13 +183,13 @@ public class User
 		return this.scores;
 		}
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	public void setScores(List<Score> scores)
+	/**
+	 * Gets the access token
+	 * @return A JWT access token
+	 */
+	public String getAccessToken()
 		{
-		this.scores = scores;
+		return this.accessToken;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -193,6 +211,15 @@ public class User
 
 	private Role role;
 
-	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties(value = "user", allowSetters = true)
 	private List<Score> scores;
+
+	@JsonInclude(Include.NON_EMPTY)
+	private String accessToken;
+
+	/*------------------------------*\
+	|*			  Static			*|
+	\*------------------------------*/
+
+	private static final String DEFAULT_ACCESS_TOKEN = Strings.EMPTY;
 	}

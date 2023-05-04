@@ -17,7 +17,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import ch.hearc.spring.musiquali.game.api.admin.MusicAdminAPI;
-import ch.hearc.spring.musiquali.game.api.admin.models.JwtResponse;
 import ch.hearc.spring.musiquali.game.api.admin.models.User;
 
 @Component
@@ -40,14 +39,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 
 		ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
 
-		JwtResponse response = MusicAdminAPI.auth.signIn(email, password).execute();
+		User userResponse = MusicAdminAPI.auth.login(email, password).execute();
 
-		if (response != null)
+		if (userResponse != null)
 			{
-			Cookie cookie = new Cookie("SPRING_JWT_TOKEN_COOKIE", response.getAccessToken());
+			Cookie cookie = new Cookie(WebSecurityConfig.SPRING_JWT_TOKEN_COOKIE, userResponse.getAccessToken());
 			attributes.getResponse().addCookie(cookie);
 
-			User user = MusicAdminAPI.users.getById(response.getId()).execute();
+			User user = MusicAdminAPI.users.getById(userResponse.getId()).execute();
 
 			List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 

@@ -14,6 +14,9 @@ public class MusicalGenre
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
+	/**
+	 * Default constructor
+	 */
 	protected MusicalGenre()
 		{
 		}
@@ -109,15 +112,6 @@ public class MusicalGenre
 		return this.musics;
 		}
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	public void setMusics(Set<Music> musics)
-		{
-		this.musics = musics;
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -131,6 +125,6 @@ public class MusicalGenre
 
 	private String name;
 
-	@JsonIgnoreProperties("genres")
+	@JsonIgnoreProperties(value = "genres", allowSetters = true)
 	private Set<Music> musics;
 	}

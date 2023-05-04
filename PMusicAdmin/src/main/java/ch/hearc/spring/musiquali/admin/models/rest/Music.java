@@ -199,8 +199,8 @@ public class Music
 	private Integer duration;
 	private String link;
 
-	@JsonIgnoreProperties("musics")
+	@JsonIgnoreProperties(value = "musics", allowSetters = true)
 	private Set<MusicalGenre> genres;
-	@JsonIgnoreProperties("music")
+	@JsonIgnoreProperties(value = "music", allowSetters = true)
 	private Set<Score> scores;
 	}

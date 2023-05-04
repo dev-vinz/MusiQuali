@@ -144,8 +144,8 @@ public class Score
 	private Integer artistValue;
 	private Integer titleValue;
 
-	@JsonIgnoreProperties("scores")
+	@JsonIgnoreProperties(value = "scores", allowSetters = true)
 	private User user;
-	@JsonIgnoreProperties("scores")
+	@JsonIgnoreProperties(value = "scores", allowSetters = true)
 	private Music music;
 	}

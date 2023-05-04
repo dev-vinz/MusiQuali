@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import ch.hearc.spring.musiquali.admin.security.WebSecurityConfig;
 import ch.hearc.spring.musiquali.admin.security.services.UserDetailsServiceImpl;
 
 import jakarta.servlet.FilterChain;
@@ -52,7 +53,7 @@ public class AuthTokenFilter extends OncePerRequestFilter
 			Cookie[] tabCookies = request.getCookies() != null ? request.getCookies() : new Cookie[] {};
 
 			Optional<Cookie> cookie = Arrays.stream(tabCookies)//
-					.filter(c -> c.getName().contentEquals("SPRING_JWT_TOKEN_COOKIE"))//
+					.filter(c -> c.getName().contentEquals(WebSecurityConfig.SPRING_JWT_TOKEN_COOKIE))//
 					.findFirst();
 
 			Cookie sessionCookie = cookie.orElse(null);
@@ -68,6 +69,7 @@ public class AuthTokenFilter extends OncePerRequestFilter
 				String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
 				UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

@@ -10,6 +10,9 @@ public class Score
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
+	/**
+	 * Default constructor
+	 */
 	protected Score()
 		{
 		}
@@ -127,20 +130,6 @@ public class Score
 		return this.music;
 		}
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	public void setUser(User user)
-		{
-		this.user = user;
-		}
-
-	public void setMusic(Music music)
-		{
-		this.music = music;
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -155,8 +144,8 @@ public class Score
 	private Integer artistValue;
 	private Integer titleValue;
 
-	@JsonIgnoreProperties("scores")
+	@JsonIgnoreProperties(value = "scores", allowSetters = true)
 	private User user;
-	@JsonIgnoreProperties("scores")
+	@JsonIgnoreProperties(value = "scores", allowSetters = true)
 	private Music music;
 	}

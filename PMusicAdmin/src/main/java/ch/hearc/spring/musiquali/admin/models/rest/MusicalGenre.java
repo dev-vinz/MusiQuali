@@ -125,6 +125,6 @@ public class MusicalGenre
 
 	private String name;
 
-	@JsonIgnoreProperties("genres")
+	@JsonIgnoreProperties(value = "genres", allowSetters = true)
 	private Set<Music> musics;
 	}

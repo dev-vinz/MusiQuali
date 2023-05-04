@@ -94,4 +94,10 @@ public class WebSecurityConfig
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
+
+	/*------------------------------*\
+	|*			  Static			*|
+	\*------------------------------*/
+
+	public static final String SPRING_JWT_TOKEN_COOKIE = "MUSIQUALI_JWT_TOKEN_COOKIE";
 	}

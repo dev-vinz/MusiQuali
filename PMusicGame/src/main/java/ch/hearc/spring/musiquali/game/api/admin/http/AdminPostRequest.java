@@ -6,10 +6,10 @@ import org.springframework.web.reactive.function.client.WebClient.RequestBodyUri
 
 import reactor.core.publisher.Mono;
 
-public class AdminPostRequest<T, U> extends AdminRequest<U>
+public class AdminPostRequest<T> extends AdminRequest<T>
 	{
 
-	public AdminPostRequest(String url, T object, Class<U> intoClass)
+	public AdminPostRequest(String url, T object, Class<T> intoClass)
 		{
 		super(url, intoClass);
 
@@ -27,11 +27,10 @@ public class AdminPostRequest<T, U> extends AdminRequest<U>
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public AdminPostRequest<T, U> addParam(String name, String value)
+	public AdminPostRequest<T> addParam(String name, String value)
 		{
-		return (AdminPostRequest<T, U>)super.addParam(name, value);
+		return (AdminPostRequest<T>)super.addParam(name, value);
 		}
 
 	/*------------------------------------------------------------------*\

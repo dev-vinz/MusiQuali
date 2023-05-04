@@ -46,7 +46,7 @@ public class WebSecurityConfig
 						.loginProcessingUrl("/login")//
 						.permitAll())//
 				.logout(logout -> logout//
-						.deleteCookies("SPRING_JWT_TOKEN_COOKIE")//
+						.deleteCookies(SPRING_JWT_TOKEN_COOKIE)//
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//
 						.permitAll());
 
@@ -67,4 +67,10 @@ public class WebSecurityConfig
 
 	@Autowired
 	private CustomAuthenticationProvider authProvider;
+
+	/*------------------------------*\
+	|*			  Static			*|
+	\*------------------------------*/
+
+	public static final String SPRING_JWT_TOKEN_COOKIE = "MUSIQUALI_JWT_TOKEN_COOKIE";
 	}
