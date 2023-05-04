@@ -18,6 +18,18 @@ public class Score
 		}
 
 	/**
+	 * Constructor building a simple score for the game
+	 * @param artistValue A score value between 0 and 100
+	 * @param titleValue A score value between 0 and 100
+	 * @param user An user
+	 * @param music A music
+	 */
+	public Score(Integer artistValue, Integer titleValue, User user, Music music)
+		{
+		this(-1l, artistValue, titleValue, user, music);
+		}
+
+	/**
 	 * Constructor building a score for the REST part
 	 * @param id An ID
 	 * @param artistValue A score value between 0 and 100

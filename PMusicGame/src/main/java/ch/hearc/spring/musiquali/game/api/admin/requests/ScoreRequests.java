@@ -42,7 +42,7 @@ public class ScoreRequests extends AdminRequests
 	 */
 	public AdminRequest<Score> add(Score score)
 		{
-		return new AdminPostRequest<>("score.save", score, Score.class);
+		return new AdminPostRequest<>(url("score.save"), score, Score.class);
 		}
 
 	}

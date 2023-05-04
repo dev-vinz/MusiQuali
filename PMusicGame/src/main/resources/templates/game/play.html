@@ -18,11 +18,28 @@
 
 	<div class="container">
 		<h1>Gagne des points</h1>
-		<p class="text-muted mb-5 pb-5">
+		<p class="text-muted mb-2 pb-5">
 			Devine le titre du morceau, le nom de l'artiste, ou les deux afin de gagner un
 			maximum de points.<br />
 			Chaque extrait dure 30 secondes.
 		</p>
+
+		<div th:if="${score}" class="alert alert-info alert-dismissible fade show" role="alert">
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			<h4 class="alert-heading">Solution</h4>
+			<p>Votre score est le suivant</p>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item" style="background-color: inherit;"
+					th:text="@{|Correspondance de l'artiste : ${score.artistValue}%|}">
+				</li>
+				<li class="list-group-item" style="background-color: inherit;"
+					th:text="@{|Correspondance du titre : ${score.titleValue}%|}">
+				</li>
+			</ul>
+			<p class="mt-4 mb-0">La bonne réponse était :</p>
+			<p th:text="@{|${score.music.artist} - ${score.music.title}|}">
+				</pth>
+		</div>
 
 		<div th:if="${isEmpty}" class="mt-4">
 			<p class="text-center h3 text-warning">La bibliothèque musicale est vide,<br />

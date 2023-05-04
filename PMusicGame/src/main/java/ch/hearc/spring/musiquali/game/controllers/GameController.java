@@ -1,6 +1,7 @@
 
 package ch.hearc.spring.musiquali.game.controllers;
 
+import java.security.Principal;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,6 +19,10 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import ch.hearc.spring.musiquali.game.api.admin.MusicAdminAPI;
 import ch.hearc.spring.musiquali.game.api.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.game.api.admin.models.Music;
+import ch.hearc.spring.musiquali.game.api.admin.models.Score;
+import ch.hearc.spring.musiquali.game.api.admin.models.User;
+import ch.hearc.spring.musiquali.game.security.PrincipalService;
+import ch.hearc.spring.musiquali.game.utils.Levenshtein;
 
 @Controller
 @RequestMapping("/game")
@@ -37,8 +42,14 @@ public class GameController
 	\*------------------------------*/
 
 	@GetMapping(value = { "/", "/index" })
-	public String index(Model model)
+	public String index(Principal principal, Model model)
 		{
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
+
 		Difficulty[] difficulties = MusicAdminAPI.difficulties.getAll().execute();
 
 		model.addAttribute("difficulties", difficulties);
@@ -47,14 +58,26 @@ public class GameController
 		}
 
 	@GetMapping(value = { "/leaderboard" })
-	public String leaderboard()
+	public String leaderboard(Principal principal)
 		{
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
+
 		return "game/leaderboard";
 		}
 
 	@GetMapping(value = { "/play" })
-	public String play(HttpServletRequest request, Model model, Difficulty difficulty)
+	public String play(Principal principal, HttpServletRequest request, Model model, Difficulty difficulty)
 		{
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
+
 		// Makes sure difficulty is recovered
 		if (difficulty == null && request == null)
 			{
@@ -98,29 +121,44 @@ public class GameController
 	\*------------------------------*/
 
 	@PostMapping(value = { "/play" })
-	public String play(Model model, @RequestParam Long musicId, @RequestParam String artist, @RequestParam String title)
+	public String play(Principal principal, Model model, @RequestParam Long musicId, @RequestParam String artist, @RequestParam String title)
 		{
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
+
 		// Gets music
 		Music music = MusicAdminAPI.musics.getById(musicId).execute();
 
 		// Verifies artist
-		// TODO
+		double artistScore = Levenshtein.getRatio(artist.toLowerCase(), music.getArtist().toLowerCase());
 
 		// Verifies title
-		// TODO
+		double titleScore = Levenshtein.getRatio(title.toLowerCase(), music.getTitle().toLowerCase());
 
 		// Creates score
-		// TODO
+		Score score = new Score((int)Math.round(artistScore * 100), (int)Math.round(titleScore * 100), loggedUser, music);
 
 		// Saves score
-		// TODO
+		MusicAdminAPI.scores.add(score).execute();
 
-		return play(null, model, music.getDifficulty());
+		// Saves data to model
+		model.addAttribute("score", score);
+
+		return play(principal, null, model, music.getDifficulty());
 		}
 
 	@PostMapping(value = { "/start" })
-	public String play(RedirectAttributes redirectAttributes, @RequestParam Difficulty difficulty)
+	public String play(Principal principal, RedirectAttributes redirectAttributes, @RequestParam Difficulty difficulty)
 		{
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
+
 		redirectAttributes.addFlashAttribute("difficulty", difficulty);
 
 		return "redirect:/game/play";

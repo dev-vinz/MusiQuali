@@ -1,6 +1,8 @@
 
 package ch.hearc.spring.musiquali.game.controllers;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import ch.hearc.spring.musiquali.game.api.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.game.api.admin.models.Music;
 import ch.hearc.spring.musiquali.game.api.admin.models.MusicalGenre;
 import ch.hearc.spring.musiquali.game.api.admin.models.User;
+import ch.hearc.spring.musiquali.game.security.PrincipalService;
 
 @Controller
 public class HomeController
@@ -28,14 +31,26 @@ public class HomeController
 	\*------------------------------*/
 
 	@GetMapping(value = { "/about" })
-	public String about()
+	public String about(Principal principal)
 		{
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
+
 		return "home/about";
 		}
 
 	@GetMapping(value = { "/explore" })
-	public String explore(Model model)
+	public String explore(Principal principal, Model model)
 		{
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
+
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
+
 		// Gets some datas
 		Difficulty[] difficulties = MusicAdminAPI.difficulties.getAll().execute();
 		MusicalGenre[] genres = MusicAdminAPI.musicalGenres.getAll().execute();
@@ -49,11 +64,13 @@ public class HomeController
 		}
 
 	@GetMapping(value = { "/", "/index" })
-	public String index()
+	public String index(Principal principal)
 		{
-		User user = MusicAdminAPI.users.getByEmail("hbrhcbhr").execute();
+		// Gets logged user
+		User loggedUser = PrincipalService.parseFromPrincipal(principal);
 
-		System.out.println(user);
+		if (loggedUser == null)
+			{ return "redirect:/login"; }
 
 		return "index";
 		}

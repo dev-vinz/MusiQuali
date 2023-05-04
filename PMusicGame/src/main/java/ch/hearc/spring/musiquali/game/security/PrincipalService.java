@@ -1,17 +1,11 @@
 
-package ch.hearc.spring.musiquali.admin.security;
+package ch.hearc.spring.musiquali.game.security;
 
 import java.security.Principal;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import ch.hearc.spring.musiquali.game.api.admin.MusicAdminAPI;
+import ch.hearc.spring.musiquali.game.api.admin.models.User;
 
-import ch.hearc.spring.musiquali.admin.models.database.DbUser;
-import ch.hearc.spring.musiquali.admin.service.impl.UserService;
-
-import jakarta.annotation.PostConstruct;
-
-@Component
 public class PrincipalService
 	{
 
@@ -27,7 +21,7 @@ public class PrincipalService
 	|*			  Static			*|
 	\*------------------------------*/
 
-	public static DbUser parseFromPrincipal(Principal principal)
+	public static User parseFromPrincipal(Principal principal)
 		{
 		// Some security
 		if (principal == null)
@@ -36,7 +30,7 @@ public class PrincipalService
 			}
 		else
 			{
-			return userService.getByEmail(principal.getName());
+			return MusicAdminAPI.users.getByEmail(principal.getName()).execute();
 			}
 		}
 
@@ -48,22 +42,7 @@ public class PrincipalService
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	@PostConstruct
-	private void initPostConstruct()
-		{
-		userService = this._uService;
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
-	@Autowired
-	private UserService _uService;
-
-	/*------------------------------*\
-	|*			  Static			*|
-	\*------------------------------*/
-
-	private static UserService userService;
 	}
