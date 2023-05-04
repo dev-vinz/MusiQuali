@@ -10,13 +10,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
@@ -43,33 +42,30 @@ public class MusicRestController
 	\*------------------------------*/
 
 	@GetMapping
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Music> getAll()
+	public ResponseEntity<List<Music>> getAll()
 		{
-		return this.musicService.getAll().stream()//
+		return ResponseEntity.ok(this.musicService.getAll().stream()//
 				.map(MusicRestController::fetchToMusic)//
-				.toList();
+				.toList());
 		}
 
 	@GetMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Music get(@PathVariable Long id)
+	public ResponseEntity<Music> get(@PathVariable Long id)
 		{
 		DbMusic music = this.musicService.getById(id);
 
 		if (music != null)
 			{
-			return fetchToMusic(music);
+			return ResponseEntity.ok(fetchToMusic(music));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Music with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{id}/leaderboard")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Set<User> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
+	public ResponseEntity<Set<User>> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		DbMusic music = this.musicService.getById(id);
 
@@ -77,7 +73,7 @@ public class MusicRestController
 			{
 			Set<Score> allScores = fetchToMusic(music).getScores();
 
-			return allScores.stream()//
+			return ResponseEntity.ok(allScores.stream()//
 					.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
 					.entrySet()//
 					.stream()//
@@ -85,27 +81,26 @@ public class MusicRestController
 					.sorted(Collections.reverseOrder())// Max score is on top
 					.map(Entry::getKey)//
 					.limit(limit)//
-					.collect(Collectors.toCollection(HashSet<User>::new));
+					.collect(Collectors.toCollection(HashSet<User>::new)));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Music with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{id}/scores")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Set<Score> getScores(@PathVariable Long id)
+	public ResponseEntity<Set<Score>> getScores(@PathVariable Long id)
 		{
 		DbMusic music = this.musicService.getById(id);
 
 		if (music != null)
 			{
-			return fetchToMusic(music).getScores();
+			return ResponseEntity.ok(fetchToMusic(music).getScores());
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Music with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 

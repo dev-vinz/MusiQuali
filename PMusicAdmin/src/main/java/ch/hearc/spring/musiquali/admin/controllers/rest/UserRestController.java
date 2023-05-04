@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
@@ -41,61 +40,57 @@ public class UserRestController
 	\*------------------------------*/
 
 	@GetMapping
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<User> all()
+	public ResponseEntity<List<User>> all()
 		{
 		List<DbUser> allUsers = this.userService.getAll();
 
-		return allUsers.stream()//
+		return ResponseEntity.ok(allUsers.stream()//
 				.map(u -> new User(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), u.getRole(), fetchScores(u)))//
-				.toList();
+				.toList());
 		}
 
 	@GetMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public User get(@PathVariable Long id)
+	public ResponseEntity<User> get(@PathVariable Long id)
 		{
 		DbUser user = this.userService.getById(id);
 
 		if (user != null)
 			{
-			return new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole(), fetchScores(user));
+			return ResponseEntity.ok(new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole(), fetchScores(user)));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{id}/scores")
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Score> getScores(@PathVariable Long id)
+	public ResponseEntity<List<Score>> getScores(@PathVariable Long id)
 		{
 		DbUser user = this.userService.getById(id);
 
 		if (user != null)
 			{
-			return fetchScores(user);
+			return ResponseEntity.ok(fetchScores(user));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/email/{email}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public User get(@PathVariable String email)
+	public ResponseEntity<User> get(@PathVariable String email)
 		{
 		DbUser user = this.userService.getByEmail(email);
 
 		if (user != null)
 			{
-			return new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole(), fetchScores(user));
+			return ResponseEntity.ok(new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole(), fetchScores(user)));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with email \"" + email + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
@@ -104,19 +99,18 @@ public class UserRestController
 	\*------------------------------*/
 
 	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public User create(@RequestBody User user)
+	public ResponseEntity<User> create(@RequestBody User user)
 		{
 		// Checks if email already exists
 		DbUser existingUser = this.userService.getByEmail(user.getEmail());
 
 		if (existingUser != null)
-			{ throw new ResponseStatusException(HttpStatus.CONFLICT, "User with email \"" + user.getEmail() + "\" already exists"); }
+			{ return new ResponseEntity<>(null, HttpStatus.CONFLICT); }
 
 		DbUser newUser = new DbUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole());
 		this.userService.add(newUser);
 
-		return new User(newUser.getId(), newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getPassword(), newUser.getRole(), user.getScores());
+		return new ResponseEntity<>(new User(newUser.getId(), newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getPassword(), newUser.getRole(), user.getScores()), HttpStatus.CREATED);
 		}
 
 	/*------------------------------*\
@@ -124,8 +118,7 @@ public class UserRestController
 	\*------------------------------*/
 
 	@PutMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public User update(@RequestBody User updatedUser, @PathVariable Long id)
+	public ResponseEntity<User> update(@RequestBody User updatedUser, @PathVariable Long id)
 		{
 		DbUser oldUser = this.userService.getById(id);
 
@@ -145,11 +138,11 @@ public class UserRestController
 
 			this.userService.update(oldUser);
 
-			return new User(oldUser.getId(), oldUser.getFirstName(), oldUser.getLastName(), oldUser.getEmail(), oldUser.getPassword(), oldUser.getRole(), updatedUser.getScores());
+			return ResponseEntity.ok(new User(oldUser.getId(), oldUser.getFirstName(), oldUser.getLastName(), oldUser.getEmail(), oldUser.getPassword(), oldUser.getRole(), updatedUser.getScores()));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
@@ -158,21 +151,20 @@ public class UserRestController
 	\*------------------------------*/
 
 	@DeleteMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Boolean delete(@PathVariable Long id)
+	public ResponseEntity<Boolean> delete(@PathVariable Long id)
 		{
 		DbUser user = this.userService.getById(id);
 
 		if (user != null)
 			{
 			this.userService.delete(user);
+
+			return ResponseEntity.ok(true);
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id \"" + id + "\" not found");
+			return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
 			}
-
-		return true;
 		}
 
 	/*------------------------------------------------------------------*\

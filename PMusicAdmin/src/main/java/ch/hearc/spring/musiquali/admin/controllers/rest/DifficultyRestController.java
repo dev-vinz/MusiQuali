@@ -10,13 +10,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
@@ -43,41 +42,38 @@ public class DifficultyRestController
 	\*------------------------------*/
 
 	@GetMapping
-	@ResponseStatus(value = HttpStatus.OK)
-	private List<Difficulty> getAll()
+	private ResponseEntity<List<Difficulty>> getAll()
 		{
-		return List.of(Difficulty.values());
+		return ResponseEntity.ok(List.of(Difficulty.values()));
 		}
 
 	@GetMapping("/{index}")
-	@ResponseStatus(value = HttpStatus.OK)
-	private Difficulty get(@PathVariable Integer index)
+	private ResponseEntity<Difficulty> get(@PathVariable Integer index)
 		{
 		Difficulty[] difficulties = Difficulty.values();
 
 		if (index < 0)
 			{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id \"" + index + "\" is not possible, it musts be positive");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			}
 		else if (index < difficulties.length)
 			{
-			return difficulties[index];
+			return ResponseEntity.ok(difficulties[index]);
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Difficulty with id \"" + index + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{index}/leaderboard")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Set<User> getLeaderboard(@PathVariable Integer index, @RequestParam(required = false, defaultValue = "10") Integer limit)
+	public ResponseEntity<Set<User>> getLeaderboard(@PathVariable Integer index, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		Difficulty[] difficulties = Difficulty.values();
 
 		if (index < 0)
 			{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id \"" + index + "\" is not possible, it musts be positive");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			}
 		else if (index < difficulties.length)
 			{
@@ -89,7 +85,7 @@ public class DifficultyRestController
 					.flatMap(m -> m.getScores().stream())//
 					.collect(Collectors.toCollection(HashSet<Score>::new));
 
-			return allScores.stream()//
+			return ResponseEntity.ok(allScores.stream()//
 					.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
 					.entrySet()//
 					.stream()//
@@ -97,37 +93,36 @@ public class DifficultyRestController
 					.sorted(Collections.reverseOrder())// Max score is on top
 					.map(Entry::getKey)//
 					.limit(limit)//
-					.collect(Collectors.toCollection(HashSet<User>::new));
+					.collect(Collectors.toCollection(HashSet<User>::new)));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Difficulty with id \"" + index + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{index}/musics")
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Music> getMusics(@PathVariable Integer index)
+	public ResponseEntity<List<Music>> getMusics(@PathVariable Integer index)
 		{
 		Difficulty[] difficulties = Difficulty.values();
 
 		if (index < 0)
 			{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id \"" + index + "\" is not possible, it musts be positive");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			}
 		else if (index < difficulties.length)
 			{
 			Difficulty difficulty = difficulties[index];
 
 			// Gets all musics
-			return this.musicService.getAll().stream()//
+			return ResponseEntity.ok(this.musicService.getAll().stream()//
 					.map(DifficultyRestController::fetchToMusic)//
 					.filter(m -> m.getDifficulty() == difficulty)//
-					.toList();
+					.toList());
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Difficulty with id \"" + index + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 

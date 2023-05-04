@@ -33,10 +33,19 @@ public abstract class AdminRequest<T>
 
 	public T execute()
 		{
-		return newRequest().uri(this.uriBuilder.build())//
-				.retrieve()//
-				.bodyToMono(this.intoClass)//
-				.block();
+		try
+			{
+			return newRequest().uri(this.uriBuilder.build())//
+					.retrieve()//
+					.bodyToMono(this.intoClass)//
+					.block();
+			}
+		catch (Exception e)
+			{
+			System.err.println(e.getMessage());
+			return null;
+			}
+
 		}
 
 	/*------------------------------------------------------------------*\

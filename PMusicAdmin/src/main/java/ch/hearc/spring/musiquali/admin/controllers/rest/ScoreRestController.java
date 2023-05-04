@@ -8,14 +8,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
@@ -45,27 +44,25 @@ public class ScoreRestController
 	\*------------------------------*/
 
 	@GetMapping
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Score> getAll()
+	public ResponseEntity<List<Score>> getAll()
 		{
-		return this.scoreService.getAll().stream()//
+		return ResponseEntity.ok(this.scoreService.getAll().stream()//
 				.map(ScoreRestController::fetchToScore)//
-				.toList();
+				.toList());
 		}
 
 	@GetMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Score get(@PathVariable Long id)
+	public ResponseEntity<Score> get(@PathVariable Long id)
 		{
 		DbScore score = this.scoreService.getById(id);
 
 		if (score != null)
 			{
-			return fetchToScore(score);
+			return ResponseEntity.ok(fetchToScore(score));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Score with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
@@ -74,8 +71,7 @@ public class ScoreRestController
 	\*------------------------------*/
 
 	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public Score create(@RequestBody Score score)
+	public ResponseEntity<Score> create(@RequestBody Score score)
 		{
 		DbScore newScore = new DbScore(score.getArtistValue(), score.getTitleValue());
 		newScore.setMusic(this.musicService.getById(score.getMusic().getId()));
@@ -83,7 +79,7 @@ public class ScoreRestController
 
 		this.scoreService.add(newScore);
 
-		return get(newScore.getId());
+		return new ResponseEntity<>(get(newScore.getId()).getBody(), HttpStatus.CREATED);
 		}
 
 	/*------------------------------------------------------------------*\

@@ -10,13 +10,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
@@ -42,33 +41,30 @@ public class MusicalGenreRestController
 	\*------------------------------*/
 
 	@GetMapping
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<MusicalGenre> getAll()
+	public ResponseEntity<List<MusicalGenre>> getAll()
 		{
-		return this.musicalGenreService.getAll().stream()//
+		return ResponseEntity.ok(this.musicalGenreService.getAll().stream()//
 				.map(MusicalGenreRestController::fetchToMusicalGenre)//
-				.toList();
+				.toList());
 		}
 
 	@GetMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public MusicalGenre get(@PathVariable Long id)
+	public ResponseEntity<MusicalGenre> get(@PathVariable Long id)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
 
 		if (musicalGenre != null)
 			{
-			return fetchToMusicalGenre(musicalGenre);
+			return ResponseEntity.ok(fetchToMusicalGenre(musicalGenre));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Musical genre with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{id}/leaderboard")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Set<User> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
+	public ResponseEntity<Set<User>> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
 
@@ -78,7 +74,7 @@ public class MusicalGenreRestController
 					.flatMap(m -> m.getScores().stream())//
 					.collect(Collectors.toCollection(HashSet<Score>::new));
 
-			return allScores.stream()//
+			return ResponseEntity.ok(allScores.stream()//
 					.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
 					.entrySet()//
 					.stream()//
@@ -86,48 +82,46 @@ public class MusicalGenreRestController
 					.sorted(Collections.reverseOrder())// Max score is on top
 					.map(Entry::getKey)//
 					.limit(limit)//
-					.collect(Collectors.toCollection(HashSet<User>::new));
+					.collect(Collectors.toCollection(HashSet<User>::new)));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Musical genre with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{id}/musics")
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Music> getMusics(@PathVariable Long id)
+	public ResponseEntity<List<Music>> getMusics(@PathVariable Long id)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
 
 		if (musicalGenre != null)
 			{
 			// Gets all musics
-			return fetchToMusicalGenre(musicalGenre).getMusics()//
+			return ResponseEntity.ok(fetchToMusicalGenre(musicalGenre).getMusics()//
 					.stream()//
-					.toList();
+					.toList());
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Musical genre with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 
 	@GetMapping("/{id}/scores")
-	@ResponseStatus(value = HttpStatus.OK)
-	public Set<Score> getScores(@PathVariable Long id)
+	public ResponseEntity<Set<Score>> getScores(@PathVariable Long id)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
 
 		if (musicalGenre != null)
 			{
-			return fetchToMusicalGenre(musicalGenre).getMusics().stream()//
+			return ResponseEntity.ok(fetchToMusicalGenre(musicalGenre).getMusics().stream()//
 					.flatMap(m -> m.getScores().stream())//
-					.collect(Collectors.toCollection(HashSet<Score>::new));
+					.collect(Collectors.toCollection(HashSet<Score>::new)));
 			}
 		else
 			{
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Musical genre with id \"" + id + "\" not found");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
 		}
 

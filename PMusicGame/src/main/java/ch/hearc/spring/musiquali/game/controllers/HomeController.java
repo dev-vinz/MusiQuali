@@ -9,6 +9,7 @@ import ch.hearc.spring.musiquali.game.api.admin.MusicAdminAPI;
 import ch.hearc.spring.musiquali.game.api.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.game.api.admin.models.Music;
 import ch.hearc.spring.musiquali.game.api.admin.models.MusicalGenre;
+import ch.hearc.spring.musiquali.game.api.admin.models.User;
 
 @Controller
 public class HomeController
@@ -50,6 +51,10 @@ public class HomeController
 	@GetMapping(value = { "/", "/index" })
 	public String index()
 		{
+		User user = MusicAdminAPI.users.getByEmail("hbrhcbhr").execute();
+
+		System.out.println(user);
+
 		return "index";
 		}
 
