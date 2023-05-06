@@ -4,11 +4,12 @@
 <head>
 	<meta lang="fr">
 	<meta charset="UTF-8">
-	<title th:text="@{|${user.getName} - MusiQuali|}"></title>
+	<title th:text="@{|${user.fullName} - MusiQuali|}"></title>
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 
 	<!--  CSS Bootstrap Dependencies  -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
 </head>
 
@@ -16,67 +17,205 @@
 	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
 
 	<div class="container">
-		<h1>Mon profil</h1>
-
-		<div th:if="${param.success}">
-			<div class="alert alert-success">Votre profil a été modifié !</div>
+		<div th:if="${param.error_email}" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Erreur!</strong> Un utilisateur est déjà enregistré avec cet email.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 
-		<form action="#" th:action="@{/profile/save}" th:object="${user}"
-			class="needs-validation p-4 w-100 border border-2 rounded" method="post" autocomplete="off" novalidate>
-			<div class="row g-3 mb-3">
-				<div class="form-floating col">
-					<input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}"
-						placeholder="Prénom" th:required="required">
-					<label for="firstName">Prénom</label>
-					<div class="invalid-feedback">
-						Vous devez entrer un prénom.
+		<div th:if="${param.error_password_incorrect}" class="alert alert-danger alert-dismissible fade show"
+			role="alert">
+			<strong>Erreur!</strong> Votre mot de passe est incorrect.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div th:if="${param.error_password_not_match}" class="alert alert-danger alert-dismissible fade show"
+			role="alert">
+			<strong>Erreur!</strong> Votre nouveau mot de passe et sa confirmation ne correspondent pas.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div th:if="${param.success_informations}" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Succès!</strong> Vos informations ont correctement été modifiées.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div th:if="${param.succes_password}" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Succès!</strong> Votre mot de passe a bien été modifié.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<h1 class="mb-5 pb-5">Mon profil</h1>
+
+		<div class="d-flex flex-wrap justify-content-center align-items-start">
+			<div class="nav flex-column nav-pills me-5 mb-5" id="v-pills-tab" role="tablist"
+				aria-orientation="vertical">
+				<button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile-home" type="button"
+					role="tab" aria-controls="profile-home" aria-selected="true">Accueil</button>
+				<button class="nav-link" data-bs-toggle="pill" data-bs-target="#profile-informations" type="button"
+					role="tab" aria-controls="profile-informations" aria-selected="false">Informations
+					personnelles</button>
+				<button class="nav-link" data-bs-toggle="pill" data-bs-target="#profile-security" type="button"
+					role="tab" aria-controls="profile-security" aria-selected="false">Sécurité</button>
+				<hr />
+				<button class="btn btn-outline-danger" data-bs-toggle="pill" data-bs-target="#profile-delete"
+					type="button" role="tab" aria-controls="profile-delete" aria-selected="false">Supprimer</button>
+			</div>
+			<div class="tab-content w-75">
+				<div class="tab-pane fade show active" id="profile-home" role="tabpanel"
+					aria-activedescendant="profile-home-tab" tabindex="0">
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">Prénom :</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" th:value="${user.firstName}" disabled>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">Nom :</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" th:value="${user.lastName}" disabled>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">Email :</label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control-plaintext" th:value="${user.email}" disabled>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">Permission :</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" th:value="${user.role}" disabled>
+						</div>
 					</div>
 				</div>
-				<div class="form-floating col">
-					<input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}"
-						placeholder="Nom" required>
-					<label for="lastName">Nom</label>
-					<div class="invalid-feedback">
-						Vous devez entrer nom.
+				<div class="tab-pane fade" id="profile-informations" role="tabpanel"
+					aria-activedescendant="profile-informations-tab" tabindex="0">
+					<form action="#" th:action="@{/profile/informations}" th:object="${user}" class="needs-validation"
+						method="post" novalidate>
+						<div class="row g-2 mb-3">
+							<div class="col-md">
+								<div class="form-floating">
+									<input type="text" class="form-control" id="firstName" placeholder="Jean"
+										th:value="${user.firstName}" th:field="*{firstName}" required>
+									<label for="firstName">Prénom</label>
+									<div class="invalid-feedback">
+										Vous devez entrer un prénom.
+									</div>
+								</div>
+							</div>
+							<div class="col-md">
+								<div class="form-floating">
+									<input type="text" class="form-control" id="lastName" placeholder="Dupond"
+										th:value="${user.lastName}" th:field="*{lastName}" required>
+									<label for="lastName">Nom</label>
+									<div class="invalid-feedback">
+										Vous devez entrer nom.
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="email" class="form-control" id="email" placeholder="name@example.com"
+								th:value="${user.email}" th:field="*{email}" required>
+							<label for="email">Email</label>
+							<div class="invalid-feedback">
+								Vous devez entrer une adresse email valide.
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-outline-success">Modifier</button>
+					</form>
+				</div>
+				<div class="tab-pane fade" id="profile-security" role="tabpanel"
+					aria-activedescendant="profile-security-tab" tabindex="0">
+					<form action="#" th:action="@{/profile/password}" class="needs-validation" method="post" novalidate>
+						<div class="form-floating mb-3">
+							<input type="password" class="form-control" id="old-password" name="oldPassword"
+								placeholder="Password1234" required>
+							<label for="old-password">Ancien mot de passe</label>
+							<div class="invalid-feedback">
+								Vous devez entrer votre ancien mot de passe.
+							</div>
+						</div>
+						<div class="row g-2 mb-3">
+							<div class="col-md">
+								<div class="form-floating">
+									<input type="password" class="form-control" id="new-password" name="newPassword"
+										placeholder="Password1234" required>
+									<label for="new-password">Nouveau mot de passe</label>
+									<div class="invalid-feedback">
+										Vous devez entrer un nouveau mot de passe.
+									</div>
+								</div>
+							</div>
+							<div class="col-md">
+								<div class="form-floating">
+									<input type="password" class="form-control" id="confirm-password"
+										name="confirmPassword" placeholder="Password1234" required>
+									<label for="confirm-password">Confirmer le mot de passe</label>
+									<div class="invalid-feedback">
+										Vous devez confirmer votre nouveau mot de passe.
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-outline-success">Modifier</button>
+					</form>
+				</div>
+				<div class="tab-pane fade" id="profile-delete" role="tabpanel"
+					aria-activedescendant="profile-delete-tab" tabindex="0">
+					Êtes-vous sûr(e) de vouloir supprimer ce compte ? <br />
+					<span class="text-muted">Cette action est irréversible</span>
+
+					<div class="alert alert-danger mt-3" role="alert">
+						<h6>Tapez CONFIRMER pour supprimer</h6>
+
+						<form action="#" th:action="@{/profile/delete}"
+							class="row row-cols-lg-auto mt-1 g-3 align-items-center needs-validation" method="post"
+							novalidate>
+							<div class="col-12">
+								<input type="text" class="form-control" id="confirm-box" placeholder="CONFIRMER"
+									autocomplete="off" required>
+							</div>
+							<div class="col-12">
+								<button type="submit" id="delete-button" class="d-none btn btn-outline-danger"
+									disabled>Supprimer</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-			<div class="form-floating mb-3">
-				<input type="email" class="form-control" id="email" name="email" th:field="*{email}"
-					placeholder="nom.prenom@gmail.com" required>
-				<label for="email">Email</label>
-				<div class="invalid-feedback">
-					Vous devez entrer une adresse email valide.
-				</div>
-				<div th:errors="*{email}" th:if="${#fields.hasErrors('email')}" class="invalid-feedback d-block"></div>
-			</div>
-			<div class="form-floating mb-3">
-				<input type="password" class="form-control" id="password" name="password" th:field="*{password}"
-					placeholder="password1234">
-				<label for="password">Nouveau mot de passe</label>
-				<div th:errors="*{password}" th:if="${#fields.hasErrors('password')}" class="invalid-feedback d-block">
-				</div>
-			</div>
-			<div class="form-floating mb-3">
-				<input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-					placeholder="password1234">
-				<label for="confirmPassword">Confirmer le nouveau mot de passe</label>
-				<div th:errors="*{password}" th:if="${#fields.hasErrors('password')}" class="invalid-feedback d-block">
-				</div>
-			</div>
-			<div class="text-center">
-				<button type="submit" class="btn btn-lg btn-outline-primary">Modifier</button>
-			</div>
-		</form>
+		</div>
 	</div>
 
 	<!--  JS Bootstrap Dependencies  -->
-	<script th:src="@{/webjars/popper.js/2.11.6/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/2.9.3/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
 
 	<!--  Bootstrap Form Validation  -->
 	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
+
+	<script>
+		'use strict'
+
+		window.onload = function () {
+			const deleteButton = document.getElementById('delete-button');
+			const deleteInput = document.getElementById('confirm-box');
+
+			deleteInput.onkeyup = function (event) {
+				const value = event.target.value;
+
+				deleteButton.disabled = value !== "CONFIRMER";
+
+				if (deleteButton.disabled) {
+					deleteButton.classList.add('d-none');
+				} else {
+					deleteButton.classList.remove('d-none');
+				}
+			}
+		}
+	</script>
 </body>
 
 </html>

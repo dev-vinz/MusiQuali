@@ -21,20 +21,24 @@
 			class="needs-validation p-4 w-100 border border-2 rounded" method="post" autocomplete="off" novalidate>
 			<h1 class="mb-3 text-center">Inscription</h1>
 			<div class="row g-3 mb-3">
-				<div class="form-floating col">
-					<input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}"
-						placeholder="Prénom" required>
-					<label for="firstName">Prénom</label>
-					<div class="invalid-feedback">
-						Vous devez entrer un prénom.
+				<div class="col-md">
+					<div class="form-floating">
+						<input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}"
+							placeholder="Prénom" required>
+						<label for="firstName">Prénom</label>
+						<div class="invalid-feedback">
+							Vous devez entrer un prénom.
+						</div>
 					</div>
 				</div>
-				<div class="form-floating col">
-					<input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}"
-						placeholder="Nom" required>
-					<label for="lastName">Nom</label>
-					<div class="invalid-feedback">
-						Vous devez entrer nom.
+				<div class="col-md">
+					<div class="form-floating">
+						<input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}"
+							placeholder="Nom" required>
+						<label for="lastName">Nom</label>
+						<div class="invalid-feedback">
+							Vous devez entrer nom.
+						</div>
 					</div>
 				</div>
 			</div>

@@ -154,6 +154,15 @@ public class User
 		}
 
 	/**
+	 * Gets the full name
+	 * @return A full name
+	 */
+	public String getFullName()
+		{
+		return this.firstName + " " + this.lastName;
+		}
+
+	/**
 	 * Gets the email
 	 * @return An email
 	 */
@@ -202,21 +211,37 @@ public class User
 	|*				Set				*|
 	\*------------------------------*/
 
+	/**
+	 * Sets the first name
+	 * @param firstName A first name
+	 */
 	public void setFirstName(String firstName)
 		{
 		this.firstName = firstName;
 		}
 
+	/**
+	 * Sets the last name
+	 * @param lastName A last name
+	 */
 	public void setLastName(String lastName)
 		{
 		this.lastName = lastName;
 		}
 
+	/**
+	 * Sets the email
+	 * @param email An email
+	 */
 	public void setEmail(String email)
 		{
 		this.email = email;
 		}
 
+	/**
+	 * Sets the password
+	 * @param password A clear password
+	 */
 	public void setPassword(String password)
 		{
 		this.password = password;

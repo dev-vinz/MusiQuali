@@ -63,8 +63,8 @@ public class AdminProperties
 			put("user.leaderboard.position", BASE_URL + "/users/%d/leaderboard");
 			put("user.scores", BASE_URL + "/users/%d/scores");
 			put("user.save", BASE_URL + "/users");
-			put("user.update", BASE_URL + "/users/%d}");
-			put("user.delete", BASE_URL + "/users/%d}");
+			put("user.update", BASE_URL + "/users/%d");
+			put("user.delete", BASE_URL + "/users/%d");
 			}
 
 		};
