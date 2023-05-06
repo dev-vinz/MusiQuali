@@ -21,8 +21,14 @@ public class User
 	/**
 	 * Default constructor
 	 */
-	protected User()
+	public User()
 		{
+		// Outputs
+			{
+			this.role = Role.USER;
+			this.scores = new ArrayList<>();
+			this.accessToken = DEFAULT_ACCESS_TOKEN;
+			}
 		}
 
 	/**
@@ -190,6 +196,30 @@ public class User
 	public String getAccessToken()
 		{
 		return this.accessToken;
+		}
+
+	/*------------------------------*\
+	|*				Set				*|
+	\*------------------------------*/
+
+	public void setFirstName(String firstName)
+		{
+		this.firstName = firstName;
+		}
+
+	public void setLastName(String lastName)
+		{
+		this.lastName = lastName;
+		}
+
+	public void setEmail(String email)
+		{
+		this.email = email;
+		}
+
+	public void setPassword(String password)
+		{
+		this.password = password;
 		}
 
 	/*------------------------------------------------------------------*\

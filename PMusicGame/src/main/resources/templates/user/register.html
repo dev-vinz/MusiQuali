@@ -17,13 +17,13 @@
 		<div th:if="${param.success}">
 			<div class="alert alert-success">Votre inscription a été enregistrée !</div>
 		</div>
-		<form action="#" th:action="@{/register/save}" th:object="${user}"
+		<form action="#" th:action="@{/register}" th:object="${user}"
 			class="needs-validation p-4 w-100 border border-2 rounded" method="post" autocomplete="off" novalidate>
 			<h1 class="mb-3 text-center">Inscription</h1>
 			<div class="row g-3 mb-3">
 				<div class="form-floating col">
 					<input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}"
-						placeholder="Prénom" th:required="required">
+						placeholder="Prénom" required>
 					<label for="firstName">Prénom</label>
 					<div class="invalid-feedback">
 						Vous devez entrer un prénom.

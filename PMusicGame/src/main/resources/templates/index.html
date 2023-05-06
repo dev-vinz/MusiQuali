@@ -17,6 +17,11 @@
 	<nav th:replace="~{fragment/common :: mq-navbar}"></nav>
 
 	<div class="container">
+		<div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Bienvenue!</strong> Votre compte a été créé.
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
 		<h1>MusiQuali</h1>
 
 		<p class="text-muted pb-5 mb-5">
