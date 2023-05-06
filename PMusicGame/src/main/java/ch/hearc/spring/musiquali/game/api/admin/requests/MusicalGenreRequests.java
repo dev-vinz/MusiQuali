@@ -44,6 +44,17 @@ public class MusicalGenreRequests extends AdminRequests
 		}
 
 	/**
+	 * Gets the user's position in the leaderboard
+	 * @param genreId A musical genre ID
+	 * @param userId An user ID
+	 * @return A request that can be executed to fetch user's position
+	 */
+	public AdminRequest<Long> getLeaderboardPosition(long genreId, long userId)
+		{
+		return new AdminGetRequest<>(url("genre.leaderboard.position", genreId, userId), Long.class);
+		}
+
+	/**
 	 * Gets the musics of a musical genre
 	 * @param genreId A musical genre ID
 	 * @return A request that can be executed to fetch the musics

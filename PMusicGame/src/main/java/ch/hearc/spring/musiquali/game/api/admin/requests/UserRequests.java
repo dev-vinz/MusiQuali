@@ -45,6 +45,25 @@ public class UserRequests extends AdminRequests
 		}
 
 	/**
+	 * Gets the global leaderboard
+	 * @return A request that can be executed to fetch the global leaderboard
+	 */
+	public AdminRequest<User[]> getLeaderboard()
+		{
+		return new AdminGetRequest<>(url("user.leaderboard"), User[].class);
+		}
+
+	/**
+	 * Gets the user's position in the global leaderboard
+	 * @param userId An user ID
+	 * @return A request that can be executed to fetch the user's position
+	 */
+	public AdminRequest<Long> getLeaderboardPosition(long userId)
+		{
+		return new AdminGetRequest<>(url("user.leaderboard.position", userId), Long.class);
+		}
+
+	/**
 	 * Gets the scores of an user
 	 * @param userId An user ID
 	 * @return A request that can be executed to fetch the scores

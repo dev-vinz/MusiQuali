@@ -25,7 +25,7 @@ public abstract class AdminRequest<T>
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	public AdminRequest<T> addParam(String name, String value)
+	public AdminRequest<T> addParam(String name, Object value)
 		{
 		this.uriBuilder.queryParam(name, value);
 		return this;
@@ -42,7 +42,6 @@ public abstract class AdminRequest<T>
 			}
 		catch (Exception e)
 			{
-			System.err.println(e.getMessage());
 			return null;
 			}
 

@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Genre;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
+import ch.hearc.spring.musiquali.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusic;
 import ch.hearc.spring.musiquali.admin.models.database.DbScore;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
@@ -44,11 +46,24 @@ public class ScoreRestController
 	\*------------------------------*/
 
 	@GetMapping
-	public ResponseEntity<List<Score>> getAll()
+	public ResponseEntity<List<Score>> getAll(@RequestParam(name = "difficulty", required = false) String diff)
 		{
-		return ResponseEntity.ok(this.scoreService.getAll().stream()//
-				.map(ScoreRestController::fetchToScore)//
-				.toList());
+		try
+			{
+			Difficulty difficulty = Difficulty.valueOf(diff);
+
+			return ResponseEntity.ok(this.scoreService.getAll().stream()//
+					.map(ScoreRestController::fetchToScore)//
+					.filter(s -> s.getMusic().getDifficulty() == difficulty)//
+					.toList());
+			}
+		catch (Exception e)
+			{
+			return ResponseEntity.ok(this.scoreService.getAll().stream()//
+					.map(ScoreRestController::fetchToScore)//
+					.toList());
+			}
+
 		}
 
 	@GetMapping("/{id}")

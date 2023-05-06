@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,7 +67,7 @@ public class MusicRestController
 		}
 
 	@GetMapping("/{id}/leaderboard")
-	public ResponseEntity<Set<User>> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
+	public ResponseEntity<List<User>> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		DbMusic music = this.musicService.getById(id);
 
@@ -77,11 +79,46 @@ public class MusicRestController
 					.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
 					.entrySet()//
 					.stream()//
-					.sorted(Entry.comparingByValue())// Min score is on top
-					.sorted(Collections.reverseOrder())// Max score is on top
+					.sorted(Collections.reverseOrder(Entry.comparingByValue()))// Max score is on top
 					.map(Entry::getKey)//
+					.distinct()//
 					.limit(limit)//
-					.collect(Collectors.toCollection(HashSet<User>::new)));
+					.toList());
+			}
+		else
+			{
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
+		}
+
+	@GetMapping("/{id}/leaderboard/{userId}")
+	public ResponseEntity<Long> getLeaderboardPosition(@PathVariable Long id, @PathVariable Long userId)
+		{
+		DbMusic music = this.musicService.getById(id);
+
+		if (music != null)
+			{
+			List<User> leaderboard = fetchToMusic(music).getScores().stream()//
+					.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
+					.entrySet()//
+					.stream()//
+					.sorted(Collections.reverseOrder(Entry.comparingByValue()))// Max score is on top
+					.map(Entry::getKey)//
+					.distinct()//
+					.toList();
+
+			OptionalLong result = LongStream.range(0, leaderboard.size())//
+					.filter(i -> leaderboard.get((int)i).getId() == userId)//
+					.findFirst();
+
+			if (result.isPresent())
+				{
+				return ResponseEntity.ok(result.getAsLong());
+				}
+			else
+				{
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+				}
 			}
 		else
 			{

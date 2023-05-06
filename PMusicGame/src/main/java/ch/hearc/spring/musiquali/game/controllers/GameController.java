@@ -2,8 +2,11 @@
 package ch.hearc.spring.musiquali.game.controllers;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +24,8 @@ import ch.hearc.spring.musiquali.game.api.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.game.api.admin.models.Music;
 import ch.hearc.spring.musiquali.game.api.admin.models.Score;
 import ch.hearc.spring.musiquali.game.api.admin.models.User;
+import ch.hearc.spring.musiquali.game.models.Leaderboard;
+import ch.hearc.spring.musiquali.game.models.LeaderboardUser;
 import ch.hearc.spring.musiquali.game.security.PrincipalService;
 import ch.hearc.spring.musiquali.game.utils.Levenshtein;
 
@@ -58,13 +63,50 @@ public class GameController
 		}
 
 	@GetMapping(value = { "/leaderboard" })
-	public String leaderboard(Principal principal)
+	public String leaderboard(Principal principal, Model model)
 		{
 		// Gets logged user
 		User loggedUser = PrincipalService.parseFromPrincipal(principal);
 
 		if (loggedUser == null)
 			{ return "redirect:/login"; }
+
+		// Gets global leaderboard
+		long globalPosition = Optional.ofNullable(MusicAdminAPI.users.getLeaderboardPosition(loggedUser.getId()).execute()).orElse(-1l);
+		LeaderboardUser[] globalLeaderboard = Arrays.stream(MusicAdminAPI.users.getLeaderboard().execute())//
+				.map(u -> {
+				long position = MusicAdminAPI.users.getLeaderboardPosition(u.getId()).execute();
+				Score[] scores = MusicAdminAPI.users.getScores(u.getId()).execute();
+
+				return new LeaderboardUser(position, u.getFirstName(), u.getLastName(), scores);
+				})//
+				.toArray(LeaderboardUser[]::new);
+
+		// Gets difficulty leaderboard
+		Map<Difficulty, Leaderboard> difficultyLeaderboard = Arrays.stream(Difficulty.values())//
+				.collect(Collectors.toMap(d -> d, d -> {
+				long userPosition = Optional.ofNullable(MusicAdminAPI.difficulties.getLeaderboardPosition(d.getId(), loggedUser.getId()).execute()).orElse(-1l);
+				LeaderboardUser[] users = Arrays.stream(MusicAdminAPI.difficulties.getLeaderboard(d.getId()).execute())//
+						.map(u -> {
+						long position = MusicAdminAPI.difficulties.getLeaderboardPosition(d.getId(), u.getId()).execute();
+						Score[] scores = Arrays.stream(MusicAdminAPI.scores.getAll().addParam("difficulty", d).execute())//
+								.filter(s -> s.getUser().getId() == u.getId())//
+								.toArray(Score[]::new);
+
+						return new LeaderboardUser(position, u.getFirstName(), u.getLastName(), scores);
+						})//
+						.toArray(LeaderboardUser[]::new);
+
+				return new Leaderboard(users, userPosition);
+				}));
+
+		// Adds informations
+		model.addAttribute("globalLeaderboard", globalLeaderboard);
+		model.addAttribute("globalPosition", globalPosition);
+
+		model.addAttribute("difficulties", Difficulty.values());
+
+		model.addAttribute("difficultiesLeaderboard", difficultyLeaderboard);
 
 		return "game/leaderboard";
 		}

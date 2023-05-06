@@ -2,6 +2,7 @@
 package ch.hearc.spring.musiquali.admin.controllers;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,10 @@ public class UserController
 		Pageable pageable = PageRequest.of(pageNo, 10, Sort.by(sortBy));
 		Page<DbUser> users = this.userService.getAll(pageable);
 
+		// Gets roles, without last
+		Role[] allRoles = Role.values();
+		Role[] roles = Arrays.copyOf(allRoles, allRoles.length - 1);
+
 		// Gets list of indexes for pagination
 		int[] indexes = IntStream.range(0, users.getTotalPages())//
 				.toArray();
@@ -58,7 +63,7 @@ public class UserController
 
 		model.addAttribute("users", users);
 		model.addAttribute("loggedUser", loggedUser);
-		model.addAttribute("roles", Role.values());
+		model.addAttribute("roles", roles);
 
 		return "user/index";
 		}

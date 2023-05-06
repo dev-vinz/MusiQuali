@@ -11,6 +11,9 @@
 	<!--  CSS Bootstrap Dependencies  -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} " />
+
+	<!--  Curstom CSS  -->
+	<link rel="stylesheet" href="/game/leaderboard.css" />
 </head>
 
 <body>
@@ -18,14 +21,165 @@
 
 	<div class="container">
 		<h1 class="pb-5 mb-5">Classement</h1>
-	</div>
 
-	<!--  JS Bootstrap Dependencies  -->
-	<script th:src="@{/webjars/popper.js/2.9.3/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+		<ul class="nav nav-pills nav-justified mb-5" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button class="nav-link active" data-bs-toggle="pill" data-bs-target="#global-leaderboard" type="button"
+					role="tab" aria-controls="global-leaderboard" aria-selected="true">Global</button>
+			</li>
+			<li th:each="difficulty: ${difficulties}" class="nav-item" role="presentation">
+				<button class="nav-link" data-bs-toggle="pill" th:data-bs-target="@{|#${difficulty}-leaderboard|}"
+					type="button" role="tab" th:aria-controls="@{|${difficulty}-leaderboard|}" aria-selected="false"
+					th:text="${difficulty.frenchName}"></button>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="global-leaderboard" role="tabpanel"
+				aria-labelledby="global-leaderboard-tab" tabindex="0">
+				<div th:if="${globalLeaderboard.length < 1}">
+					<div class="alert alert-warning" role="alert">
+						<p class="text-center h5">
+							Aucun classement n'est disponible actuellement,<br />
+							joues un peu et reviens plus tard !
+						</p>
+					</div>
+				</div>
+				<div th:unless="${globalLeaderboard.length < 1}" class="container">
+					<div class="mq-podium mb-3">
+						<div class="mq-second mb-3">
+							<div th:if="${globalLeaderboard.length > 1}" class="mq-card">
+								<div class="mq-banner">2</div>
+								<div class="mq-header">
+									<i class="bi bi-person-circle"></i>
+								</div>
+								<div class="mq-body">
+									<span
+										th:text="@{|${globalLeaderboard[1].firstName} ${globalLeaderboard[1].lastName}|}"></span>
+									<span th:text="@{|${globalLeaderboard[1].totalScore} points|}"></span>
+								</div>
+							</div>
+						</div>
+						<div class="mq-first mb-3">
+							<div class="mq-card">
+								<div class="mq-banner">1</div>
+								<div class="mq-header">
+									<i class="bi bi-person-circle"></i>
+								</div>
+								<div class="mq-body">
+									<span
+										th:text="@{|${globalLeaderboard[0].firstName} ${globalLeaderboard[0].lastName}|}"></span>
+									<span th:text="@{|${globalLeaderboard[0].totalScore} points|}"></span>
+								</div>
+							</div>
+						</div>
+						<div class="mq-third mb-3">
+							<div th:if="${globalLeaderboard.length > 2}" class="mq-card">
+								<div class="mq-banner">3</div>
+								<div class="mq-header">
+									<i class="bi bi-person-circle"></i>
+								</div>
+								<div class="mq-body">
+									<span
+										th:text="@{|${globalLeaderboard[2].firstName} ${globalLeaderboard[2].lastName}|}"></span>
+									<span th:text="@{|${globalLeaderboard[2].totalScore} points|}"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<tbody>
+								<tr th:each="user: ${globalLeaderboard}"
+									th:class="${user.position == globalPosition ? 'table-primary' : ''}">
+									<th scope="row" th:text="${user.position + 1}"></th>
+									<td th:text="${user.firstName}"></td>
+									<td th:text="${user.lastName}"></td>
+									<td th:text="${user.totalScore}" </tr>
+								<tr th:if="${globalPosition + 1 > globalLeaderboard.length}">
+									<td colspan="4" class="text-center">. . .</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div th:each="map: ${difficultiesLeaderboard}" class="tab-pane fade" th:id="@{|${map.key}-leaderboard|}"
+				role="tabpanel" th:aria-labelledby="@{|${map.key}-leaderboard-tab|}" tabindex="0">
+				<div th:if="${map.value.isEmpty}">
+					<div class="alert alert-warning" role="alert">
+						<p class="text-center h5">
+							Aucun classement n'est disponible dans cette catégorie,<br />
+							regardes dans les autres pour voir les autres classements !
+						</p>
+					</div>
+				</div>
+				<div th:unless="${map.value.isEmpty}" class="container">
+					<div class="mq-podium mb-3">
+						<div class="mq-second mb-3">
+							<div th:if="${map.value.users.length > 1}" class="mq-card">
+								<div class="mq-banner">2</div>
+								<div class="mq-header">
+									<i class="bi bi-person-circle"></i>
+								</div>
+								<div class="mq-body">
+									<span
+										th:text="@{|${map.value.users[1].firstName} ${map.value.users[1].lastName}|}"></span>
+									<span th:text="@{|${map.value.users[1].totalScore} points|}"></span>
+								</div>
+							</div>
+						</div>
+						<div class="mq-first mb-3">
+							<div class="mq-card">
+								<div class="mq-banner">1</div>
+								<div class="mq-header">
+									<i class="bi bi-person-circle"></i>
+								</div>
+								<div class="mq-body">
+									<span
+										th:text="@{|${map.value.users[0].firstName} ${map.value.users[0].lastName}|}"></span>
+									<span th:text="@{|${map.value.users[0].totalScore} points|}"></span>
+								</div>
+							</div>
+						</div>
+						<div class="mq-third mb-3">
+							<div th:if="${map.value.users.length > 2}" class="mq-card">
+								<div class="mq-banner">3</div>
+								<div class="mq-header">
+									<i class="bi bi-person-circle"></i>
+								</div>
+								<div class="mq-body">
+									<span
+										th:text="@{|${map.value.users[2].firstName} ${map.value.users[2].lastName}|}"></span>
+									<span th:text="@{|${map.value.users[2].totalScore} points|}"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<tbody>
+								<tr th:each="user: ${map.value.users}"
+									th:class="${user.position == map.value.userPosition ? 'table-primary' : ''}">
+									<th scope="row" th:text="${user.position + 1}"></th>
+									<td th:text="${user.firstName}"></td>
+									<td th:text="${user.lastName}"></td>
+									<td th:text="${user.totalScore}" </tr>
+								<tr th:if="${map.value.userPosition + 1 > map.value.users.length}">
+									<td colspan="4" class="text-center">. . .</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<!--  Bootstrap Form Validation  -->
-	<script th:replace="~{fragment/common :: mq-form-validation}"></script>
+		<!--  JS Bootstrap Dependencies  -->
+		<script th:src="@{/webjars/popper.js/2.9.3/umd/popper.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+
+		<!--  Bootstrap Form Validation  -->
+		<script th:replace="~{fragment/common :: mq-form-validation}"></script>
 </body>
 
 </html>

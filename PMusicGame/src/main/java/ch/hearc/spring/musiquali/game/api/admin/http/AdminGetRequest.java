@@ -21,7 +21,7 @@ public class AdminGetRequest<T> extends AdminRequest<T>
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public AdminGetRequest<T> addParam(String name, String value)
+	public AdminGetRequest<T> addParam(String name, Object value)
 		{
 		return (AdminGetRequest<T>)super.addParam(name, value);
 		}

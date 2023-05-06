@@ -69,7 +69,8 @@
 						<td th:text="${user.lastName}"></td>
 						<td th:text="${user.email}"></td>
 						<td th:unless="${user.role < loggedUser.role}" colspan="2" th:text="${user.role}"></td>
-						<td th:if="${user.role < loggedUser.role}">
+						<td th:if="${user.role < loggedUser.role && loggedUser.role.id == 1}" th:text="${user.role}"></td>
+						<td th:if="${user.role < loggedUser.role && loggedUser.role.id != 1}">
 							<form action="#" th:action="@{/users/update}" method="post" class="d-flex gap-2">
 								<input type="hidden" th:value="${user.id}" name="userId" />
 								<select class="form-select" style="width: max-content;" name="userRole" required>

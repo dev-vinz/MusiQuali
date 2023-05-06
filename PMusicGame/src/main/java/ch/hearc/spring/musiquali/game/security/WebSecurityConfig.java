@@ -39,7 +39,7 @@ public class WebSecurityConfig
 		{
 		http.csrf().disable()//
 				.authorizeHttpRequests(authorize -> authorize//
-						.antMatchers("/register/**", "/webjars/**", "/favicon.ico").permitAll()//
+						.antMatchers("/register/**", "/webjars/**", "/favicon.ico", "/broken_error.png").permitAll()//
 						.antMatchers("/**").hasAnyRole("USER", "MODERATOR", "ADMIN"))//
 				.formLogin(form -> form//
 						.loginPage("/login")//

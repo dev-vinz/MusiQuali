@@ -28,7 +28,7 @@ public class AdminPutRequest<T> extends AdminRequest<T>
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public AdminPutRequest<T> addParam(String name, String value)
+	public AdminPutRequest<T> addParam(String name, Object value)
 		{
 		return (AdminPutRequest<T>)super.addParam(name, value);
 		}

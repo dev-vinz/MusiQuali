@@ -1,8 +1,13 @@
 
 package ch.hearc.spring.musiquali.admin.controllers.rest;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.hearc.spring.musiquali.admin.api.deezer.DeezerApi;
 import ch.hearc.spring.musiquali.admin.api.deezer.models.Track;
+import ch.hearc.spring.musiquali.admin.models.Difficulty;
 import ch.hearc.spring.musiquali.admin.models.Role;
 import ch.hearc.spring.musiquali.admin.models.database.DbMusic;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
@@ -64,14 +71,68 @@ public class UserRestController
 			}
 		}
 
+	@GetMapping("/leaderboard")
+	public ResponseEntity<List<User>> getLeaderboard()
+		{
+		return ResponseEntity.ok(this.userService.getAll()//
+				.stream()//
+				.flatMap(u -> fetchScores(u).stream())//
+				.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
+				.entrySet()//
+				.stream()//
+				.sorted(Collections.reverseOrder(Entry.comparingByValue()))//
+				.map(Entry::getKey)//
+				.distinct()//
+				.toList());
+		}
+
+	@GetMapping("/{id}/leaderboard")
+	public ResponseEntity<Long> getLeaderboardPosition(@PathVariable Long id)
+		{
+		List<User> leaderboard = this.userService.getAll()//
+				.stream()//
+				.flatMap(u -> fetchScores(u).stream())//
+				.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
+				.entrySet()//
+				.stream()//
+				.sorted(Collections.reverseOrder(Entry.comparingByValue()))//
+				.map(Entry::getKey)//
+				.distinct()//
+				.toList();
+
+		OptionalLong result = LongStream.range(0, leaderboard.size())//
+				.filter(i -> leaderboard.get((int)i).getId() == id)//
+				.findFirst();
+
+		if (result.isPresent())
+			{
+			return ResponseEntity.ok(result.getAsLong());
+			}
+		else
+			{
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
+		}
+
 	@GetMapping("/{id}/scores")
-	public ResponseEntity<List<Score>> getScores(@PathVariable Long id)
+	public ResponseEntity<List<Score>> getScores(@PathVariable Long id, @RequestParam(name = "difficulty", required = false) String diff)
 		{
 		DbUser user = this.userService.getById(id);
 
 		if (user != null)
 			{
-			return ResponseEntity.ok(fetchScores(user));
+			try
+				{
+				Difficulty difficulty = Difficulty.valueOf(diff);
+
+				return ResponseEntity.ok(fetchScores(user).stream()//
+						.filter(s -> s.getMusic().getDifficulty() == difficulty)//
+						.toList());
+				}
+			catch (Exception e)
+				{
+				return ResponseEntity.ok(fetchScores(user));
+				}
 			}
 		else
 			{
@@ -195,8 +256,9 @@ public class UserRestController
 				// Scores are null because they will be deleted by recursion
 				Music music = new Music(dbMusic.getId(), title, artist, preview, dbMusic.getDifficulty(), duration, link, null, null);
 
-				// User is null because it will be deleted by recursion
-				return new Score(s.getId(), s.getArtistScore(), s.getTitleScore(), null, music);
+				User scoreUser = new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole(), null);
+
+				return new Score(s.getId(), s.getArtistScore(), s.getTitleScore(), scoreUser, music);
 				})//
 				.toList();
 		}

@@ -1,0 +1,78 @@
+/* Podium */
+
+.mq-podium {
+	display: flex;
+	flex-wrap: wrap;
+
+	width: 100%;
+
+	justify-content: space-evenly;
+}
+
+.mq-second,
+.mq-first,
+.mq-third {
+	width: 200px;
+	height: 200px;
+}
+
+.mq-card {
+	width: 100%;
+	height: 100%;
+
+	border: 1px solid black;
+	border-radius: 5px;
+
+	overflow: hidden;
+}
+
+.mq-first .mq-card .mq-banner {
+	background-color: blueviolet;
+	color: white;
+}
+
+.mq-second .mq-card .mq-banner,
+.mq-third .mq-card .mq-banner {
+	background-color: mistyrose;
+}
+
+.mq-card .mq-banner {
+	padding: 10px;
+
+	font-size: 25px;
+	text-align: center;
+	font-weight: bolder;
+}
+
+.mq-card .mq-header {
+	position: relative;
+	text-align: center;
+}
+
+.mq-card .mq-header i {
+	color: darkgrey;
+
+	font-size: 50px;
+}
+
+.mq-card .mq-body {
+	display: flex;
+	flex-direction: column;
+
+	padding: 0px 10px 10px 10px;
+
+	justify-content: center;
+}
+
+.mq-card .mq-body span {
+	text-align: center;
+}
+
+.mq-card .mq-body span:nth-child(1) {
+	font-weight: bold;
+}
+
+.mq-card .mq-body span:nth-child(2) {
+	font-style: italic;
+	font-weight: lighter;
+}

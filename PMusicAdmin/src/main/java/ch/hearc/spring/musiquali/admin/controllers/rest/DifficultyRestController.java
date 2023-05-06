@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,7 +69,7 @@ public class DifficultyRestController
 		}
 
 	@GetMapping("/{index}/leaderboard")
-	public ResponseEntity<Set<User>> getLeaderboard(@PathVariable Integer index, @RequestParam(required = false, defaultValue = "10") Integer limit)
+	public ResponseEntity<List<User>> getLeaderboard(@PathVariable Integer index, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		Difficulty[] difficulties = Difficulty.values();
 
@@ -89,11 +91,58 @@ public class DifficultyRestController
 					.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
 					.entrySet()//
 					.stream()//
-					.sorted(Entry.comparingByValue())// Min score is on top
-					.sorted(Collections.reverseOrder())// Max score is on top
+					.sorted(Collections.reverseOrder(Entry.comparingByValue()))// Max score is on top
 					.map(Entry::getKey)//
+					.distinct()//
 					.limit(limit)//
-					.collect(Collectors.toCollection(HashSet<User>::new)));
+					.toList());
+			}
+		else
+			{
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
+		}
+
+	@GetMapping("/{index}/leaderboard/{userId}")
+	public ResponseEntity<Long> getLeaderboardPosition(@PathVariable Integer index, @PathVariable Long userId)
+		{
+		Difficulty[] difficulties = Difficulty.values();
+
+		if (index < 0)
+			{
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}
+		else if (index < difficulties.length)
+			{
+			Difficulty difficulty = difficulties[index];
+
+			Set<Score> allScores = this.musicService.getAll().stream()//
+					.map(DifficultyRestController::fetchToMusic)//
+					.filter(m -> m.getDifficulty() == difficulty)//
+					.flatMap(m -> m.getScores().stream())//
+					.collect(Collectors.toCollection(HashSet<Score>::new));
+
+			List<User> leaderboard = allScores.stream()//
+					.collect(Collectors.groupingBy(Score::getUser, Collectors.summingLong(s -> s.getArtistValue() + s.getTitleValue())))//
+					.entrySet()//
+					.stream()//
+					.sorted(Collections.reverseOrder(Entry.comparingByValue()))// Max score is on top
+					.map(Entry::getKey)//
+					.distinct()//
+					.toList();
+
+			OptionalLong result = LongStream.range(0, leaderboard.size())//
+					.filter(i -> leaderboard.get((int)i).getId() == userId)//
+					.findFirst();
+
+			if (result.isPresent())
+				{
+				return ResponseEntity.ok(result.getAsLong());
+				}
+			else
+				{
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+				}
 			}
 		else
 			{
@@ -151,6 +200,14 @@ public class DifficultyRestController
 				Genre genre = DeezerApi.genres.getById(g.getGenreId()).execute();
 				Set<Music> musics = g.getMusics().stream()//
 						.map(m -> {
+						try
+							{
+							Thread.sleep(100);
+							}
+						catch (InterruptedException e)
+							{
+							}
+
 						// Gets some informations with Deezer
 						Track mTrack = DeezerApi.tracks.getById(music.getTrackId()).execute();
 

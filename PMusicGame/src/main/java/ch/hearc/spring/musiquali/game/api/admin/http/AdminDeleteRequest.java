@@ -21,7 +21,7 @@ public class AdminDeleteRequest<T> extends AdminRequest<T>
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public AdminDeleteRequest<T> addParam(String name, String value)
+	public AdminDeleteRequest<T> addParam(String name, Object value)
 		{
 		return (AdminDeleteRequest<T>)super.addParam(name, value);
 		}

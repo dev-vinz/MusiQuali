@@ -43,6 +43,17 @@ public class MusicRequests extends AdminRequests
 		}
 
 	/**
+	 * Gets the user's position in the leaderboard
+	 * @param musicId A music ID
+	 * @param userId An user ID
+	 * @return A request that can be executed to fetch the user's position
+	 */
+	public AdminRequest<Long> getLeaderboardPosition(long musicId, long userId)
+		{
+		return new AdminGetRequest<>(url("music.leaderboard.position", musicId, userId), Long.class);
+		}
+
+	/**
 	 * Gets the scores of a music
 	 * @param musicId A music ID
 	 * @return A request that can be executed to fetch the scores

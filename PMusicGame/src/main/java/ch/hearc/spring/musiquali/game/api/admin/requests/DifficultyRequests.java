@@ -43,6 +43,17 @@ public class DifficultyRequests extends AdminRequests
 		}
 
 	/**
+	 * Gets the user's position in the leaderboard
+	 * @param difficultyId A difficulty ID
+	 * @param userId An user ID
+	 * @return A request that can be executed to fetch the user's position
+	 */
+	public AdminRequest<Long> getLeaderboardPosition(long difficultyId, long userId)
+		{
+		return new AdminGetRequest<>(url("difficulty.leaderboard.position", difficultyId, userId), Long.class);
+		}
+
+	/**
 	 * Gets the musics of a difficulty
 	 * @param difficultyId A difficulty ID
 	 * @return A request that can be executed to fetch the musics
