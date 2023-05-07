@@ -30,8 +30,16 @@ import ch.hearc.spring.musiquali.admin.models.rest.Score;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
 import ch.hearc.spring.musiquali.admin.service.impl.MusicalGenreService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/genres")
+@Tag(name = "Musical Genre", description = "Musical genre management APIs")
 public class MusicalGenreRestController
 	{
 	/*------------------------------------------------------------------*\
@@ -43,6 +51,8 @@ public class MusicalGenreRestController
 	\*------------------------------*/
 
 	@GetMapping
+	@Operation(summary = "Retrieve all the musical genres", description = "Get a list containing all the musical genres. The response is a list of MusicalGenre objects.")
+	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = MusicalGenre.class), mediaType = "application/json") })
 	public ResponseEntity<List<MusicalGenre>> getAll()
 		{
 		return ResponseEntity.ok(this.musicalGenreService.getAll().stream()//
@@ -51,6 +61,8 @@ public class MusicalGenreRestController
 		}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Retrieve a musical genre by id", description = "Get a MusicalGenre object by specifiying its id. The response is a MusicalGenre object.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = MusicalGenre.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<MusicalGenre> get(@PathVariable Long id)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
@@ -66,6 +78,8 @@ public class MusicalGenreRestController
 		}
 
 	@GetMapping("/{id}/leaderboard")
+	@Operation(summary = "Retrieve a leaderboard for a specific musical genre", description = "Get the leaderboard corresponding to a MusicalGenre by specifying its id. The response is an array containing MusicalGenre objects.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<List<User>> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
@@ -93,6 +107,8 @@ public class MusicalGenreRestController
 		}
 
 	@GetMapping("/{id}/leaderboard/{userId}")
+	@Operation(summary = "Retrieve an user position inside the leaderboard for a specific musical genre", description = "Gets the user's position inside a leaderboard from a MusicalGenre by specifying its id. The response is a long value.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Long.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Long> getLeaderboardPosition(@PathVariable Long id, @PathVariable Long userId)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
@@ -132,6 +148,8 @@ public class MusicalGenreRestController
 		}
 
 	@GetMapping("/{id}/musics")
+	@Operation(summary = "Retrieve all musics for a specific musical genre", description = "Get the musics corresponding to a MusicalGenre by specifying its id. The response is an array containing Music objects.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Music.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<List<Music>> getMusics(@PathVariable Long id)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);
@@ -150,6 +168,8 @@ public class MusicalGenreRestController
 		}
 
 	@GetMapping("/{id}/scores")
+	@Operation(summary = "Retrieve all scores for a specific musical genre", description = "Get the scores corresponding to a MusicalGenre by specifying its id. The response is an array containg Score objetcs.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Score.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Set<Score>> getScores(@PathVariable Long id)
 		{
 		DbMusicalGenre musicalGenre = this.musicalGenreService.getById(id);

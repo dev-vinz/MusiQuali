@@ -29,7 +29,15 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException
 		{
 		logger.error("Unauthorized error: {}", authException.getMessage());
-		response.sendRedirect("http://localhost:8080/login");
+
+		if (request.getRequestURI().startsWith("/api/"))
+			{
+			response.sendError(403);
+			}
+		else
+			{
+			response.sendRedirect("http://localhost:8080/login");
+			}
 		}
 
 	/*------------------------------*\

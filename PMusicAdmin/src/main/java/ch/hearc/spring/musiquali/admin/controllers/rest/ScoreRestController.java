@@ -32,8 +32,16 @@ import ch.hearc.spring.musiquali.admin.service.impl.MusicService;
 import ch.hearc.spring.musiquali.admin.service.impl.ScoreService;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/scores")
+@Tag(name = "Score", description = "Score management APIs")
 public class ScoreRestController
 	{
 
@@ -46,6 +54,8 @@ public class ScoreRestController
 	\*------------------------------*/
 
 	@GetMapping
+	@Operation(summary = "Retrieve all the scores", description = "Get a list containing all the scores. The response is a list of Score objects.")
+	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Score.class), mediaType = "application/json") })
 	public ResponseEntity<List<Score>> getAll(@RequestParam(name = "difficulty", required = false) String diff)
 		{
 		try
@@ -67,6 +77,8 @@ public class ScoreRestController
 		}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Retrieve a score by id", description = "Get a Score object by specifiying its id. The response is a Score object.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Score.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Score> get(@PathVariable Long id)
 		{
 		DbScore score = this.scoreService.getById(id);
@@ -86,6 +98,9 @@ public class ScoreRestController
 	\*------------------------------*/
 
 	@PostMapping
+	@Operation(summary = "Create a new score", description = "Create a whole new Score object. The response is a Score object newly added to the database.")
+	@ApiResponses({ @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = Score.class), mediaType = "application/json") }), @ApiResponse(responseCode = "403", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Score> create(@RequestBody Score score)
 		{
 		DbScore newScore = new DbScore(score.getArtistValue(), score.getTitleValue());

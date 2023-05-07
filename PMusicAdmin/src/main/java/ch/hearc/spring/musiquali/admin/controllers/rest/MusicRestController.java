@@ -30,8 +30,16 @@ import ch.hearc.spring.musiquali.admin.models.rest.Score;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
 import ch.hearc.spring.musiquali.admin.service.impl.MusicService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/musics")
+@Tag(name = "Music", description = "Music management APIs")
 public class MusicRestController
 	{
 
@@ -44,6 +52,8 @@ public class MusicRestController
 	\*------------------------------*/
 
 	@GetMapping
+	@Operation(summary = "Retrieve all the musics", description = "Get a list containing all the musics. The response is a list of Music objects.")
+	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Music.class), mediaType = "application/json") })
 	public ResponseEntity<List<Music>> getAll()
 		{
 		return ResponseEntity.ok(this.musicService.getAll().stream()//
@@ -52,6 +62,8 @@ public class MusicRestController
 		}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Retrieve a music by id", description = "Get a Music object by specifiying its id. The response is a Music object.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Music.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Music> get(@PathVariable Long id)
 		{
 		DbMusic music = this.musicService.getById(id);
@@ -67,6 +79,8 @@ public class MusicRestController
 		}
 
 	@GetMapping("/{id}/leaderboard")
+	@Operation(summary = "Retrieve a leaderboard for a specific music", description = "Get the leaderboard corresponding to a Music by specifying its id. The response is an array containing User objects.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<List<User>> getLeaderboard(@PathVariable Long id, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		DbMusic music = this.musicService.getById(id);
@@ -92,6 +106,8 @@ public class MusicRestController
 		}
 
 	@GetMapping("/{id}/leaderboard/{userId}")
+	@Operation(summary = "Retrieve an user position inside the leaderboard for a specific music", description = "Get the user's position inside a leaderboard from a Music by specifying its id. The response is a long value.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Long.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Long> getLeaderboardPosition(@PathVariable Long id, @PathVariable Long userId)
 		{
 		DbMusic music = this.musicService.getById(id);
@@ -127,6 +143,8 @@ public class MusicRestController
 		}
 
 	@GetMapping("/{id}/scores")
+	@Operation(summary = "Retrieve all scores for a specific music", description = "Get the scores corresponding to a Music by specifying its id. The response is an array containing Score objects.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Score.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Set<Score>> getScores(@PathVariable Long id)
 		{
 		DbMusic music = this.musicService.getById(id);

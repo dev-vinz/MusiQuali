@@ -33,8 +33,16 @@ import ch.hearc.spring.musiquali.admin.models.rest.Score;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
 import ch.hearc.spring.musiquali.admin.service.impl.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User", description = "User management APIs")
 public class UserRestController
 	{
 
@@ -47,6 +55,8 @@ public class UserRestController
 	\*------------------------------*/
 
 	@GetMapping
+	@Operation(summary = "Retrieve all the users", description = "Get a list containing all the users. The response is a list of User objects.")
+	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") })
 	public ResponseEntity<List<User>> all()
 		{
 		List<DbUser> allUsers = this.userService.getAll();
@@ -57,6 +67,8 @@ public class UserRestController
 		}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Retrieve an user by id", description = "Get an User object by specifying its id. The response is an User object.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<User> get(@PathVariable Long id)
 		{
 		DbUser user = this.userService.getById(id);
@@ -72,6 +84,8 @@ public class UserRestController
 		}
 
 	@GetMapping("/leaderboard")
+	@Operation(summary = "Retrieve the global leaderboard", description = "Get the global leaderboard. The response is an array containing User objects.")
+	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") })
 	public ResponseEntity<List<User>> getLeaderboard()
 		{
 		return ResponseEntity.ok(this.userService.getAll()//
@@ -87,6 +101,8 @@ public class UserRestController
 		}
 
 	@GetMapping("/{id}/leaderboard")
+	@Operation(summary = "Retrieve an user position inside the global leaderboard", description = "Get the user's position inside the global leaderboard. The response is a long value.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Long.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Long> getLeaderboardPosition(@PathVariable Long id)
 		{
 		List<User> leaderboard = this.userService.getAll()//
@@ -115,6 +131,8 @@ public class UserRestController
 		}
 
 	@GetMapping("/{id}/scores")
+	@Operation(summary = "Retrieve all scores for a specific user", description = "Get the scores corresponding to a User by specifying its id. The response is an array containing Score objects.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Score.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<List<Score>> getScores(@PathVariable Long id, @RequestParam(name = "difficulty", required = false) String diff)
 		{
 		DbUser user = this.userService.getById(id);
@@ -141,6 +159,8 @@ public class UserRestController
 		}
 
 	@GetMapping("/email/{email}")
+	@Operation(summary = "Retrieve an user by email", description = "Get an User object by specifiying its email. The response is an User object.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<User> get(@PathVariable String email)
 		{
 		DbUser user = this.userService.getByEmail(email);
@@ -160,6 +180,9 @@ public class UserRestController
 	\*------------------------------*/
 
 	@PostMapping
+	@Operation(summary = "Create a new user", description = "Create a whole new User object. The response is an User object newly added to the database.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "403", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<User> create(@RequestBody User user)
 		{
 		// Checks if email already exists
@@ -179,6 +202,9 @@ public class UserRestController
 	\*------------------------------*/
 
 	@PutMapping("/{id}")
+	@Operation(summary = "Update an user", description = "Update an User object. The response is the User object updated to the database.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "403", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<User> update(@RequestBody User updatedUser, @PathVariable Long id)
 		{
 		DbUser oldUser = this.userService.getById(id);
@@ -212,6 +238,9 @@ public class UserRestController
 	\*------------------------------*/
 
 	@DeleteMapping("/{id}")
+	@Operation(summary = "Delete an user", description = "Delete an user from the database by specifying its id. The response is a boolean that indicates wether the user has been deleted or not.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "403", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Boolean> delete(@PathVariable Long id)
 		{
 		DbUser user = this.userService.getById(id);

@@ -16,8 +16,15 @@ import ch.hearc.spring.musiquali.admin.models.rest.User;
 import ch.hearc.spring.musiquali.admin.security.jwt.JwtUtils;
 import ch.hearc.spring.musiquali.admin.security.services.UserDetailsImpl;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Authentication management APIs")
 public class AuthRestController
 	{
 	/*------------------------------------------------------------------*\
@@ -29,6 +36,8 @@ public class AuthRestController
 	\*------------------------------*/
 
 	@PostMapping(value = { "/login" })
+	@Operation(summary = "Log an user to the admin section", description = "Log an user to the admin section and generate a JWT token for the game section. The response is an User object connected")
+	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") })
 	public ResponseEntity<User> login(@RequestBody User user)
 		{
 		// Creates authentication

@@ -31,8 +31,16 @@ import ch.hearc.spring.musiquali.admin.models.rest.Score;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
 import ch.hearc.spring.musiquali.admin.service.impl.MusicService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/difficulties")
+@Tag(name = "Difficulty", description = "Difficulty management APIs")
 public class DifficultyRestController
 	{
 	/*------------------------------------------------------------------*\
@@ -44,12 +52,17 @@ public class DifficultyRestController
 	\*------------------------------*/
 
 	@GetMapping
+	@Operation(summary = "Retrieve all the difficulties", description = "Get a list containing all the difficulties. The response is a list of Difficulty objects.")
+	@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Difficulty.class), mediaType = "application/json") })
 	private ResponseEntity<List<Difficulty>> getAll()
 		{
 		return ResponseEntity.ok(List.of(Difficulty.values()));
 		}
 
 	@GetMapping("/{index}")
+	@Operation(summary = "Retrieve a difficulty by index", description = "Get a Difficulty object by specifying its index. The response is a Difficulty object.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Difficulty.class), mediaType = "application/json") }), @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	private ResponseEntity<Difficulty> get(@PathVariable Integer index)
 		{
 		Difficulty[] difficulties = Difficulty.values();
@@ -69,6 +82,9 @@ public class DifficultyRestController
 		}
 
 	@GetMapping("/{index}/leaderboard")
+	@Operation(summary = "Retrieve a leaderboard for a specific difficulty", description = "Get the leaderboard corresponding to a Difficulty by specifying its index. The response is an array containing User objects.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }), @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<List<User>> getLeaderboard(@PathVariable Integer index, @RequestParam(required = false, defaultValue = "10") Integer limit)
 		{
 		Difficulty[] difficulties = Difficulty.values();
@@ -104,6 +120,9 @@ public class DifficultyRestController
 		}
 
 	@GetMapping("/{index}/leaderboard/{userId}")
+	@Operation(summary = "Retrieve an user position inside the leaderboard for a specific difficulty", description = "Get the user's position inside a leaderboard from a specific Difficulty by specifying its index. The response is a long value.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Long.class), mediaType = "application/json") }), @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<Long> getLeaderboardPosition(@PathVariable Integer index, @PathVariable Long userId)
 		{
 		Difficulty[] difficulties = Difficulty.values();
@@ -151,6 +170,9 @@ public class DifficultyRestController
 		}
 
 	@GetMapping("/{index}/musics")
+	@Operation(summary = "Retrieve all musics for a specific difficulty", description = "Get the musics corresponding to a Difficulty level by specifying its index. The response is an array containing Music objects.")
+	@ApiResponses({ @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Music.class), mediaType = "application/json") }), @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	public ResponseEntity<List<Music>> getMusics(@PathVariable Integer index)
 		{
 		Difficulty[] difficulties = Difficulty.values();
