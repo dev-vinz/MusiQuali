@@ -220,8 +220,12 @@ public class UserRestController
 			oldUser.setFirstName(firstName);
 			oldUser.setLastName(lastName);
 			oldUser.setEmail(email);
-			oldUser.setPassword(password);
 			oldUser.setRole(role);
+
+			if (!oldUser.getPassword().contentEquals(updatedUser.getPassword()))
+				{
+				oldUser.setPassword(password);
+				}
 
 			this.userService.update(oldUser);
 

@@ -69,7 +69,7 @@ public class WebSecurityConfig
 				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()//
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()//
 				.authorizeHttpRequests()//
-				.requestMatchers(HttpMethod.GET, "/error", "/webjars/**").permitAll()//
+				.requestMatchers(HttpMethod.GET, "/error", "/broken_error.png", "/webjars/**").permitAll()//
 				.requestMatchers(HttpMethod.GET, "/api/**").permitAll()//
 				.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()//
 				.anyRequest().authenticated();

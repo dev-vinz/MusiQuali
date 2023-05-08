@@ -41,9 +41,8 @@ public class PMusicAdminApplication
 	public void addSomeDatas()
 		{
 		userService.add(new DbUser("Admin", "Admin", "admin@musiquali.ch", "Admin1234", Role.ADMIN));
-		userService.add(new DbUser("Vincent", "Jeannin", "vincent@jeannin.ch", "Test1234", Role.MODERATOR));
-		userService.add(new DbUser("Théo", "Vuilliomenet", "theovb001@gmail.com", "Test1234", Role.MODERATOR));
-		userService.add(new DbUser("Nicolas", "Aubert", "nicolas.aubert@he-arc.ch", "Test1234", Role.USER));
+		userService.add(new DbUser("Vincent", "Jeannin", "vincent.jeannin@he-arc.ch", "Password1234", Role.MODERATOR));
+		userService.add(new DbUser("Théo", "Vuilliomenet", "theo.vuilliomenet@he-arc.ch", "Password1234", Role.MODERATOR));
 		}
 
 	@Autowired
