@@ -108,7 +108,7 @@ public class LoggerService
 	|*			  Static			*|
 	\*------------------------------*/
 
-	private static final String FILENAME = "MusiQualiGame_log.txt";
+	private static final String FILENAME = "MusiQualiAuthAccess_log.txt";
 	private static final String NEW_LINE = System.lineSeparator();
 	private static LoggerService instance = null;
 

@@ -2,7 +2,9 @@
 package ch.hearc.spring.musiquali.admin.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.hearc.spring.musiquali.admin.jms.model.Log;
+import ch.hearc.spring.musiquali.admin.jms.model.LogType;
 import ch.hearc.spring.musiquali.admin.models.rest.User;
 import ch.hearc.spring.musiquali.admin.security.jwt.JwtUtils;
 import ch.hearc.spring.musiquali.admin.security.services.UserDetailsImpl;
@@ -41,7 +45,24 @@ public class AuthRestController
 	public ResponseEntity<User> login(@RequestBody User user)
 		{
 		// Creates authentication
-		Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+		Authentication authentication = null;
+
+		try
+			{
+			authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+			}
+		catch (Exception e)
+			{
+			// Logs this bad credentials error to Logger with JMS
+			Log log = new Log(user.getEmail() + " tried to login but provides bad credentials", LogType.WARNING);
+			jmsTemplate.convertAndSend("log-q", log);
+
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			}
+
+		// Logs this login request to Logger with JMS
+		Log log = new Log(user.getEmail() + " has been successfully logged in", LogType.INFO);
+		jmsTemplate.convertAndSend("log-q", log);
 
 		// Generates JWT access token
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -70,4 +91,7 @@ public class AuthRestController
 
 	@Autowired
 	private JwtUtils jwtUtils;
+
+	@Autowired
+	JmsTemplate jmsTemplate;
 	}

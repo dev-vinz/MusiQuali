@@ -1,5 +1,0 @@
-INFO [25-04-2023 09:09:12] : Test réussi
-INFO [25-04-2023 09:09:13] : Test réussi
-INFO [25-04-2023 09:09:14] : Test réussi
-INFO [25-04-2023 09:09:15] : Test réussi
-INFO [25-04-2023 09:09:16] : Test réussi

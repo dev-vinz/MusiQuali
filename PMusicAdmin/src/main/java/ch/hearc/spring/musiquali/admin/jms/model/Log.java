@@ -1,5 +1,5 @@
 
-package ch.hearc.spring.musiquali.game.jms.model;
+package ch.hearc.spring.musiquali.admin.jms.model;
 
 public class Log
 	{

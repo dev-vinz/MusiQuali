@@ -1,0 +1,2 @@
+INFO [08-05-2023 15:10:29] : vincent.jeannin@he-arc.c tried to login but provides bad credentials
+INFO [08-05-2023 15:10:38] : vincent.jeannin@he-arc.ch has been successfully logged in

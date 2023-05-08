@@ -99,12 +99,24 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
+
+		<!--  JMS  -->
+		<dependency>
+		  	<groupId>org.apache.activemq</groupId>
+		  	<artifactId>activemq-client-jakarta</artifactId>
+		  	<version>5.18.0</version>
+		</dependency>
 		
 		<!--  Swagger  -->
 		<dependency>
 		  	<groupId>org.springdoc</groupId>
 		  	<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		  	<version>2.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.hearc.spring.musiquali</groupId>
+			<artifactId>PLogger</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
