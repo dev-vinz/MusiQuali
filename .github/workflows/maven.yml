@@ -45,7 +45,9 @@ jobs:
                   java-version: "17"
                   distribution: "temurin"
                   cache: maven
-            - name: Build with Maven
+            - name: Build PLogger with Maven
+              run: mvn -B package --file PLogger/pom.xml
+            - name: Build PMusicAdmin with Maven
               run: mvn -B package --file PMusicAdmin/pom.xml
             - name: Run unit test
               run: mvn test --file PMusicAdmin/pom.xml
