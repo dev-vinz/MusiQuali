@@ -10,9 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import ch.hearc.spring.musiquali.admin.models.Role;
 import ch.hearc.spring.musiquali.admin.models.database.DbUser;
 import ch.hearc.spring.musiquali.admin.repository.IUserRepository;
 import ch.hearc.spring.musiquali.admin.service.IDatabaseService;
+
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class UserService implements IDatabaseService<DbUser>
@@ -21,6 +24,14 @@ public class UserService implements IDatabaseService<DbUser>
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
+
+	@PostConstruct
+	public void postInit()
+		{
+		add(new DbUser("Admin", "Admin", "admin@musiquali.ch", "Admin1234", Role.ADMIN));
+		add(new DbUser("Vincent", "Jeannin", "vincent.jeannin@he-arc.ch", "Password1234", Role.MODERATOR));
+		add(new DbUser("Théo", "Vuilliomenet", "theo.vuilliomenet@he-arc.ch", "Password1234", Role.MODERATOR));
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
@@ -104,7 +115,4 @@ public class UserService implements IDatabaseService<DbUser>
 
 	@Autowired
 	private IUserRepository userRepository;
-
-	//@Autowired
-	//private PasswordEncoder passwordEncoder;
 	}
