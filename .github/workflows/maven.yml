@@ -49,5 +49,7 @@ jobs:
               run: mvn -B package --file PLogger/pom.xml
             - name: Build PMusicAdmin with Maven
               run: mvn -B package --file PMusicAdmin/pom.xml
-            - name: Run unit test
+            - name: Build PMusicGame with Maven
+              run: mvn -B package --file PMusicGame/pom.xml
+            - name: Run unit tests inside PMusicAdmin
               run: mvn test --file PMusicAdmin/pom.xml
