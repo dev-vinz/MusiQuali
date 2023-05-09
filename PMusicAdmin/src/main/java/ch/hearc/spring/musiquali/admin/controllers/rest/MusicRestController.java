@@ -184,6 +184,14 @@ public class MusicRestController
 				Genre genre = DeezerApi.genres.getById(g.getGenreId()).execute();
 				Set<Music> musics = g.getMusics().stream()//
 						.map(m -> {
+						try
+							{
+							Thread.sleep(100);
+							}
+						catch (InterruptedException e)
+							{
+							}
+
 						// Gets some informations with Deezer
 						Track mTrack = DeezerApi.tracks.getById(music.getTrackId()).execute();
 

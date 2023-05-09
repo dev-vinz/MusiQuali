@@ -15,3 +15,9 @@ INFO [09-05-2023 09:37:49] : vincent@jeannin.ch has been successfully logged in
 INFO [09-05-2023 09:38:23] : vincent.jeannin@he-arc.ch has been successfully logged in
 WARNING [09-05-2023 09:38:41] : vincent@jeannin.ch tried to login but provides bad credentials
 INFO [09-05-2023 09:38:49] : admin@musiquali.ch has been successfully logged in
+WARNING [09-05-2023 18:25:01] : nmbkmbm@jbjkrhb.j tried to login but provides bad credentials
+INFO [09-05-2023 18:25:25] : vincent@jeannin.ch has been successfully logged in
+INFO [09-05-2023 18:27:39] : vincent.jeannin@he-arc.ch has been successfully logged in
+INFO [09-05-2023 18:28:57] : admin@musiquali.ch has been successfully logged in
+WARNING [09-05-2023 18:30:58] : vincent@jeannin.ch tried to login but provides bad credentials
+INFO [09-05-2023 18:31:06] : vincent.jeannin@he-arc.ch has been successfully logged in
