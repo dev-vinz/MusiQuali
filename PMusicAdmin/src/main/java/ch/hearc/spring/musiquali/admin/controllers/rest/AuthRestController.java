@@ -47,6 +47,8 @@ public class AuthRestController
 		// Creates authentication
 		Authentication authentication = null;
 
+		System.out.println(user.getFirstName());
+
 		try
 			{
 			authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));

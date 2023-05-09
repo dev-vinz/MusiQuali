@@ -72,6 +72,7 @@ public class WebSecurityConfig
 				.requestMatchers("/error", "/broken_error.png", "/webjars/**").permitAll()//
 				.requestMatchers(HttpMethod.GET, "/api/**").permitAll()//
 				.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()//
+				.requestMatchers(HttpMethod.POST, "/api/users").permitAll()//
 				.anyRequest().authenticated();
 
 		http.authenticationProvider(authenticationProvider());

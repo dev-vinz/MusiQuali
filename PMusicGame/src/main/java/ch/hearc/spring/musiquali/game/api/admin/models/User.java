@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.util.Strings;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -157,6 +158,7 @@ public class User
 	 * Gets the full name
 	 * @return A full name
 	 */
+	@JsonIgnore
 	public String getFullName()
 		{
 		return this.firstName + " " + this.lastName;

@@ -2,3 +2,16 @@ INFO [08-05-2023 15:10:29] : vincent.jeannin@he-arc.c tried to login but provide
 INFO [08-05-2023 15:10:38] : vincent.jeannin@he-arc.ch has been successfully logged in
 WARNING [08-05-2023 16:59:13] : vincent.jeannin@he-arc.c tried to login but provides bad credentials
 INFO [08-05-2023 16:59:25] : vincent.jeannin@he-arc.ch has been successfully logged in
+WARNING [09-05-2023 09:30:43] : vincent.jeannin@he-arc.c tried to login but provides bad credentials
+INFO [09-05-2023 09:30:56] : vincent.jeannin@he-arc.ch has been successfully logged in
+INFO [09-05-2023 09:33:40] : vincent.jeannin@he-arc.ch has been successfully logged in
+INFO [09-05-2023 09:34:05] : vincent.jeannin@he-arc.ch has been successfully logged in
+INFO [09-05-2023 09:34:35] : vincent.jeannin@he-arc.ch has been successfully logged in
+WARNING [09-05-2023 09:35:38] : vincent.jeannin@he-arc.ch tried to login but provides bad credentials
+WARNING [09-05-2023 09:35:45] : vincent.jeannin@he-arc.ch tried to login but provides bad credentials
+WARNING [09-05-2023 09:36:01] : vincent.jeannin@he-arc.ch tried to login but provides bad credentials
+WARNING [09-05-2023 09:36:28] : vincent.jeannin@he-arc.ch tried to login but provides bad credentials
+INFO [09-05-2023 09:37:49] : vincent@jeannin.ch has been successfully logged in
+INFO [09-05-2023 09:38:23] : vincent.jeannin@he-arc.ch has been successfully logged in
+WARNING [09-05-2023 09:38:41] : vincent@jeannin.ch tried to login but provides bad credentials
+INFO [09-05-2023 09:38:49] : admin@musiquali.ch has been successfully logged in
